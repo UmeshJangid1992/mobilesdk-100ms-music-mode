@@ -111,7 +111,7 @@ class _PreviewPermissionsState extends State<PreviewPermissions> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: HMSTitleText(
-                            text: "Grant Permissions",
+                            text: "Continue",
                             textColor: HMSThemeColors.onPrimaryHighEmphasis),
                       ),
                     ),
