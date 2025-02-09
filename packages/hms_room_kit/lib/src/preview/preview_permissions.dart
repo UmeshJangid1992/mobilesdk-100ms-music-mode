@@ -42,7 +42,7 @@ class _PreviewPermissionsState extends State<PreviewPermissions> {
       // Show error message if permissions are denied
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Permissions are required to use the app."),
+          content: Text("Please grant all the above permissions manually by going into your device settings and then retry again"),
         ),
       );
     }
@@ -103,9 +103,9 @@ class _PreviewPermissionsState extends State<PreviewPermissions> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
-              _buildPermissionItem(
-                  "Bluetooth", "For seamless device connectivity"),
+               if (Platform.isIOS) 
+                _buildPermissionItem(
+                    "Bluetooth", "For seamless device connectivity"),
               const SizedBox(height: 8),
               _buildPermissionItem(
                   "Camera", "To be visible during the session"),
