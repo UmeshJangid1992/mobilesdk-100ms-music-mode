@@ -35,62 +35,67 @@ class _MeetingBottomNavigationBarState
     extends State<MeetingBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (HMSRoomLayout.chatData?.isOverlay ?? false)
-          Selector<MeetingStore, bool>(
-              selector: (_, meetingStore) => meetingStore.isOverlayChatOpened,
-              builder: (_, isOverlayChatOpened, __) {
-                return isOverlayChatOpened
-                    ? Container(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                              Colors.black.withAlpha(0),
-                              Colors.black.withAlpha(64)
-                            ])),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  15),
-                          child: const OverlayChatComponent(),
-                        ))
-                    : const SizedBox();
-              }),
-        Selector<MeetingNavigationVisibilityController, bool>(
-            selector: (_, meetingNavigationVisibilityController) =>
-                meetingNavigationVisibilityController.showControls,
-            builder: (_, showControls, __) {
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                margin: const EdgeInsets.only(top: 5, bottom: 8.0),
-                height: showControls ? 40 : 0,
-                child: showControls
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ///Leave Button
-                          HMSEmbeddedButton(
-                            onTap: () async => {
-                              await UtilityComponents.onBackPressed(context)
-                            },
-                            offColor: HMSThemeColors.alertErrorDefault,
-                            disabledBorderColor:
-                                HMSThemeColors.alertErrorDefault,
-                            isActive: false,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                "packages/hms_room_kit/lib/src/assets/icons/exit_room.svg",
-                                colorFilter: ColorFilter.mode(
-                                    HMSThemeColors.alertErrorBrighter,
-                                    BlendMode.srcIn),
-                                semanticsLabel: "leave_room_button",
+    return SafeArea(
+      bottom: true,
+      child: Column(
+        children: [
+          if (HMSRoomLayout.chatData?.isOverlay ?? false)
+            Selector<MeetingStore, bool>(
+                selector: (_, meetingStore) => meetingStore.isOverlayChatOpened,
+                builder: (_, isOverlayChatOpened, __) {
+                  return isOverlayChatOpened
+                      ? Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                Colors.black.withAlpha(0),
+                                Colors.black.withAlpha(64)
+                              ])),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom +
+                                        15),
+                            child: const OverlayChatComponent(),
+                          ))
+                      : const SizedBox();
+                }),
+          Selector<MeetingNavigationVisibilityController, bool>(
+              selector: (_, meetingNavigationVisibilityController) =>
+                  meetingNavigationVisibilityController.showControls,
+              builder: (_, showControls, __) {
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  margin: EdgeInsets.only(
+                      top: 5,
+                      bottom: MediaQuery.of(context).padding.bottom + 8.0),
+                  height: showControls ? 40 : 0,
+                  child: showControls
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ///Leave Button
+                            HMSEmbeddedButton(
+                              onTap: () async => {
+                                await UtilityComponents.onBackPressed(context)
+                              },
+                              offColor: HMSThemeColors.alertErrorDefault,
+                              disabledBorderColor:
+                                  HMSThemeColors.alertErrorDefault,
+                              isActive: false,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                  "packages/hms_room_kit/lib/src/assets/icons/exit_room.svg",
+                                  colorFilter: ColorFilter.mode(
+                                      HMSThemeColors.alertErrorBrighter,
+                                      BlendMode.srcIn),
+                                  semanticsLabel: "leave_room_button",
+                                ),
                               ),
                             ),
-                          ),
 
                           ///Microphone button
                           ///This button is only rendered if the local peer has the permission to
@@ -282,6 +287,7 @@ class _MeetingBottomNavigationBarState
               );
             }),
       ],
-    );
+    )
+ );
   }
 }
