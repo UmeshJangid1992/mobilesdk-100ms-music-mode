@@ -1,5 +1,7 @@
 library;
 
+import 'dart:io';
+
 ///Package imports
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,167 +38,282 @@ class _MeetingBottomNavigationBarState
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      bottom: true,
-      child: Column(
-        children: [
-          if (HMSRoomLayout.chatData?.isOverlay ?? false)
-            Selector<MeetingStore, bool>(
-                selector: (_, meetingStore) => meetingStore.isOverlayChatOpened,
-                builder: (_, isOverlayChatOpened, __) {
-                  return isOverlayChatOpened
-                      ? Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                Colors.black.withAlpha(0),
-                                Colors.black.withAlpha(64)
-                              ])),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom +
-                                        15),
-                            child: const OverlayChatComponent(),
-                          ))
-                      : const SizedBox();
-                }),
-          Selector<MeetingNavigationVisibilityController, bool>(
-              selector: (_, meetingNavigationVisibilityController) =>
-                  meetingNavigationVisibilityController.showControls,
-              builder: (_, showControls, __) {
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  margin: EdgeInsets.only(
-                      top: 5,
-                      bottom: MediaQuery.of(context).padding.bottom + 8.0),
-                  height: showControls ? 40 : 0,
-                  child: showControls
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ///Leave Button
-                            HMSEmbeddedButton(
-                              onTap: () async => {
-                                await UtilityComponents.onBackPressed(context)
-                              },
-                              offColor: HMSThemeColors.alertErrorDefault,
-                              disabledBorderColor:
-                                  HMSThemeColors.alertErrorDefault,
-                              isActive: false,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                  "packages/hms_room_kit/lib/src/assets/icons/exit_room.svg",
-                                  colorFilter: ColorFilter.mode(
-                                      HMSThemeColors.alertErrorBrighter,
-                                      BlendMode.srcIn),
-                                  semanticsLabel: "leave_room_button",
-                                ),
-                              ),
+        bottom: true,
+        child: Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewPadding.bottom),
+            child: Column(
+              children: [
+                if (HMSRoomLayout.chatData?.isOverlay ?? false)
+                  Selector<MeetingStore, bool>(
+                      selector: (_, meetingStore) =>
+                          meetingStore.isOverlayChatOpened,
+                      builder: (_, isOverlayChatOpened, __) {
+                        return isOverlayChatOpened
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                      Colors.black.withAlpha(0),
+                                      Colors.black.withAlpha(64)
+                                    ])),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom +
+                                          15),
+                                  child: const OverlayChatComponent(),
+                                ))
+                            : const SizedBox();
+                      }),
+                Selector<MeetingNavigationVisibilityController, bool>(
+                    selector: (_, meetingNavigationVisibilityController) =>
+                        meetingNavigationVisibilityController.showControls,
+                    builder: (_, showControls, __) {
+                      return Container(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).viewPadding.bottom),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            margin: EdgeInsets.only(
+                              top: 5,
+                              bottom: Platform.isAndroid
+                                  ? (MediaQuery.of(context)
+                                              .systemGestureInsets
+                                              .bottom >
+                                          0
+                                      ? MediaQuery.of(context)
+                                              .systemGestureInsets
+                                              .bottom +
+                                          8.0 // Extra padding if navigation bar exists
+                                      : 8.0) // Normal padding if no navigation bar
+                                  : MediaQuery.of(context).padding.bottom +
+                                      8.0, // Keep iOS unchanged
                             ),
-
-                          ///Microphone button
-                          ///This button is only rendered if the local peer has the permission to
-                          ///publish audio
-                          if (Provider.of<MeetingStore>(context)
-                                  .localPeer
-                                  ?.role
-                                  .publishSettings
-                                  ?.allowed
-                                  .contains("audio") ??
-                              false)
-                            Selector<MeetingStore, bool>(
-                                selector: (_, meetingStore) =>
-                                    meetingStore.isMicOn,
-                                builder: (_, isMicOn, __) {
-                                  return HMSEmbeddedButton(
-                                    onTap: () => {
-                                      context
-                                          .read<MeetingStore>()
-                                          .toggleMicMuteState()
-                                    },
-                                    onColor: HMSThemeColors.backgroundDim,
-                                    isActive: isMicOn,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset(
-                                        isMicOn
-                                            ? "packages/hms_room_kit/lib/src/assets/icons/mic_state_on.svg"
-                                            : "packages/hms_room_kit/lib/src/assets/icons/mic_state_off.svg",
-                                        colorFilter: ColorFilter.mode(
-                                            HMSThemeColors
-                                                .onSurfaceHighEmphasis,
-                                            BlendMode.srcIn),
-                                        semanticsLabel: "audio_mute_button",
+                            height: showControls ? 40 : 0,
+                            child: showControls
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ///Leave Button
+                                      HMSEmbeddedButton(
+                                        onTap: () async => {
+                                          await UtilityComponents.onBackPressed(
+                                              context)
+                                        },
+                                        offColor:
+                                            HMSThemeColors.alertErrorDefault,
+                                        disabledBorderColor:
+                                            HMSThemeColors.alertErrorDefault,
+                                        isActive: false,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SvgPicture.asset(
+                                            "packages/hms_room_kit/lib/src/assets/icons/exit_room.svg",
+                                            colorFilter: ColorFilter.mode(
+                                                HMSThemeColors
+                                                    .alertErrorBrighter,
+                                                BlendMode.srcIn),
+                                            semanticsLabel: "leave_room_button",
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
 
-                          ///Camera button
-                          ///This button is only rendered if the local peer has the permission to
-                          ///publish video
-                          if (Provider.of<MeetingStore>(context)
-                                  .localPeer
-                                  ?.role
-                                  .publishSettings
-                                  ?.allowed
-                                  .contains("video") ??
-                              false)
-                            Selector<MeetingStore, Tuple2<bool, bool>>(
-                                selector: (_, meetingStore) => Tuple2(
-                                    meetingStore.isVideoOn,
-                                    meetingStore.meetingMode ==
-                                        MeetingMode.audio),
-                                builder: (_, data, __) {
-                                  return HMSEmbeddedButton(
-                                    onTap: () => {
-                                      (data.item2)
-                                          ? null
-                                          : context
-                                              .read<MeetingStore>()
-                                              .toggleCameraMuteState(),
-                                    },
-                                    onColor: HMSThemeColors.backgroundDim,
-                                    isActive: data.item1,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset(
-                                          data.item1
-                                              ? "packages/hms_room_kit/lib/src/assets/icons/cam_state_on.svg"
-                                              : "packages/hms_room_kit/lib/src/assets/icons/cam_state_off.svg",
-                                          colorFilter: ColorFilter.mode(
-                                              HMSThemeColors
-                                                  .onSurfaceHighEmphasis,
-                                              BlendMode.srcIn),
-                                          semanticsLabel: "video_mute_button"),
-                                    ),
-                                  );
-                                }),
-
-                          ///Chat Button
-                          if (HMSRoomLayout.chatData != null)
-                            Selector<MeetingStore, Tuple2>(
-                                selector: (_, meetingStore) => Tuple2(
-                                    meetingStore.isNewMessageReceived,
-                                    meetingStore.isOverlayChatOpened),
-                                builder: (_, chatState, __) {
-                                  return HMSEmbeddedButton(
-                                    onTap: () => {
-                                      if (HMSRoomLayout.chatData?.isOverlay ??
+                                      ///Microphone button
+                                      ///This button is only rendered if the local peer has the permission to
+                                      ///publish audio
+                                      if (Provider.of<MeetingStore>(context)
+                                              .localPeer
+                                              ?.role
+                                              .publishSettings
+                                              ?.allowed
+                                              .contains("audio") ??
                                           false)
-                                        {
-                                          context
-                                              .read<MeetingStore>()
-                                              .toggleChatOverlay()
-                                        }
-                                      else
-                                        {
-                                          context
-                                              .read<MeetingStore>()
-                                              .setNewMessageFalse(),
+                                        Selector<MeetingStore, bool>(
+                                            selector: (_, meetingStore) =>
+                                                meetingStore.isMicOn,
+                                            builder: (_, isMicOn, __) {
+                                              return HMSEmbeddedButton(
+                                                onTap: () => {
+                                                  context
+                                                      .read<MeetingStore>()
+                                                      .toggleMicMuteState()
+                                                },
+                                                onColor: HMSThemeColors
+                                                    .backgroundDim,
+                                                isActive: isMicOn,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SvgPicture.asset(
+                                                    isMicOn
+                                                        ? "packages/hms_room_kit/lib/src/assets/icons/mic_state_on.svg"
+                                                        : "packages/hms_room_kit/lib/src/assets/icons/mic_state_off.svg",
+                                                    colorFilter: ColorFilter.mode(
+                                                        HMSThemeColors
+                                                            .onSurfaceHighEmphasis,
+                                                        BlendMode.srcIn),
+                                                    semanticsLabel:
+                                                        "audio_mute_button",
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+
+                                      ///Camera button
+                                      ///This button is only rendered if the local peer has the permission to
+                                      ///publish video
+                                      if (Provider.of<MeetingStore>(context)
+                                              .localPeer
+                                              ?.role
+                                              .publishSettings
+                                              ?.allowed
+                                              .contains("video") ??
+                                          false)
+                                        Selector<MeetingStore,
+                                                Tuple2<bool, bool>>(
+                                            selector: (_, meetingStore) =>
+                                                Tuple2(
+                                                    meetingStore.isVideoOn,
+                                                    meetingStore.meetingMode ==
+                                                        MeetingMode.audio),
+                                            builder: (_, data, __) {
+                                              return HMSEmbeddedButton(
+                                                onTap: () => {
+                                                  (data.item2)
+                                                      ? null
+                                                      : context
+                                                          .read<MeetingStore>()
+                                                          .toggleCameraMuteState(),
+                                                },
+                                                onColor: HMSThemeColors
+                                                    .backgroundDim,
+                                                isActive: data.item1,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SvgPicture.asset(
+                                                      data.item1
+                                                          ? "packages/hms_room_kit/lib/src/assets/icons/cam_state_on.svg"
+                                                          : "packages/hms_room_kit/lib/src/assets/icons/cam_state_off.svg",
+                                                      colorFilter: ColorFilter.mode(
+                                                          HMSThemeColors
+                                                              .onSurfaceHighEmphasis,
+                                                          BlendMode.srcIn),
+                                                      semanticsLabel:
+                                                          "video_mute_button"),
+                                                ),
+                                              );
+                                            }),
+
+                                      ///Chat Button
+                                      if (HMSRoomLayout.chatData != null)
+                                        Selector<MeetingStore, Tuple2>(
+                                            selector: (_, meetingStore) =>
+                                                Tuple2(
+                                                    meetingStore
+                                                        .isNewMessageReceived,
+                                                    meetingStore
+                                                        .isOverlayChatOpened),
+                                            builder: (_, chatState, __) {
+                                              return HMSEmbeddedButton(
+                                                onTap: () => {
+                                                  if (HMSRoomLayout.chatData
+                                                          ?.isOverlay ??
+                                                      false)
+                                                    {
+                                                      context
+                                                          .read<MeetingStore>()
+                                                          .toggleChatOverlay()
+                                                    }
+                                                  else
+                                                    {
+                                                      context
+                                                          .read<MeetingStore>()
+                                                          .setNewMessageFalse(),
+                                                      showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            HMSThemeColors
+                                                                .surfaceDim,
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          16),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          16)),
+                                                        ),
+                                                        context: context,
+                                                        builder: (ctx) => ChangeNotifierProvider
+                                                            .value(
+                                                                value: context.read<
+                                                                    MeetingStore>(),
+                                                                child: HMSRoomLayout
+                                                                        .isParticipantsListEnabled
+                                                                    ? const ChatParticipantsTabBar(
+                                                                        tabIndex:
+                                                                            0,
+                                                                      )
+                                                                    : const ChatOnlyBottomSheet()),
+                                                      )
+                                                    }
+                                                },
+                                                onColor: HMSThemeColors
+                                                    .backgroundDim,
+                                                isActive: !(chatState.item2 &&
+                                                    (HMSRoomLayout.chatData
+                                                            ?.isOverlay ??
+                                                        false)),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: chatState.item1 &&
+                                                          !chatState.item2
+                                                      ? Badge(
+                                                          backgroundColor:
+                                                              HMSThemeColors
+                                                                  .primaryDefault,
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            "packages/hms_room_kit/lib/src/assets/icons/message_badge_off.svg",
+                                                            semanticsLabel:
+                                                                "chat_button",
+                                                            colorFilter:
+                                                                ColorFilter.mode(
+                                                                    HMSThemeColors
+                                                                        .onSurfaceHighEmphasis,
+                                                                    BlendMode
+                                                                        .srcIn),
+                                                          ),
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          "packages/hms_room_kit/lib/src/assets/icons/message_badge_off.svg",
+                                                          colorFilter:
+                                                              ColorFilter.mode(
+                                                                  HMSThemeColors
+                                                                      .onSurfaceHighEmphasis,
+                                                                  BlendMode
+                                                                      .srcIn),
+                                                          semanticsLabel:
+                                                              "chat_button",
+                                                        ),
+                                                ),
+                                              );
+                                            }),
+
+                                      ///Menu Button
+                                      HMSEmbeddedButton(
+                                        onTap: () async => {
                                           showModalBottomSheet(
                                             isScrollControlled: true,
                                             backgroundColor:
@@ -212,82 +329,29 @@ class _MeetingBottomNavigationBarState
                                                 ChangeNotifierProvider.value(
                                                     value: context
                                                         .read<MeetingStore>(),
-                                                    child: HMSRoomLayout
-                                                            .isParticipantsListEnabled
-                                                        ? const ChatParticipantsTabBar(
-                                                            tabIndex: 0,
-                                                          )
-                                                        : const ChatOnlyBottomSheet()),
+                                                    child:
+                                                        const AppUtilitiesBottomSheet()),
                                           )
-                                        }
-                                    },
-                                    onColor: HMSThemeColors.backgroundDim,
-                                    isActive: !(chatState.item2 &&
-                                        (HMSRoomLayout.chatData?.isOverlay ??
-                                            false)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: chatState.item1 && !chatState.item2
-                                          ? Badge(
-                                              backgroundColor:
-                                                  HMSThemeColors.primaryDefault,
-                                              child: SvgPicture.asset(
-                                                "packages/hms_room_kit/lib/src/assets/icons/message_badge_off.svg",
-                                                semanticsLabel: "chat_button",
-                                                colorFilter: ColorFilter.mode(
-                                                    HMSThemeColors
-                                                        .onSurfaceHighEmphasis,
-                                                    BlendMode.srcIn),
-                                              ),
-                                            )
-                                          : SvgPicture.asset(
-                                              "packages/hms_room_kit/lib/src/assets/icons/message_badge_off.svg",
+                                        },
+                                        onColor: HMSThemeColors.backgroundDim,
+                                        isActive: true,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SvgPicture.asset(
+                                              "packages/hms_room_kit/lib/src/assets/icons/menu.svg",
                                               colorFilter: ColorFilter.mode(
                                                   HMSThemeColors
                                                       .onSurfaceHighEmphasis,
                                                   BlendMode.srcIn),
-                                              semanticsLabel: "chat_button",
-                                            ),
-                                    ),
-                                  );
-                                }),
-
-                          ///Menu Button
-                          HMSEmbeddedButton(
-                            onTap: () async => {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                backgroundColor: HMSThemeColors.surfaceDim,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(16),
-                                      topRight: Radius.circular(16)),
-                                ),
-                                context: context,
-                                builder: (ctx) => ChangeNotifierProvider.value(
-                                    value: context.read<MeetingStore>(),
-                                    child: const AppUtilitiesBottomSheet()),
-                              )
-                            },
-                            onColor: HMSThemeColors.backgroundDim,
-                            isActive: true,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                  "packages/hms_room_kit/lib/src/assets/icons/menu.svg",
-                                  colorFilter: ColorFilter.mode(
-                                      HMSThemeColors.onSurfaceHighEmphasis,
-                                      BlendMode.srcIn),
-                                  semanticsLabel: "more_button"),
-                            ),
-                          ),
-                        ],
-                      )
-                    : const SizedBox(),
-              );
-            }),
-      ],
-    )
- );
+                                              semanticsLabel: "more_button"),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
+                          ));
+                    }),
+              ],
+            )));
   }
 }
