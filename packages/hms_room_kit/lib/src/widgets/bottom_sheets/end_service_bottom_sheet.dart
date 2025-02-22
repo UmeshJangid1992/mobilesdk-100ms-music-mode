@@ -115,12 +115,11 @@ class _EndServiceBottomSheetState extends State<EndServiceBottomSheet> {
                     height: 48,
                     child: Center(
                       child: HMSTitleText(
-                          // text: widget.buttonText ?? "",
-                          text: "On Leave U",
+                          text: widget.buttonText ?? "",
                           textColor: HMSThemeColors.alertErrorBrighter),
                     ),
                   )),
-              const SizedBox(height: 16)
+              Platform.isAndroid ? const SizedBox(height: 16) : const SizedBox()
             ],
           ),
         ),
