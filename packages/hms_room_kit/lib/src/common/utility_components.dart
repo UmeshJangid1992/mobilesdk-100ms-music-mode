@@ -1,5 +1,7 @@
 //Package imports
 
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -357,6 +359,30 @@ class UtilityComponents {
             ));
 
     return answer;
+  }
+
+  static void showCustomBottomSheet({
+    required BuildContext context,
+    required Widget Function(BuildContext) builder,
+  }) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: HMSThemeColors.surfaceDim,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
+      context: context,
+      builder: (ctx) => Padding(
+        padding: Platform.isAndroid
+            ? EdgeInsets.only(
+                bottom: MediaQuery.of(ctx).systemGestureInsets.bottom + 8.0)
+            : EdgeInsets.zero, // Keep iOS unchanged
+        child: builder(ctx),
+      ),
+    );
   }
 
   static showHLSDialog({required BuildContext context}) async {

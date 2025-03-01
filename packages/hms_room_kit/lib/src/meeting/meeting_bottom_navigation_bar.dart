@@ -236,35 +236,50 @@ class _MeetingBottomNavigationBarState
                                                       context
                                                           .read<MeetingStore>()
                                                           .setNewMessageFalse(),
-                                                      showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            HMSThemeColors
-                                                                .surfaceDim,
-                                                        shape:
-                                                            const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          16),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          16)),
-                                                        ),
+                                                      // showModalBottomSheet(
+                                                      //   isScrollControlled:
+                                                      //       true,
+                                                      //   backgroundColor:
+                                                      //       HMSThemeColors
+                                                      //           .surfaceDim,
+                                                      //   shape:
+                                                      //       const RoundedRectangleBorder(
+                                                      //     borderRadius:
+                                                      //         BorderRadius.only(
+                                                      //             topLeft: Radius
+                                                      //                 .circular(
+                                                      //                     16),
+                                                      //             topRight: Radius
+                                                      //                 .circular(
+                                                      //                     16)),
+                                                      //   ),
+                                                      //   context: context,
+                                                      //   builder: (ctx) => ChangeNotifierProvider
+                                                      //       .value(
+                                                      //           value: context.read<
+                                                      //               MeetingStore>(),
+                                                      //           child: HMSRoomLayout
+                                                      //                   .isParticipantsListEnabled
+                                                      //               ? const ChatParticipantsTabBar(
+                                                      //                   tabIndex:
+                                                      //                       0,
+                                                      //                 )
+                                                      //               : const ChatOnlyBottomSheet()),
+                                                      // ),
+                                                      UtilityComponents
+                                                          .showCustomBottomSheet(
                                                         context: context,
-                                                        builder: (ctx) => ChangeNotifierProvider
-                                                            .value(
-                                                                value: context.read<
-                                                                    MeetingStore>(),
-                                                                child: HMSRoomLayout
-                                                                        .isParticipantsListEnabled
-                                                                    ? const ChatParticipantsTabBar(
-                                                                        tabIndex:
-                                                                            0,
-                                                                      )
-                                                                    : const ChatOnlyBottomSheet()),
+                                                        builder: (ctx) =>
+                                                            ChangeNotifierProvider
+                                                                .value(
+                                                          value: context.read<
+                                                              MeetingStore>(),
+                                                          child: HMSRoomLayout
+                                                                  .isParticipantsListEnabled
+                                                              ? const ChatParticipantsTabBar(
+                                                                  tabIndex: 0)
+                                                              : const ChatOnlyBottomSheet(),
+                                                        ),
                                                       )
                                                     }
                                                 },
@@ -314,23 +329,34 @@ class _MeetingBottomNavigationBarState
                                       ///Menu Button
                                       HMSEmbeddedButton(
                                         onTap: () async => {
-                                          showModalBottomSheet(
-                                            isScrollControlled: true,
-                                            backgroundColor:
-                                                HMSThemeColors.surfaceDim,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(16),
-                                                  topRight:
-                                                      Radius.circular(16)),
-                                            ),
+                                          // showModalBottomSheet(
+                                          //   isScrollControlled: true,
+                                          //   backgroundColor:
+                                          //       HMSThemeColors.surfaceDim,
+                                          //   shape: const RoundedRectangleBorder(
+                                          //     borderRadius: BorderRadius.only(
+                                          //         topLeft: Radius.circular(16),
+                                          //         topRight:
+                                          //             Radius.circular(16)),
+                                          //   ),
+                                          //   context: context,
+                                          //   builder: (ctx) =>
+                                          //       ChangeNotifierProvider.value(
+                                          //           value: context
+                                          //               .read<MeetingStore>(),
+                                          //           child:
+                                          //               const AppUtilitiesBottomSheet()),
+                                          // ),
+                                          UtilityComponents
+                                              .showCustomBottomSheet(
                                             context: context,
                                             builder: (ctx) =>
                                                 ChangeNotifierProvider.value(
-                                                    value: context
-                                                        .read<MeetingStore>(),
-                                                    child:
-                                                        const AppUtilitiesBottomSheet()),
+                                              value:
+                                                  context.read<MeetingStore>(),
+                                              child:
+                                                  const AppUtilitiesBottomSheet(),
+                                            ),
                                           )
                                         },
                                         onColor: HMSThemeColors.backgroundDim,
