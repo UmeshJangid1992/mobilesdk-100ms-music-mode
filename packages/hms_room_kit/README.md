@@ -100,7 +100,7 @@ This section contains instructions to create a simple Flutter video conferencing
 To complete this implementation for the Android platform, you must have the following:
 
 - A [100ms account](https://dashboard.100ms.live/register) if you don't have one already.
-- [Flutter](https://docs.flutter.dev/get-started/install) `3.3.0` or higher
+- [Flutter](https://docs.flutter.dev/get-started/install) `3.24.0` or higher
 - Dart `2.12.0` or above
 - Use [VS code](https://code.visualstudio.com/), [Android Studio](https://developer.android.com/studio), or any other IDE that supports Flutter. For more information on setting up an IDE, check [Flutter's official guide](https://docs.flutter.dev/get-started/editor).
 
@@ -134,13 +134,14 @@ hms_room_kit:
 
 Please follow the below instructions to test the app for the Android Platform:
 
-1. Add minimum SDK version (`minSdkVersion 21`) in `android/app/build.gradle` file (inside `defaultConfig`).
+1. Add minimum SDK version (`minSdkVersion 24`) in `android/app/build.gradle` file (inside `defaultConfig`).
 
 ```
 ...
 defaultConfig {
     ...
-    minSdkVersion 21
+    minSdkVersion 24
+    targetSdkVersion 36
     ...
 }
 ...
@@ -186,6 +187,57 @@ super.onActivityResult(requestCode, resultCode, data)
 
 ```
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+```
+
+### Android Build Requirements
+
+To ensure compatibility with Android 16KB page size (Google Play requirement from November 1, 2025) and optimal performance, your app must use:
+
+- **Android Gradle Plugin (AGP)**: 8.9.0 or higher
+- **Gradle**: 8.10 or higher
+- **NDK**: r28 (28.0.12674087) or higher
+- **Kotlin**: 2.0.21 or higher
+- **Java**: JDK 17 or higher
+- **Architecture Support**: 64-bit only (arm64-v8a, x86_64)
+
+Complete configuration example in `android/app/build.gradle`:
+
+```gradle
+android {
+    compileSdkVersion 36
+    ndkVersion "28.0.12674087"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 36
+
+        ndk {
+            // Only support 64-bit architectures for 16KB page size support
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
+    }
+}
+```
+
+And in your project-level `android/build.gradle`:
+
+```gradle
+buildscript {
+    ext.kotlin_version = '2.0.21'
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.9.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
 ```
 
 #### For iOS

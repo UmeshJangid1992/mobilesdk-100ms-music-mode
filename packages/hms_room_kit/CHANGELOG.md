@@ -1,63 +1,126 @@
 # Latest Versions
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | [![Pub Version](https://img.shields.io/pub/v/hms_room_kit)](https://pub.dev/packages/hms_room_kit)     |
-| hmssdk_flutter | [![Pub Version](https://img.shields.io/pub/v/hmssdk_flutter)](https://pub.dev/packages/hmssdk_flutter) |
+| Package          | Version                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------- |
+| hms_room_kit     | [![Pub Version](https://img.shields.io/pub/v/hms_room_kit)](https://pub.dev/packages/hms_room_kit)         |
+| hmssdk_flutter   | [![Pub Version](https://img.shields.io/pub/v/hmssdk_flutter)](https://pub.dev/packages/hmssdk_flutter)     |
 | hms_video_plugin | [![Pub Version](https://img.shields.io/pub/v/hms_video_plugin)](https://pub.dev/packages/hms_video_plugin) |
 
-# 1.10.6 - 2024-09-17
+# 1.2.0 - 2025-10-29
 
-| Package                     | Version                                                                                                                                  |
-| ----------------------------| ------ |
-| hms_room_kit                | 1.1.6  |
-| hmssdk_flutter              | 1.10.6 |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.2.0   |
+| hmssdk_flutter | 1.11.0  |
+
+### Breaking Changes
+
+- **Minimum Flutter version updated to 3.24.0** (previously 3.10.0)
+- **Android minimum SDK increased to API 24** (previously 21)
+- **iOS deployment target updated to 16.0** (previously 13.0)
+- **Android now supports 64-bit architectures only** (arm64-v8a, x86_64) for 16KB page size compliance
+
+### Platform Updates
+
+#### Android
+
+- Updated Android Gradle Plugin to 8.9.0 (from 7.x)
+- Updated compile SDK to API 36 (from API 34)
+- Updated target SDK to API 36 (from API 34)
+- Updated Gradle to 8.10+ (from 7.x)
+- Updated Kotlin to 2.1.10
+- Updated NDK to r28 (27.2.12479018)
+- Added 64-bit architecture requirement for Google Play 16KB page size support
+- Removed support for 32-bit architectures (armeabi-v7a, x86)
+
+#### iOS
+
+- Updated iOS deployment target to 16.0 (from 13.0)
+- Updated 100ms iOS SDK to 1.17.0 (from 1.16.1)
+- Updated iOS Broadcast Extension to 1.0.1 (from 0.0.9)
+
+### Dependencies
+
+- Updated `lints` to ^6.0.0 (from ^3.0.0)
+- Updated various UI dependencies to latest stable versions:
+  - `intl`: ^0.20.2
+  - `permission_handler`: ^12.0.1
+  - `provider`: ^6.1.5+1
+  - `google_fonts`: ^6.3.2
+  - `shared_preferences`: ^2.5.3
+  - `lottie`: ^3.3.2
+  - `flutter_svg`: ^2.2.1
+  - `url_launcher`: ^6.3.2
+  - `share_plus`: ^12.0.1
+  - `webview_flutter`: ^4.13.0
+  - `image_picker`: ^1.2.0
+
+### Native SDK Versions
+
+- **Android SDK**: 2.9.78 (from 2.9.67)
+- **iOS SDK**: 1.17.0 (from 1.16.1)
+- **iOS Broadcast Extension**: 1.0.1 (from 0.0.9)
+
+### Additional Information
+
+- **Improved Performance**: Enhanced video rendering and overall app performance
+- **Google Play Compliance**: Full support for Android 16KB page size requirement
+- **Updated Build Tools**: Latest stable versions of all build tools and dependencies
+
+**Note:** These changes ensure compatibility with the latest platform requirements and improve overall stability and performance. Apps must be updated to maintain Google Play Store compliance.
+
+Uses Android SDK 2.9.78 & iOS SDK 1.17.0
+
+**Full Changelog**: [1.1.6...1.2.0](https://github.com/100mslive/100ms-flutter/compare/1.1.6...1.2.0)
+
+# 1.1.6 - 2024-09-17
+
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.6   |
+| hmssdk_flutter | 1.10.6  |
 
 ### Breaking Changes in hms_room_kit
 
 - Removed Noise Cancellation dependency from Prebuilt on Android
 
-    Noise Cancellation dependency is removed from Prebuilt on Android.
-    Users will have to add the dependency manually in their Android project to use Noise Cancellation.
-    This change is made to reduce the size of the Prebuilt package.
-    Refer to the [Noise Cancellation](https://www.100ms.live/docs/flutter/v2/how-to-guides/extend-capabilities/noise-cancellation) documentation for more details.
-
+  Noise Cancellation dependency is removed from Prebuilt on Android.
+  Users will have to add the dependency manually in their Android project to use Noise Cancellation.
+  This change is made to reduce the size of the Prebuilt package.
+  Refer to the [Noise Cancellation](https://www.100ms.live/docs/flutter/v2/how-to-guides/extend-capabilities/noise-cancellation) documentation for more details.
 
 ### hmssdk_flutter
 
 - Added Camera Zoom Controls in `HMSCameraControls`
 
-    Users can now control the camera zoom using the `HMSCameraControls` class. The `setZoom` method can be used to set the zoom level of the camera.
+  Users can now control the camera zoom using the `HMSCameraControls` class. The `setZoom` method can be used to set the zoom level of the camera.
 
-    Learn more about Camera Zoom Controls [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/configure-your-device/camera/camera-controls).
+  Learn more about Camera Zoom Controls [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/configure-your-device/camera/camera-controls).
 
 ### hms_room_kit
 
 - Added support to control Automatic Gain Control and Noise Suppresion in Prebuilt
 
-    Prebuilt now supports toggling Automatic Gain Control (AGC) and Noise Suppresion for better audio quality. Users can enable or disable AGC and Noise Suppresion from the prebuilt interface.
+  Prebuilt now supports toggling Automatic Gain Control (AGC) and Noise Suppresion for better audio quality. Users can enable or disable AGC and Noise Suppresion from the prebuilt interface.
 
 - Resolved an issue where the Prebuilt UI was not updating on performing End Session
 
 - Hand Raise sorting based on Time
 
-    Hand Raise list is now sorted based on the time of raising the hand. Refer to the [Hand Raise](https://www.100ms.live/docs/flutter/v2/how-to-guides/interact-with-room/peer/large-room) documentation for more details.
+  Hand Raise list is now sorted based on the time of raising the hand. Refer to the [Hand Raise](https://www.100ms.live/docs/flutter/v2/how-to-guides/interact-with-room/peer/large-room) documentation for more details.
 
 - Added support to perform Switch Role of any user on Prebuilt
 
-    Users can now switch the role of any user, if they have necessary permissions, from the Prebuilt interface. Refer to the [Change Role](https://www.100ms.live/docs/flutter/v2/how-to-guides/interact-with-room/peer/change-role) documentation for more details.
+  Users can now switch the role of any user, if they have necessary permissions, from the Prebuilt interface. Refer to the [Change Role](https://www.100ms.live/docs/flutter/v2/how-to-guides/interact-with-room/peer/change-role) documentation for more details.
 
-Uses Android SDK 2.9.67 & iOS SDK 1.16.1
-
-**Full Changelog**: [1.10.5...1.10.6](https://github.com/100mslive/100ms-flutter/compare/1.10.5...1.10.6)
-
+Uses `hmssdk_flutter` package version 1.11.0
 
 ## 1.1.5 - 2024-07-25
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.5  |
-| hmssdk_flutter              | 1.10.5 |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.5   |
+| hmssdk_flutter | 1.10.5  |
 
 ### 🚀 Added
 
@@ -69,11 +132,11 @@ Uses `hmssdk_flutter` package version 1.10.5
 
 ## 1.1.4 - 2024-07-01
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.4  |
-| hmssdk_flutter              | 1.10.4 |
-| hms_video_plugin            | 0.0.2  |
+| Package          | Version |
+| ---------------- | ------- |
+| hms_room_kit     | 1.1.4   |
+| hmssdk_flutter   | 1.10.4  |
+| hms_video_plugin | 0.0.2   |
 
 ### 🚀 Added
 
@@ -85,11 +148,11 @@ Uses `hmssdk_flutter` package version 1.10.4
 
 ## 1.1.3 - 2024-06-12
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.3  |
-| hmssdk_flutter              | 1.10.3 |
-| hms_video_plugin            | 0.0.1 |
+| Package          | Version |
+| ---------------- | ------- |
+| hms_room_kit     | 1.1.3   |
+| hmssdk_flutter   | 1.10.3  |
+| hms_video_plugin | 0.0.1   |
 
 ### 🚀 Added
 
@@ -101,10 +164,10 @@ Uses `hmssdk_flutter` package version 1.10.3
 
 ## 1.1.2 - 2024-05-15
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.1.2    |
-| hmssdk_flutter | 1.10.2   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.2   |
+| hmssdk_flutter | 1.10.2  |
 
 ### 🚀 Added
 
@@ -120,10 +183,10 @@ Uses `hmssdk_flutter` package version 1.10.2
 
 ## 1.1.1 - 2024-04-26
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.1.1    |
-| hmssdk_flutter | 1.10.1   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.1   |
+| hmssdk_flutter | 1.10.1  |
 
 ### 🚀 Added
 
@@ -139,15 +202,15 @@ Uses `hmssdk_flutter` package version 1.10.1
 
 ## 1.1.0 - 2024-04-22
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.1.0    |
-| hmssdk_flutter | 1.10.0   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.0   |
+| hmssdk_flutter | 1.10.0  |
 
 ### 🚀 Added
 
 - Newly designed UI for SIP Peers
-  
+
   SIP peers will now have a newly designed UI to match the overall theme of the application.
 
 - Enhanced Prebuilt with Noise Cancellation
@@ -168,19 +231,19 @@ Uses `hmssdk_flutter` package version 1.10.0
 
 ## 1.0.17 - 2024-04-01
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.17    |
-| hmssdk_flutter | 1.9.14    |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.17  |
+| hmssdk_flutter | 1.9.14  |
 
 Uses `hmssdk_flutter` package version 1.9.14
 
 ## 1.0.16 - 2024-03-15
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.16    |
-| hmssdk_flutter | 1.9.13    |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.16  |
+| hmssdk_flutter | 1.9.13  |
 
 ### 🚀 Added
 
@@ -192,10 +255,10 @@ Updated `hmssdk_flutter` package version to 1.9.13
 
 ## 1.0.15 - 2024-03-04
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.15    |
-| hmssdk_flutter | 1.9.12    |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.15  |
+| hmssdk_flutter | 1.9.12  |
 
 ### 🚀 Added
 
@@ -207,25 +270,25 @@ Updated `hmssdk_flutter` package version to 1.9.12
 
 ## 1.0.14 - 2024-02-26
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.14    |
-| hmssdk_flutter | 1.9.11    |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.14  |
+| hmssdk_flutter | 1.9.11  |
 
 ### 🚀 Added
 
 - Introducing leaderboards to our quiz experience
 
-  Adding leaderboard to our quizzes with leaderboard summary and rankings.  
+  Adding leaderboard to our quizzes with leaderboard summary and rankings.
 
 Updated `hmssdk_flutter` package version to 1.9.11
 
 ## 1.0.13 - 2024-02-16
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.13    |
-| hmssdk_flutter | 1.9.10     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.13  |
+| hmssdk_flutter | 1.9.10  |
 
 ### 🚀 Added
 
@@ -237,10 +300,10 @@ Updated `hmssdk_flutter` package version to 1.9.10
 
 ## 1.0.12 - 2024-02-12
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.12    |
-| hmssdk_flutter | 1.9.9     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.12  |
+| hmssdk_flutter | 1.9.9   |
 
 ### 🚀 Added
 
@@ -252,19 +315,19 @@ Updated `hmssdk_flutter` package version to 1.9.9
 
 ## 1.0.11 - 2024-02-01
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.11    |
-| hmssdk_flutter | 1.9.8     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.11  |
+| hmssdk_flutter | 1.9.8   |
 
 Updated `hmssdk_flutter` package version to 1.9.8
 
 ## 1.0.10 - 2024-01-18
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.10     |
-| hmssdk_flutter | 1.9.7     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.10  |
+| hmssdk_flutter | 1.9.7   |
 
 ### 🚀 Added
 
@@ -274,43 +337,41 @@ Updated `hmssdk_flutter` package version to 1.9.8
 
 ## 1.0.9 - 2024-01-15
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.9     |
-| hmssdk_flutter | 1.9.6     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.9   |
+| hmssdk_flutter | 1.9.6   |
 
 ### 🚀 Added
 
 - Enhanced Chat Controls
-
   - 📌 Pin and Hide Messages
 
-      Elevate your chat experience with our new room kit feature. Effortlessly pin messages to keep them visible at the top of your chat, or hide messages to remove them from view.
+    Elevate your chat experience with our new room kit feature. Effortlessly pin messages to keep them visible at the top of your chat, or hide messages to remove them from view.
 
   - 🔒 Chat Moderation
 
-      Gain more control over your chat environment. You can now temporarily block peers within a session, preventing them from sending messages.
+    Gain more control over your chat environment. You can now temporarily block peers within a session, preventing them from sending messages.
 
   - 👥 Recipient Selector
 
-      Communication tailored to your needs. Send broadcast messages, reach specific groups or roles, and initiate direct messages (DMs) to particular peers with ease.
+    Communication tailored to your needs. Send broadcast messages, reach specific groups or roles, and initiate direct messages (DMs) to particular peers with ease.
 
   - 📋 Copy Messages
 
-      Simplify your interactions. Copy any message quickly with just a single tap, enhancing your chat efficiency.
+    Simplify your interactions. Copy any message quickly with just a single tap, enhancing your chat efficiency.
 
 - Added Skip Preview for Role Change functionality
 
   100ms Prebuilt now supports skipping preview screen, while changing roles. This can be configured from 100ms dashboard.
   If preview screen is skipped, then mic and camera will be muted by default.
 
-
 ## 1.0.8 - 2023-12-15
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.8     |
-| hmssdk_flutter | 1.9.5     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.8   |
+| hmssdk_flutter | 1.9.5   |
 
 ### 🔄 Changed
 
@@ -318,10 +379,10 @@ Updated `hmssdk_flutter` package version to 1.9.8
 
 ## 1.0.7 - 2023-12-08
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.7     |
-| hmssdk_flutter | 1.9.4     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.7   |
+| hmssdk_flutter | 1.9.4   |
 
 ### 🚀 Added
 
@@ -361,7 +422,6 @@ Updated `hmssdk_flutter` package version to 1.9.8
 ### 🚀 Added
 
 - Large Room Support
-
   - Enhanced Participants list to accommodate up to 20,000 peers in a room.
 
 - Added recording state indicator: showcasing "initializing" and "running" states.

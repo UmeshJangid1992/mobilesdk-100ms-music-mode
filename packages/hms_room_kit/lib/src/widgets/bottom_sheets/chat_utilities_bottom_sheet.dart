@@ -37,7 +37,8 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
     super.initState();
     context.read<MeetingStore>().addBottomSheet(context);
     isPinned = context.read<MeetingStore>().pinnedMessages.indexWhere(
-            (element) => element["id"] == widget.message.messageId) !=
+              (element) => element["id"] == widget.message.messageId,
+            ) !=
         -1;
 
     // Initial check for isBlocked
@@ -50,15 +51,16 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
   void updateIsBlocked() {
     setState(() {
       isBlocked = context.read<MeetingStore>().blackListedUserIds.indexWhere(
-              (userId) => userId == widget.message.sender?.customerUserId) !=
+                (userId) => userId == widget.message.sender?.customerUserId,
+              ) !=
           -1;
-      isLocalBlocked = context
-              .read<MeetingStore>()
-              .blackListedUserIds
-              .indexWhere((userId) =>
-                  userId ==
-                  context.read<MeetingStore>().localPeer?.customerUserId) !=
-          -1;
+      isLocalBlocked =
+          context.read<MeetingStore>().blackListedUserIds.indexWhere(
+                    (userId) =>
+                        userId ==
+                        context.read<MeetingStore>().localPeer?.customerUserId,
+                  ) !=
+              -1;
     });
   }
 
@@ -76,39 +78,38 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         child: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                HMSTitleText(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  HMSTitleText(
                     text: "Message Options",
-                    textColor: HMSThemeColors.onSurfaceHighEmphasis),
-                const HMSCrossButton()
-              ],
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Divider(
-                color: HMSThemeColors.borderDefault,
-                height: 5,
+                    textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                  ),
+                  const HMSCrossButton(),
+                ],
               ),
-            ),
 
-            ///This renders the option to pin the message
-            ///This is only rendered if the user has the permission to pin messages
-            ///If the message is already pinned it renders the option to unpin the message
-            ///If the message is not pinned it renders the option to pin the message
-            if (HMSRoomLayout.chatData?.allowPinningMessages ?? true)
-              ListTile(
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                child: Divider(color: HMSThemeColors.borderDefault, height: 5),
+              ),
+
+              ///This renders the option to pin the message
+              ///This is only rendered if the user has the permission to pin messages
+              ///If the message is already pinned it renders the option to unpin the message
+              ///If the message is not pinned it renders the option to pin the message
+              if (HMSRoomLayout.chatData?.allowPinningMessages ?? true)
+                ListTile(
                   horizontalTitleGap: 2,
                   onTap: () async {
                     Navigator.pop(context);
                     if (isPinned) {
-                      context
-                          .read<MeetingStore>()
-                          .unpinMessage(widget.message.messageId);
+                      context.read<MeetingStore>().unpinMessage(
+                            widget.message.messageId,
+                          );
                     } else {
                       context.read<MeetingStore>().pinMessage(widget.message);
                     }
@@ -120,20 +121,25 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
                     height: 20,
                     width: 20,
                     colorFilter: ColorFilter.mode(
-                        HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+                      HMSThemeColors.onSurfaceHighEmphasis,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   title: HMSSubheadingText(
-                      text: isPinned ? "Unpin" : "Pin",
-                      letterSpacing: 0.1,
-                      fontWeight: FontWeight.w600,
-                      textColor: HMSThemeColors.onSurfaceHighEmphasis)),
+                    text: isPinned ? "Unpin" : "Pin",
+                    letterSpacing: 0.1,
+                    fontWeight: FontWeight.w600,
+                    textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                  ),
+                ),
 
-            ListTile(
+              ListTile(
                 horizontalTitleGap: 2,
                 onTap: () async {
                   Navigator.pop(context);
                   await Clipboard.setData(
-                      ClipboardData(text: widget.message.message));
+                    ClipboardData(text: widget.message.message),
+                  );
                 },
                 contentPadding: EdgeInsets.zero,
                 leading: SvgPicture.asset(
@@ -142,17 +148,21 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
                   height: 20,
                   width: 20,
                   colorFilter: ColorFilter.mode(
-                      HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+                    HMSThemeColors.onSurfaceHighEmphasis,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 title: HMSSubheadingText(
-                    text: "Copy Text",
-                    letterSpacing: 0.1,
-                    fontWeight: FontWeight.w600,
-                    textColor: HMSThemeColors.onSurfaceHighEmphasis)),
+                  text: "Copy Text",
+                  letterSpacing: 0.1,
+                  fontWeight: FontWeight.w600,
+                  textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                ),
+              ),
 
-            if ((HMSRoomLayout.chatData?.realTimeControls?.canHideMessage ??
-                false))
-              ListTile(
+              if ((HMSRoomLayout.chatData?.realTimeControls?.canHideMessage ??
+                  false))
+                ListTile(
                   horizontalTitleGap: 2,
                   onTap: () async {
                     Navigator.pop(context);
@@ -165,26 +175,31 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
                     height: 20,
                     width: 20,
                     colorFilter: ColorFilter.mode(
-                        HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+                      HMSThemeColors.onSurfaceHighEmphasis,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   title: HMSSubheadingText(
-                      text: "Hide for Everyone",
-                      letterSpacing: 0.1,
-                      fontWeight: FontWeight.w600,
-                      textColor: HMSThemeColors.onSurfaceHighEmphasis)),
+                    text: "Hide for Everyone",
+                    letterSpacing: 0.1,
+                    fontWeight: FontWeight.w600,
+                    textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                  ),
+                ),
 
-            if ((HMSRoomLayout.chatData?.realTimeControls?.canBlockUser ??
-                    false) &&
-                !(widget.message.sender?.isLocal ?? true) &&
-                !isLocalBlocked)
-              ListTile(
+              if ((HMSRoomLayout.chatData?.realTimeControls?.canBlockUser ??
+                      false) &&
+                  !(widget.message.sender?.isLocal ?? true) &&
+                  !isLocalBlocked)
+                ListTile(
                   horizontalTitleGap: 2,
                   onTap: () async {
                     Navigator.pop(context);
                     if (widget.message.sender?.customerUserId != null) {
                       context.read<MeetingStore>().togglePeerBlock(
-                          userId: widget.message.sender!.customerUserId!,
-                          isBlocked: isBlocked);
+                            userId: widget.message.sender!.customerUserId!,
+                            isBlocked: isBlocked,
+                          );
                     }
                   },
                   contentPadding: EdgeInsets.zero,
@@ -194,30 +209,34 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
                     height: 20,
                     width: 20,
                     colorFilter: ColorFilter.mode(
-                        HMSThemeColors.alertErrorDefault, BlendMode.srcIn),
+                      HMSThemeColors.alertErrorDefault,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   title: HMSSubheadingText(
-                      text: isBlocked ? "Unblock from Chat" : "Block from Chat",
-                      letterSpacing: 0.1,
-                      fontWeight: FontWeight.w600,
-                      textColor: HMSThemeColors.alertErrorDefault)),
+                    text: isBlocked ? "Unblock from Chat" : "Block from Chat",
+                    letterSpacing: 0.1,
+                    fontWeight: FontWeight.w600,
+                    textColor: HMSThemeColors.alertErrorDefault,
+                  ),
+                ),
 
-            if ((context
-                        .read<MeetingStore>()
-                        .localPeer
-                        ?.role
-                        .permissions
-                        .removeOthers ??
-                    false) &&
-                !(widget.message.sender?.isLocal ?? true))
-              ListTile(
+              if ((context
+                          .read<MeetingStore>()
+                          .localPeer
+                          ?.role
+                          .permissions
+                          .removeOthers ??
+                      false) &&
+                  !(widget.message.sender?.isLocal ?? true))
+                ListTile(
                   horizontalTitleGap: 2,
                   onTap: () async {
                     Navigator.pop(context);
                     if (widget.message.sender != null) {
-                      context
-                          .read<MeetingStore>()
-                          .removePeerFromRoom(widget.message.sender!);
+                      context.read<MeetingStore>().removePeerFromRoom(
+                            widget.message.sender!,
+                          );
                     }
                   },
                   contentPadding: EdgeInsets.zero,
@@ -227,14 +246,19 @@ class _ChatUtilitiesBottomSheetState extends State<ChatUtilitiesBottomSheet> {
                     height: 20,
                     width: 20,
                     colorFilter: ColorFilter.mode(
-                        HMSThemeColors.alertErrorDefault, BlendMode.srcIn),
+                      HMSThemeColors.alertErrorDefault,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   title: HMSSubheadingText(
-                      text: "Remove Participant",
-                      letterSpacing: 0.1,
-                      fontWeight: FontWeight.w600,
-                      textColor: HMSThemeColors.alertErrorDefault)),
-          ]),
+                    text: "Remove Participant",
+                    letterSpacing: 0.1,
+                    fontWeight: FontWeight.w600,
+                    textColor: HMSThemeColors.alertErrorDefault,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

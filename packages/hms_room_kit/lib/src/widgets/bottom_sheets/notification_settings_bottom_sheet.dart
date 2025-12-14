@@ -59,10 +59,11 @@ class _NotificationSettingsBottomSheetState
                     Text(
                       "Notifications",
                       style: HMSTextStyle.setTextStyle(
-                          fontSize: 16,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.15,
-                          fontWeight: FontWeight.w600),
+                        fontSize: 16,
+                        color: themeDefaultColor,
+                        letterSpacing: 0.15,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -80,15 +81,12 @@ class _NotificationSettingsBottomSheetState
                       },
                     ),
                   ],
-                )
+                ),
               ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15, bottom: 10),
-              child: Divider(
-                color: dividerColor,
-                height: 5,
-              ),
+              child: Divider(color: dividerColor, height: 5),
             ),
             Expanded(
               child: ListView(
@@ -100,27 +98,33 @@ class _NotificationSettingsBottomSheetState
                     leading: SvgPicture.asset(
                       "packages/hms_room_kit/lib/src/assets/icons/person.svg",
                       fit: BoxFit.scaleDown,
-                      colorFilter:
-                          ColorFilter.mode(themeDefaultColor, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(
+                        themeDefaultColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       "Peer Joined",
                       semanticsLabel: "fl_peer_join_notif",
                       style: HMSTextStyle.setTextStyle(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
+                        fontSize: 14,
+                        color: themeDefaultColor,
+                        letterSpacing: 0.25,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
-                        value: peerJoinedNotif,
-                        onChanged: (value) => {
-                              peerJoinedNotif = value,
-                              Utilities.saveBoolData(
-                                  key: 'peer-join-notif', value: value),
-                              setState(() {})
-                            }),
+                      activeTrackColor: hmsdefaultColor,
+                      value: peerJoinedNotif,
+                      onChanged: (value) => {
+                        peerJoinedNotif = value,
+                        Utilities.saveBoolData(
+                          key: 'peer-join-notif',
+                          value: value,
+                        ),
+                        setState(() {}),
+                      },
+                    ),
                   ),
                   ListTile(
                     horizontalTitleGap: 2,
@@ -129,27 +133,33 @@ class _NotificationSettingsBottomSheetState
                     leading: SvgPicture.asset(
                       "packages/hms_room_kit/lib/src/assets/icons/end_room.svg",
                       fit: BoxFit.scaleDown,
-                      colorFilter:
-                          ColorFilter.mode(themeDefaultColor, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(
+                        themeDefaultColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       "Peer Left",
                       semanticsLabel: "fl_peer_leave_notif",
                       style: HMSTextStyle.setTextStyle(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
+                        fontSize: 14,
+                        color: themeDefaultColor,
+                        letterSpacing: 0.25,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
-                        value: peerLeaveNotif,
-                        onChanged: (value) => {
-                              peerLeaveNotif = value,
-                              Utilities.saveBoolData(
-                                  key: 'peer-leave-notif', value: value),
-                              setState(() {})
-                            }),
+                      activeTrackColor: hmsdefaultColor,
+                      value: peerLeaveNotif,
+                      onChanged: (value) => {
+                        peerLeaveNotif = value,
+                        Utilities.saveBoolData(
+                          key: 'peer-leave-notif',
+                          value: value,
+                        ),
+                        setState(() {}),
+                      },
+                    ),
                   ),
                   ListTile(
                     horizontalTitleGap: 2,
@@ -158,27 +168,33 @@ class _NotificationSettingsBottomSheetState
                     leading: SvgPicture.asset(
                       "packages/hms_room_kit/lib/src/assets/icons/message_badge_off.svg",
                       fit: BoxFit.scaleDown,
-                      colorFilter:
-                          ColorFilter.mode(themeDefaultColor, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(
+                        themeDefaultColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       "New Message",
                       semanticsLabel: "fl_new-message_notif",
                       style: HMSTextStyle.setTextStyle(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
+                        fontSize: 14,
+                        color: themeDefaultColor,
+                        letterSpacing: 0.25,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
-                        value: newMessageNotif,
-                        onChanged: (value) => {
-                              newMessageNotif = value,
-                              Utilities.saveBoolData(
-                                  key: 'new-message-notif', value: value),
-                              setState(() {})
-                            }),
+                      activeTrackColor: hmsdefaultColor,
+                      value: newMessageNotif,
+                      onChanged: (value) => {
+                        newMessageNotif = value,
+                        Utilities.saveBoolData(
+                          key: 'new-message-notif',
+                          value: value,
+                        ),
+                        setState(() {}),
+                      },
+                    ),
                   ),
                   ListTile(
                     horizontalTitleGap: 2,
@@ -186,27 +202,33 @@ class _NotificationSettingsBottomSheetState
                     contentPadding: EdgeInsets.zero,
                     leading: SvgPicture.asset(
                       'packages/hms_room_kit/lib/src/assets/icons/hand_outline.svg',
-                      colorFilter:
-                          ColorFilter.mode(themeDefaultColor, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(
+                        themeDefaultColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       "Hand Raise",
                       semanticsLabel: "fl_hand_raise_notif",
                       style: HMSTextStyle.setTextStyle(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
+                        fontSize: 14,
+                        color: themeDefaultColor,
+                        letterSpacing: 0.25,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
-                        value: handRaiseNotif,
-                        onChanged: (value) => {
-                              handRaiseNotif = value,
-                              Utilities.saveBoolData(
-                                  key: 'hand-raise-notif', value: value),
-                              setState(() {})
-                            }),
+                      activeTrackColor: hmsdefaultColor,
+                      value: handRaiseNotif,
+                      onChanged: (value) => {
+                        handRaiseNotif = value,
+                        Utilities.saveBoolData(
+                          key: 'hand-raise-notif',
+                          value: value,
+                        ),
+                        setState(() {}),
+                      },
+                    ),
                   ),
                   ListTile(
                     horizontalTitleGap: 2,
@@ -214,27 +236,33 @@ class _NotificationSettingsBottomSheetState
                     contentPadding: EdgeInsets.zero,
                     leading: SvgPicture.asset(
                       'packages/hms_room_kit/lib/src/assets/icons/warning.svg',
-                      colorFilter:
-                          ColorFilter.mode(themeDefaultColor, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(
+                        themeDefaultColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     title: Text(
                       "Error",
                       semanticsLabel: "fl_error_notif",
                       style: HMSTextStyle.setTextStyle(
-                          fontSize: 14,
-                          color: themeDefaultColor,
-                          letterSpacing: 0.25,
-                          fontWeight: FontWeight.w600),
+                        fontSize: 14,
+                        color: themeDefaultColor,
+                        letterSpacing: 0.25,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
-                        value: errorNotif,
-                        onChanged: (value) => {
-                              errorNotif = value,
-                              Utilities.saveBoolData(
-                                  key: 'error-notif', value: value),
-                              setState(() {})
-                            }),
+                      activeTrackColor: hmsdefaultColor,
+                      value: errorNotif,
+                      onChanged: (value) => {
+                        errorNotif = value,
+                        Utilities.saveBoolData(
+                          key: 'error-notif',
+                          value: value,
+                        ),
+                        setState(() {}),
+                      },
+                    ),
                   ),
                 ],
               ),

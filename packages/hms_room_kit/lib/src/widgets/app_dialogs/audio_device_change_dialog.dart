@@ -16,11 +16,12 @@ class AudioDeviceChangeDialog extends StatefulWidget {
   final List<HMSAudioDevice> audioDevicesList;
   final Function(HMSAudioDevice) changeAudioDevice;
 
-  const AudioDeviceChangeDialog(
-      {super.key,
-      required this.audioDevicesList,
-      required this.changeAudioDevice,
-      required this.currentAudioDevice});
+  const AudioDeviceChangeDialog({
+    super.key,
+    required this.audioDevicesList,
+    required this.changeAudioDevice,
+    required this.currentAudioDevice,
+  });
 
   @override
   AudioDeviceChangeDialogState createState() => AudioDeviceChangeDialogState();
@@ -47,8 +48,12 @@ class AudioDeviceChangeDialogState extends State<AudioDeviceChangeDialog> {
       actionsPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       backgroundColor: themeBottomSheetColor,
       insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      contentPadding:
-          const EdgeInsets.only(top: 20, bottom: 15, left: 24, right: 24),
+      contentPadding: const EdgeInsets.only(
+        top: 20,
+        bottom: 15,
+        left: 24,
+        right: 24,
+      ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -58,9 +63,7 @@ class AudioDeviceChangeDialogState extends State<AudioDeviceChangeDialog> {
             letterSpacing: 0.15,
             textColor: themeDefaultColor,
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           HMSSubtitleText(text: message, textColor: themeSubHeadingColor),
         ],
       ),
@@ -74,28 +77,35 @@ class AudioDeviceChangeDialogState extends State<AudioDeviceChangeDialog> {
               color: themeSurfaceColor,
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
-                  color: borderColor, style: BorderStyle.solid, width: 0.80),
+                color: borderColor,
+                style: BorderStyle.solid,
+                width: 0.80,
+              ),
             ),
             child: DropdownButtonHideUnderline(
-                child: HMSDropDown(
-                    dropDownItems: <DropdownMenuItem>[
+              child: HMSDropDown(
+                dropDownItems: <DropdownMenuItem>[
                   ...widget.audioDevicesList
-                      .map((device) => DropdownMenuItem(
-                            value: device,
-                            child: HMSTitleText(
-                              text: device.name,
-                              textColor: themeDefaultColor,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ))
+                      .map(
+                        (device) => DropdownMenuItem(
+                          value: device,
+                          child: HMSTitleText(
+                            text: device.name,
+                            textColor: themeDefaultColor,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      )
                       .toList(),
                 ],
-                    iconStyleData: IconStyleData(
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      iconEnabledColor: themeDefaultColor,
-                    ),
-                    selectedValue: valueChoose,
-                    updateSelectedValue: _updateDropDownValue)),
+                iconStyleData: IconStyleData(
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  iconEnabledColor: themeDefaultColor,
+                ),
+                selectedValue: valueChoose,
+                updateSelectedValue: _updateDropDownValue,
+              ),
+            ),
           ),
         ],
       ),
@@ -104,62 +114,76 @@ class AudioDeviceChangeDialogState extends State<AudioDeviceChangeDialog> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ElevatedButton(
-                style: ButtonStyle(
-                    shadowColor: MaterialStateProperty.all(themeSurfaceColor),
-                    backgroundColor:
-                        MaterialStateProperty.all(themeBottomSheetColor),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                      side: const BorderSide(
-                          width: 1, color: Color.fromRGBO(107, 125, 153, 1)),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ))),
-                onPressed: () => Navigator.pop(context, false),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                  child: Text('Cancel',
-                      style: HMSTextStyle.setTextStyle(
-                          color: themeDefaultColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.50)),
-                )),
+              style: ButtonStyle(
+                shadowColor: WidgetStateProperty.all(themeSurfaceColor),
+                backgroundColor: WidgetStateProperty.all(
+                  themeBottomSheetColor,
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    side: const BorderSide(
+                      width: 1,
+                      color: Color.fromRGBO(107, 125, 153, 1),
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ),
+              onPressed: () => Navigator.pop(context, false),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 10,
+                ),
+                child: Text(
+                  'Cancel',
+                  style: HMSTextStyle.setTextStyle(
+                    color: themeDefaultColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.50,
+                  ),
+                ),
+              ),
+            ),
             ElevatedButton(
               style: ButtonStyle(
-                  shadowColor: MaterialStateProperty.all(themeSurfaceColor),
-                  backgroundColor: MaterialStateProperty.all(hmsdefaultColor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                shadowColor: WidgetStateProperty.all(themeSurfaceColor),
+                backgroundColor: WidgetStateProperty.all(hmsdefaultColor),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     side: BorderSide(width: 1, color: hmsdefaultColor),
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               onPressed: () => {
                 if (valueChoose == null)
-                  {
-                    Utilities.showToast("Please select audioDevice"),
-                  }
+                  {Utilities.showToast("Please select audioDevice")}
                 else
                   {
                     Navigator.pop(context),
-                    widget.changeAudioDevice(valueChoose!)
-                  }
+                    widget.changeAudioDevice(valueChoose!),
+                  },
               },
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 10,
+                ),
                 child: Text(
                   'Change',
                   style: HMSTextStyle.setTextStyle(
-                      color: themeDefaultColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.50),
+                    color: themeDefaultColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.50,
+                  ),
                 ),
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

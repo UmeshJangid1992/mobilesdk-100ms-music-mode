@@ -21,14 +21,15 @@ class HMSToastButton extends StatelessWidget {
   final double width;
   final Color buttonColor;
   final Color textColor;
-  const HMSToastButton(
-      {super.key,
-      required this.buttonTitle,
-      required this.action,
-      this.height = 36,
-      this.width = 65,
-      required this.buttonColor,
-      required this.textColor});
+  const HMSToastButton({
+    super.key,
+    required this.buttonTitle,
+    required this.action,
+    this.height = 36,
+    this.width = 65,
+    required this.buttonColor,
+    required this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,9 @@ class HMSToastButton extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-            color: buttonColor, borderRadius: BorderRadius.circular(8)),
+          color: buttonColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Center(
           child: HMSSubheadingText(
             text: buttonTitle,

@@ -96,83 +96,76 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
 
     final onPressed = widget.onPressed != null
         ? (widget.showLoadingIndicator
-            ? () async {
-                if (loading) {
-                  return;
-                }
-                setState(() => loading = true);
-                try {
-                  await widget.onPressed!();
-                } finally {
-                  if (mounted) {
-                    setState(() => loading = false);
+              ? () async {
+                  if (loading) {
+                    return;
+                  }
+                  setState(() => loading = true);
+                  try {
+                    await widget.onPressed!();
+                  } finally {
+                    if (mounted) {
+                      setState(() => loading = false);
+                    }
                   }
                 }
-              }
-            : () => widget.onPressed!())
+              : () => widget.onPressed!())
         : null;
 
     ButtonStyle style = ButtonStyle(
-      shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
-        (states) {
-          if (states.contains(MaterialState.hovered) &&
-              widget.options.hoverBorderSide != null) {
-            return RoundedRectangleBorder(
-              borderRadius:
-                  widget.options.borderRadius ?? BorderRadius.circular(8),
-              side: widget.options.hoverBorderSide!,
-            );
-          }
+      shape: MaterialStateProperty.resolveWith<OutlinedBorder>((states) {
+        if (states.contains(MaterialState.hovered) &&
+            widget.options.hoverBorderSide != null) {
           return RoundedRectangleBorder(
             borderRadius:
                 widget.options.borderRadius ?? BorderRadius.circular(8),
-            side: widget.options.borderSide ?? BorderSide.none,
+            side: widget.options.hoverBorderSide!,
           );
-        },
-      ),
-      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-        (states) {
-          if (states.contains(MaterialState.disabled) &&
-              widget.options.disabledTextColor != null) {
-            return widget.options.disabledTextColor;
-          }
-          if (states.contains(MaterialState.hovered) &&
-              widget.options.hoverTextColor != null) {
-            return widget.options.hoverTextColor;
-          }
-          return widget.options.textStyle?.color;
-        },
-      ),
-      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-        (states) {
-          if (states.contains(MaterialState.disabled) &&
-              widget.options.disabledColor != null) {
-            return widget.options.disabledColor;
-          }
-          if (states.contains(MaterialState.hovered) &&
-              widget.options.hoverColor != null) {
-            return widget.options.hoverColor;
-          }
-          return widget.options.color;
-        },
-      ),
+        }
+        return RoundedRectangleBorder(
+          borderRadius: widget.options.borderRadius ?? BorderRadius.circular(8),
+          side: widget.options.borderSide ?? BorderSide.none,
+        );
+      }),
+      foregroundColor: MaterialStateProperty.resolveWith<Color?>((states) {
+        if (states.contains(MaterialState.disabled) &&
+            widget.options.disabledTextColor != null) {
+          return widget.options.disabledTextColor;
+        }
+        if (states.contains(MaterialState.hovered) &&
+            widget.options.hoverTextColor != null) {
+          return widget.options.hoverTextColor;
+        }
+        return widget.options.textStyle?.color;
+      }),
+      backgroundColor: MaterialStateProperty.resolveWith<Color?>((states) {
+        if (states.contains(MaterialState.disabled) &&
+            widget.options.disabledColor != null) {
+          return widget.options.disabledColor;
+        }
+        if (states.contains(MaterialState.hovered) &&
+            widget.options.hoverColor != null) {
+          return widget.options.hoverColor;
+        }
+        return widget.options.color;
+      }),
       overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
         if (states.contains(MaterialState.pressed)) {
           return widget.options.splashColor;
         }
         return widget.options.hoverColor == null ? null : Colors.transparent;
       }),
-      padding: MaterialStateProperty.all(widget.options.padding ??
-          const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0)),
-      elevation: MaterialStateProperty.resolveWith<double?>(
-        (states) {
-          if (states.contains(MaterialState.hovered) &&
-              widget.options.hoverElevation != null) {
-            return widget.options.hoverElevation!;
-          }
-          return widget.options.elevation;
-        },
+      padding: MaterialStateProperty.all(
+        widget.options.padding ??
+            const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       ),
+      elevation: MaterialStateProperty.resolveWith<double?>((states) {
+        if (states.contains(MaterialState.hovered) &&
+            widget.options.hoverElevation != null) {
+          return widget.options.hoverElevation!;
+        }
+        return widget.options.elevation;
+      }),
     );
 
     if ((widget.icon != null || widget.iconData != null) && !loading) {
@@ -182,11 +175,13 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
         child: ElevatedButton.icon(
           icon: Padding(
             padding: widget.options.iconPadding ?? EdgeInsets.zero,
-            child: widget.icon ??
+            child:
+                widget.icon ??
                 FaIcon(
                   widget.iconData,
                   size: widget.options.iconSize,
-                  color: widget.options.iconColor ??
+                  color:
+                      widget.options.iconColor ??
                       widget.options.textStyle!.color,
                 ),
           ),
@@ -211,32 +206,32 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
 
 extension _WithoutColorExtension on TextStyle {
   TextStyle withoutColor() => TextStyle(
-        inherit: inherit,
-        color: null,
-        backgroundColor: backgroundColor,
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        fontStyle: fontStyle,
-        letterSpacing: letterSpacing,
-        wordSpacing: wordSpacing,
-        textBaseline: textBaseline,
-        height: height,
-        leadingDistribution: leadingDistribution,
-        locale: locale,
-        foreground: foreground,
-        background: background,
-        shadows: shadows,
-        fontFeatures: fontFeatures,
-        decoration: decoration,
-        decorationColor: decorationColor,
-        decorationStyle: decorationStyle,
-        decorationThickness: decorationThickness,
-        debugLabel: debugLabel,
-        fontFamily: fontFamily,
-        fontFamilyFallback: fontFamilyFallback,
-        // The _package field is private so unfortunately we can't set it here,
-        // but it's almost always unset anyway.
-        // package: _package,
-        overflow: overflow,
-      );
+    inherit: inherit,
+    color: null,
+    backgroundColor: backgroundColor,
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    fontStyle: fontStyle,
+    letterSpacing: letterSpacing,
+    wordSpacing: wordSpacing,
+    textBaseline: textBaseline,
+    height: height,
+    leadingDistribution: leadingDistribution,
+    locale: locale,
+    foreground: foreground,
+    background: background,
+    shadows: shadows,
+    fontFeatures: fontFeatures,
+    decoration: decoration,
+    decorationColor: decorationColor,
+    decorationStyle: decorationStyle,
+    decorationThickness: decorationThickness,
+    debugLabel: debugLabel,
+    fontFamily: fontFamily,
+    fontFamilyFallback: fontFamilyFallback,
+    // The _package field is private so unfortunately we can't set it here,
+    // but it's almost always unset anyway.
+    // package: _package,
+    overflow: overflow,
+  );
 }

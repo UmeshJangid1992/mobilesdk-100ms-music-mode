@@ -46,10 +46,13 @@ class PreviewStore extends ChangeNotifier implements HMSPreviewListener {
     notifyListeners();
   }
 
-  Future<bool> startPreview(
-      {required String user, required String roomId}) async {
-    String? token =
-        await hmsSDKInteractor.getAuthTokenFromRoomCode(roomCode: roomId);
+  Future<bool> startPreview({
+    required String user,
+    required String roomId,
+  }) async {
+    String? token = await hmsSDKInteractor.getAuthTokenFromRoomCode(
+      roomCode: roomId,
+    );
 
     if (token == null) return false;
     HMSConfig config = HMSConfig(authToken: token, userName: user);
@@ -69,9 +72,10 @@ class PreviewStore extends ChangeNotifier implements HMSPreviewListener {
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {}
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {}
 
   void toggleCameraMuteState() {
     hmsSDKInteractor.toggleCameraMuteState();
@@ -91,9 +95,10 @@ class PreviewStore extends ChangeNotifier implements HMSPreviewListener {
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 }

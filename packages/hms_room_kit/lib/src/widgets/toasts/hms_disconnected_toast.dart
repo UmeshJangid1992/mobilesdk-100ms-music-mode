@@ -14,10 +14,11 @@ import 'package:hms_room_kit/src/widgets/toasts/hms_toast_button.dart';
 class HMSDisconnectedToast extends StatelessWidget {
   final String errorDescription;
   final Function? onLeavePressed;
-  const HMSDisconnectedToast(
-      {super.key,
-      this.onLeavePressed,
-      this.errorDescription = "Reconnection Failed"});
+  const HMSDisconnectedToast({
+    super.key,
+    this.onLeavePressed,
+    this.errorDescription = "Reconnection Failed",
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,9 @@ class HMSDisconnectedToast extends StatelessWidget {
         height: 24,
         width: 24,
         colorFilter: ColorFilter.mode(
-            HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+          HMSThemeColors.onSurfaceHighEmphasis,
+          BlendMode.srcIn,
+        ),
       ),
       subtitle: SizedBox(
         width: MediaQuery.of(context).size.width * 0.6,

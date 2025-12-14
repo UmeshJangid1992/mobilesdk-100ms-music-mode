@@ -31,16 +31,16 @@ class _OverlayParticipantsBottomSheetState
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: FractionallySizedBox(
-      heightFactor: 0.87,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 12.0, left: 16, right: 16),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Selector<MeetingStore, int>(
+      child: FractionallySizedBox(
+        heightFactor: 0.87,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 12.0, left: 16, right: 16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Selector<MeetingStore, int>(
                     selector: (_, meetingStore) => meetingStore.peersInRoom,
                     builder: (_, peersInRoom, __) {
                       return HMSSubheadingText(
@@ -48,14 +48,16 @@ class _OverlayParticipantsBottomSheetState
                         textColor: HMSThemeColors.onSurfaceHighEmphasis,
                         fontWeight: FontWeight.w600,
                       );
-                    }),
-                const HMSCrossButton(),
-              ],
-            ),
-            const Expanded(child: ParticipantsBottomSheet())
-          ],
+                    },
+                  ),
+                  const HMSCrossButton(),
+                ],
+              ),
+              const Expanded(child: ParticipantsBottomSheet()),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

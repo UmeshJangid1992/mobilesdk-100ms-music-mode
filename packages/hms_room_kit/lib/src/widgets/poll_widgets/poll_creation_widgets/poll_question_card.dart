@@ -61,114 +61,123 @@ class PollQuestionCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Selector<HMSPollStore, String>(
-                        selector: (_, hmsPollStore) => hmsPollStore.poll.title,
-                        builder: (_, title, __) {
-                          return HMSTitleText(
-                            text: title,
-                            textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                            letterSpacing: 0.15,
-                            maxLines: 3,
-                          );
-                        }),
+                      selector: (_, hmsPollStore) => hmsPollStore.poll.title,
+                      builder: (_, title, __) {
+                        return HMSTitleText(
+                          text: title,
+                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                          letterSpacing: 0.15,
+                          maxLines: 3,
+                        );
+                      },
+                    ),
                   ),
                   Selector<HMSPollStore, HMSPollState>(
-                      selector: (_, hmsPollStore) => hmsPollStore.poll.state,
-                      builder: (_, pollState, __) {
-                        return LiveBadge(
-                            text: _getBadgeText(pollState),
-                            badgeColor: _getBadgeColor(pollState),
-                            width: 50);
-                      })
+                    selector: (_, hmsPollStore) => hmsPollStore.poll.state,
+                    builder: (_, pollState, __) {
+                      return LiveBadge(
+                        text: _getBadgeText(pollState),
+                        badgeColor: _getBadgeColor(pollState),
+                        width: 50,
+                      );
+                    },
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   HMSButton(
-                      width: MediaQuery.of(context).size.width * 0.23,
-                      onPressed: () {
-                        var meetingStore = context.read<MeetingStore>();
-                        var pollStore = context.read<HMSPollStore>();
+                    width: MediaQuery.of(context).size.width * 0.23,
+                    onPressed: () {
+                      var meetingStore = context.read<MeetingStore>();
+                      var pollStore = context.read<HMSPollStore>();
 
-                        ///If the poll state is created and the questions are not fetched
-                        ///we fetch the poll/quiz questions
-                        if (pollStore.poll.state == HMSPollState.created) {
-                          if (pollStore.poll.questions?.isEmpty ?? true) {
-                            meetingStore.fetchPollQuestions(pollStore.poll);
-                          }
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              backgroundColor: HMSThemeColors.surfaceDim,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(16),
-                                    topRight: Radius.circular(16)),
-                              ),
-                              context: context,
-                              builder: (ctx) => ChangeNotifierProvider.value(
-                                    value: meetingStore,
-                                    child: ChangeNotifierProvider.value(
-                                      value: pollStore,
-                                      child: Selector<HMSPollStore, HMSPoll>(
-                                          selector: (_, hmsPollStore) =>
-                                              hmsPollStore.poll,
-                                          builder: (_, poll, __) {
-                                            return PollQuestionBottomSheet(
-                                              isPoll: poll.category ==
-                                                  HMSPollCategory.poll,
-                                              pollName: poll.title,
-                                              poll: poll,
-                                            );
-                                          }),
-                                    ),
-                                  ));
-                          return;
-                        }
-
-                        ///This is done to fetch questions and result in proper
-                        ///order as iOS and android returns different results
+                      ///If the poll state is created and the questions are not fetched
+                      ///we fetch the poll/quiz questions
+                      if (pollStore.poll.state == HMSPollState.created) {
                         if (pollStore.poll.questions?.isEmpty ?? true) {
-                          if (Platform.isAndroid) {
-                            meetingStore.fetchPollQuestions(pollStore.poll);
-                            meetingStore.getPollResults(pollStore.poll);
-                          } else {
-                            meetingStore.getPollResults(pollStore.poll);
-                            meetingStore.fetchPollQuestions(pollStore.poll);
-                          }
-                        }
-
-                        ///If it's a quiz we fetch the leaderboard
-                        if (pollStore.poll.category == HMSPollCategory.quiz &&
-                            pollStore.pollLeaderboardResponse == null) {
-                          meetingStore.fetchLeaderboard(pollStore.poll);
+                          meetingStore.fetchPollQuestions(pollStore.poll);
                         }
                         showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: HMSThemeColors.surfaceDim,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16),
-                                  topRight: Radius.circular(16)),
+                          isScrollControlled: true,
+                          backgroundColor: HMSThemeColors.surfaceDim,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
                             ),
-                            context: context,
-                            builder: (ctx) => ChangeNotifierProvider.value(
-                                  value: meetingStore,
-                                  child: ChangeNotifierProvider.value(
-                                    value: pollStore,
-                                    child: PollVoteBottomSheet(
-                                        isPoll: pollStore.poll.category ==
-                                            HMSPollCategory.poll),
-                                  ),
-                                ));
-                      },
-                      childWidget: HMSTitleText(
-                          text: "View",
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis))
+                          ),
+                          context: context,
+                          builder: (ctx) => ChangeNotifierProvider.value(
+                            value: meetingStore,
+                            child: ChangeNotifierProvider.value(
+                              value: pollStore,
+                              child: Selector<HMSPollStore, HMSPoll>(
+                                selector: (_, hmsPollStore) =>
+                                    hmsPollStore.poll,
+                                builder: (_, poll, __) {
+                                  return PollQuestionBottomSheet(
+                                    isPoll:
+                                        poll.category == HMSPollCategory.poll,
+                                    pollName: poll.title,
+                                    poll: poll,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
+                      ///This is done to fetch questions and result in proper
+                      ///order as iOS and android returns different results
+                      if (pollStore.poll.questions?.isEmpty ?? true) {
+                        if (Platform.isAndroid) {
+                          meetingStore.fetchPollQuestions(pollStore.poll);
+                          meetingStore.getPollResults(pollStore.poll);
+                        } else {
+                          meetingStore.getPollResults(pollStore.poll);
+                          meetingStore.fetchPollQuestions(pollStore.poll);
+                        }
+                      }
+
+                      ///If it's a quiz we fetch the leaderboard
+                      if (pollStore.poll.category == HMSPollCategory.quiz &&
+                          pollStore.pollLeaderboardResponse == null) {
+                        meetingStore.fetchLeaderboard(pollStore.poll);
+                      }
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: HMSThemeColors.surfaceDim,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                        ),
+                        context: context,
+                        builder: (ctx) => ChangeNotifierProvider.value(
+                          value: meetingStore,
+                          child: ChangeNotifierProvider.value(
+                            value: pollStore,
+                            child: PollVoteBottomSheet(
+                              isPoll: pollStore.poll.category ==
+                                  HMSPollCategory.poll,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    childWidget: HMSTitleText(
+                      text: "View",
+                      textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

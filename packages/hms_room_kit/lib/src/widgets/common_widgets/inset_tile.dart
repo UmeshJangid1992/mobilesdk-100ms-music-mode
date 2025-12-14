@@ -27,16 +27,16 @@ class InsetTile extends StatefulWidget {
   final double avatarTitleFontSize;
   final double avatarTitleTextLineHeight;
   final Function()? callbackFunction;
-  const InsetTile(
-      {Key? key,
-      this.itemHeight = 186,
-      this.itemWidth = 104,
-      this.scaleType = ScaleType.SCALE_ASPECT_FILL,
-      this.avatarRadius = 30,
-      this.avatarTitleFontSize = 24,
-      this.avatarTitleTextLineHeight = 32,
-      this.callbackFunction})
-      : super(key: key);
+  const InsetTile({
+    Key? key,
+    this.itemHeight = 186,
+    this.itemWidth = 104,
+    this.scaleType = ScaleType.SCALE_ASPECT_FILL,
+    this.avatarRadius = 30,
+    this.avatarTitleFontSize = 24,
+    this.avatarTitleTextLineHeight = 32,
+    this.callbackFunction,
+  }) : super(key: key);
 
   @override
   State<InsetTile> createState() => _InsetTileState();
@@ -79,52 +79,58 @@ class _InsetTileState extends State<InsetTile> {
     return Semantics(
       label: "fl_${context.read<PeerTrackNode>().peer.name}_video_tile",
       child: FocusDetector(
-          onFocusLost: () {
-            if (mounted) {
-              Provider.of<PeerTrackNode>(context, listen: false)
-                  .setOffScreenStatus(true);
-            }
-          },
-          onFocusGained: () {
-            Provider.of<PeerTrackNode>(context, listen: false)
-                .setOffScreenStatus(false);
-          },
-          key: Key(context.read<PeerTrackNode>().uid),
-          child: InkWell(
-            onTap: () => _toggleButtonVisibility(),
-            child: Container(
-              key: key,
-              height: widget.itemHeight,
-              width: widget.itemWidth,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: HMSThemeColors.surfaceDefault,
-              ),
-              child: Semantics(
-                label: "fl_${context.read<PeerTrackNode>().peer.name}_video_on",
-                child: Stack(
-                  children: [
-                    IgnorePointer(
-                      child: VideoView(
-                          uid: context.read<PeerTrackNode>().uid,
-                          scaleType: widget.scaleType,
-                          avatarRadius: widget.avatarRadius,
-                          avatarTitleFontSize: widget.avatarTitleFontSize,
-                          avatarTitleTextLineHeight:
-                              widget.avatarTitleTextLineHeight),
+        onFocusLost: () {
+          if (mounted) {
+            Provider.of<PeerTrackNode>(
+              context,
+              listen: false,
+            ).setOffScreenStatus(true);
+          }
+        },
+        onFocusGained: () {
+          Provider.of<PeerTrackNode>(
+            context,
+            listen: false,
+          ).setOffScreenStatus(false);
+        },
+        key: Key(context.read<PeerTrackNode>().uid),
+        child: InkWell(
+          onTap: () => _toggleButtonVisibility(),
+          child: Container(
+            key: key,
+            height: widget.itemHeight,
+            width: widget.itemWidth,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: HMSThemeColors.surfaceDefault,
+            ),
+            child: Semantics(
+              label: "fl_${context.read<PeerTrackNode>().peer.name}_video_on",
+              child: Stack(
+                children: [
+                  IgnorePointer(
+                    child: VideoView(
+                      uid: context.read<PeerTrackNode>().uid,
+                      scaleType: widget.scaleType,
+                      avatarRadius: widget.avatarRadius,
+                      avatarTitleFontSize: widget.avatarTitleFontSize,
+                      avatarTitleTextLineHeight:
+                          widget.avatarTitleTextLineHeight,
                     ),
-                    const HandRaise(), //top left
-                    const BRBTag(), //top left
-                    const AudioMuteStatus(), //top right
-                    if (isButtonVisible)
-                      LocalPeerMoreOption(
-                        callbackFunction: widget.callbackFunction,
-                      ), //bottom right
-                  ],
-                ),
+                  ),
+                  const HandRaise(), //top left
+                  const BRBTag(), //top left
+                  const AudioMuteStatus(), //top right
+                  if (isButtonVisible)
+                    LocalPeerMoreOption(
+                      callbackFunction: widget.callbackFunction,
+                    ), //bottom right
+                ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -93,9 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Row(
                   children: [
                     Icon(Icons.settings_outlined),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     Text('Settings'),
                   ],
                 ),
@@ -105,9 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Row(
                   children: [
                     Icon(Icons.feedback_outlined),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     Text('Send feedback'),
                   ],
                 ),
@@ -117,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Row(
                   children: [
                     Icon(Icons.help_outline),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     Text('Help'),
                   ],
                 ),
@@ -147,20 +141,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                 title: const Row(
                                   children: [
                                     Icon(Icons.video_call),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
+                                    SizedBox(width: 10),
                                     Text('Start an instant meeting'),
                                   ],
                                 ),
                                 onTap: () async {
                                   bool isJoined = await joinRoom();
                                   if (isJoined) {
-                                    Navigator.of(context).push(MaterialPageRoute(
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
                                         builder: (_) =>
                                             ListenableProvider.value(
-                                                value: _dataStore,
-                                                child: const MeetingScreen())));
+                                              value: _dataStore,
+                                              child: const MeetingScreen(),
+                                            ),
+                                      ),
+                                    );
                                   } else {
                                     const SnackBar(content: Text("Error"));
                                   }
@@ -170,9 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 title: const Row(
                                   children: [
                                     Icon(Icons.close),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
+                                    SizedBox(width: 10),
                                     Text('Close'),
                                   ],
                                 ),
@@ -189,20 +183,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: const Text('New meeting'),
                 ),
                 OutlinedButton(
-                    style: Theme.of(context)
-                        .outlinedButtonTheme
-                        .style!
-                        .copyWith(
-                            side: MaterialStateProperty.all(
-                                const BorderSide(color: Colors.white)),
-                            backgroundColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.transparent),
-                            foregroundColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.white)),
-                    onPressed: () {},
-                    child: const Text('Join with a code'))
+                  style: Theme.of(context).outlinedButtonTheme.style!.copyWith(
+                    side: MaterialStateProperty.all(
+                      const BorderSide(color: Colors.white),
+                    ),
+                    backgroundColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.transparent,
+                    ),
+                    foregroundColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.white,
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: const Text('Join with a code'),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

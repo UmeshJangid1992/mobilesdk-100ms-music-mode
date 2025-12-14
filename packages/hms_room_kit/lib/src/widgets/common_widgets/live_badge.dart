@@ -15,24 +15,32 @@ class LiveBadge extends StatelessWidget {
   final double? width;
   final Color? badgeColor;
   final String? text;
-  const LiveBadge(
-      {super.key, this.height, this.width, this.badgeColor, this.text});
+  const LiveBadge({
+    super.key,
+    this.height,
+    this.width,
+    this.badgeColor,
+    this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: height ?? 24,
-        width: width ?? 43,
-        decoration: BoxDecoration(
-            color: badgeColor ?? HMSThemeColors.alertErrorDefault,
-            borderRadius: BorderRadius.circular(4)),
-        child: Center(
-          child: HMSTitleText(
-              text: text ?? "LIVE",
-              fontSize: 10,
-              lineHeight: 16,
-              letterSpacing: 1.5,
-              textColor: HMSThemeColors.alertErrorBrighter),
-        ));
+      height: height ?? 24,
+      width: width ?? 43,
+      decoration: BoxDecoration(
+        color: badgeColor ?? HMSThemeColors.alertErrorDefault,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Center(
+        child: HMSTitleText(
+          text: text ?? "LIVE",
+          fontSize: 10,
+          lineHeight: 16,
+          letterSpacing: 1.5,
+          textColor: HMSThemeColors.alertErrorBrighter,
+        ),
+      ),
+    );
   }
 }

@@ -12,13 +12,14 @@ class PeerTrackNode {
   HMSVideoTrack? track;
   @observable
   bool isOffScreen;
-  PeerTrackNode(
-      {required this.uid,
-      required this.peer,
-      this.track,
-      this.name = "",
-      this.isRaiseHand = false,
-      this.isOffScreen = false});
+  PeerTrackNode({
+    required this.uid,
+    required this.peer,
+    this.track,
+    this.name = "",
+    this.isRaiseHand = false,
+    this.isOffScreen = false,
+  });
 
   @override
   bool operator ==(Object other) =>

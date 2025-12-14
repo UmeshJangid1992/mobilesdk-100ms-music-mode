@@ -29,16 +29,19 @@ void main() async {
       if (message.data["body"] != null) {
         var body = CallServices.parseStringToMap(message.data["body"]);
         var roomCode = message.data["roomInfo"];
-        CallType callType =
-            message.data["callType"] == "1" ? CallType.video : CallType.audio;
+        CallType callType = message.data["callType"] == "1"
+            ? CallType.video
+            : CallType.audio;
         CallServices.receiveCall(
-            UserDataModel(
-                email: body["email"],
-                userName: body["user_name"],
-                fcmToken: body["fcm_token"],
-                imgUrl: body["img_url"]),
-            roomCode,
-            callType);
+          UserDataModel(
+            email: body["email"],
+            userName: body["user_name"],
+            fcmToken: body["fcm_token"],
+            imgUrl: body["img_url"],
+          ),
+          roomCode,
+          callType,
+        );
       }
     }
   });
@@ -53,17 +56,20 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (message.data["body"] != null) {
     var body = CallServices.parseStringToMap(message.data["body"]);
     var roomCode = message.data["roomInfo"];
-    CallType callType =
-        message.data["callType"] == "1" ? CallType.video : CallType.audio;
+    CallType callType = message.data["callType"] == "1"
+        ? CallType.video
+        : CallType.audio;
     log("Callkit $body");
     CallServices.receiveCall(
-        UserDataModel(
-            email: body["email"],
-            userName: body["user_name"],
-            fcmToken: body["fcm_token"],
-            imgUrl: body["img_url"]),
-        roomCode,
-        callType);
+      UserDataModel(
+        email: body["email"],
+        userName: body["user_name"],
+        fcmToken: body["fcm_token"],
+        imgUrl: body["img_url"],
+      ),
+      roomCode,
+      callType,
+    );
   }
   log("Callkit: ${message.notification!.title.toString()}");
   log("Callkit: ${message.notification!.body.toString()}");
@@ -76,11 +82,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          bottomSheetTheme: BottomSheetThemeData(
-              backgroundColor: HMSThemeColors.backgroundDefault, elevation: 5),
-          brightness: Brightness.dark,
-          primaryColor: HMSThemeColors.primaryDefault,
-          scaffoldBackgroundColor: HMSThemeColors.backgroundDefault),
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: HMSThemeColors.backgroundDefault,
+          elevation: 5,
+        ),
+        brightness: Brightness.dark,
+        primaryColor: HMSThemeColors.primaryDefault,
+        scaffoldBackgroundColor: HMSThemeColors.backgroundDefault,
+      ),
       onGenerateRoute: AppRoute.generateRoute,
       initialRoute: AppRoute.homePage,
       navigatorKey: NavigationService.navigationKey,
@@ -116,14 +125,16 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         currentCall["accepted"] &&
         NavigationService.instance.isCurrent(AppRoute.homePage)) {
       String roomCode = currentCall["extra"]["room_code"];
-      NavigationService.instance
-          .pushNamedIfNotCurrent(AppRoute.previewPage, args: {
-        "is_video_call": currentCall["type"] == 1,
-        "user_img_url": currentCall["avatar"],
-        "user_name": currentCall["nameCaller"],
-        "room_code": roomCode,
-        "on_leave": CallServices.endCall
-      });
+      NavigationService.instance.pushNamedIfNotCurrent(
+        AppRoute.previewPage,
+        args: {
+          "is_video_call": currentCall["type"] == 1,
+          "user_img_url": currentCall["avatar"],
+          "user_name": currentCall["nameCaller"],
+          "room_code": roomCode,
+          "on_leave": CallServices.endCall,
+        },
+      );
     }
   }
 
@@ -149,9 +160,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       if (user == null) {
         log('Callkit: User is currently signed out!');
         appUtilities?.setLoggedInUserFCM(
-            userName: user?.displayName,
-            email: user?.email,
-            imgUrl: user?.photoURL);
+          userName: user?.displayName,
+          email: user?.email,
+          imgUrl: user?.photoURL,
+        );
         setState(() {
           isAuthorized = false;
         });
@@ -166,9 +178,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     if (auth.currentUser != null) {
       log("Callkit: User already logged in");
       appUtilities?.setLoggedInUserFCM(
-          userName: auth.currentUser?.displayName,
-          email: auth.currentUser?.email,
-          imgUrl: auth.currentUser?.photoURL);
+        userName: auth.currentUser?.displayName,
+        email: auth.currentUser?.email,
+        imgUrl: auth.currentUser?.photoURL,
+      );
       return true;
     }
     log("Callkit: User is not logged in");
@@ -200,14 +213,17 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           user?.displayName != null &&
           user?.photoURL != null) {
         appUtilities?.signUpUser(
-            email: user!.email!,
-            userName: user.displayName!,
-            imgUrl: user.photoURL!);
+          email: user!.email!,
+          userName: user.displayName!,
+          imgUrl: user.photoURL!,
+        );
         setState(() {
           isAuthorized = true;
         });
       } else {
-        log("Callkit: email: ${user?.email}, name: ${user?.displayName}, photoURL: ${user?.photoURL} is null");
+        log(
+          "Callkit: email: ${user?.email}, name: ${user?.displayName}, photoURL: ${user?.photoURL} is null",
+        );
       }
     } catch (error) {
       log(error.toString());
@@ -217,16 +233,17 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   ///If user is not authorized we show the error dialog
   void showNotAuthorizedDialog(String email) {
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return Center(
-            child: Text(
-              "Your email $email is not authorized to access the application. Please login using 100ms email.",
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          );
-        });
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Text(
+            "Your email $email is not authorized to access the application. Please login using 100ms email.",
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -238,14 +255,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         body: isAuthorized
             ? ChangeNotifierProvider.value(
                 value: appUtilities?.userDataStore,
-                child: UserListView(
-                  appUtilities: appUtilities,
-                ))
-            : const Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                ),
-              ),
+                child: UserListView(appUtilities: appUtilities),
+              )
+            : const Center(child: CircularProgressIndicator(strokeWidth: 2)),
       ),
     );
   }

@@ -18,12 +18,12 @@ class ReceipientSelectorChip extends StatefulWidget {
   final Function updateSelectedValue;
   final Color? chipColor;
 
-  const ReceipientSelectorChip(
-      {Key? key,
-      required this.currentlySelectedValue,
-      required this.updateSelectedValue,
-      this.chipColor})
-      : super(key: key);
+  const ReceipientSelectorChip({
+    Key? key,
+    required this.currentlySelectedValue,
+    required this.updateSelectedValue,
+    this.chipColor,
+  }) : super(key: key);
   @override
   State<ReceipientSelectorChip> createState() => _ReceipientSelectorChipState();
 }
@@ -59,16 +59,18 @@ class _ReceipientSelectorChipState extends State<ReceipientSelectorChip> {
         else
           {
             showModalBottomSheet(
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                context: context,
-                builder: (ctx) => ChangeNotifierProvider.value(
-                    value: context.read<MeetingStore>(),
-                    child: RecipientSelectorWidget(
-                      updateUI: _updateValueChoose,
-                      selectedValue: currentlySelectedValue,
-                    )))
-          }
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (ctx) => ChangeNotifierProvider.value(
+                value: context.read<MeetingStore>(),
+                child: RecipientSelectorWidget(
+                  updateUI: _updateValueChoose,
+                  selectedValue: currentlySelectedValue,
+                ),
+              ),
+            ),
+          },
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
@@ -86,67 +88,71 @@ class _ReceipientSelectorChipState extends State<ReceipientSelectorChip> {
               ),
             ),
             Container(
-                height: 24,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    color: widget.chipColor ?? HMSThemeColors.primaryDefault),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4.0),
-                        child: SvgPicture.asset(
-                          "packages/hms_room_kit/lib/src/assets/icons/participants.svg",
-                          height: 16,
-                          width: 16,
-                          colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceMediumEmphasis,
-                              BlendMode.srcIn),
+              height: 24,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                color: widget.chipColor ?? HMSThemeColors.primaryDefault,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: SvgPicture.asset(
+                        "packages/hms_room_kit/lib/src/assets/icons/participants.svg",
+                        height: 16,
+                        width: 16,
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceMediumEmphasis,
+                          BlendMode.srcIn,
                         ),
                       ),
-                      Container(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * 0.5,
-                        ),
-                        child: Selector<MeetingStore, dynamic>(
-                            selector: (_, meetingStore) =>
-                                meetingStore.recipientSelectorValue,
-                            builder: (_, currentValue, __) {
-                              ///Here we set the currentValue based on meetingStore.recipientSelectorValue
-                              ///This is to handle a case where a peer is selected but the peer leaves
-                              ///So we set the chip selection again to "Choose a Recipient"
-                              if (currentValue is HMSPeer) {
-                                currentlySelectedValue = currentValue.name;
-                              } else if (currentValue is HMSRole) {
-                                currentlySelectedValue = currentValue.name;
-                              } else if (currentValue is String) {
-                                currentlySelectedValue = currentValue;
-                              }
+                    ),
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                      child: Selector<MeetingStore, dynamic>(
+                        selector: (_, meetingStore) =>
+                            meetingStore.recipientSelectorValue,
+                        builder: (_, currentValue, __) {
+                          ///Here we set the currentValue based on meetingStore.recipientSelectorValue
+                          ///This is to handle a case where a peer is selected but the peer leaves
+                          ///So we set the chip selection again to "Choose a Recipient"
+                          if (currentValue is HMSPeer) {
+                            currentlySelectedValue = currentValue.name;
+                          } else if (currentValue is HMSRole) {
+                            currentlySelectedValue = currentValue.name;
+                          } else if (currentValue is String) {
+                            currentlySelectedValue = currentValue;
+                          }
 
-                              return HMSTitleText(
-                                  text: currentlySelectedValue,
-                                  textOverflow: TextOverflow.ellipsis,
-                                  fontSize: 12,
-                                  lineHeight: 16,
-                                  letterSpacing: 0.4,
-                                  fontWeight: FontWeight.w400,
-                                  textColor:
-                                      HMSThemeColors.onPrimaryHighEmphasis);
-                            }),
+                          return HMSTitleText(
+                            text: currentlySelectedValue,
+                            textOverflow: TextOverflow.ellipsis,
+                            fontSize: 12,
+                            lineHeight: 16,
+                            letterSpacing: 0.4,
+                            fontWeight: FontWeight.w400,
+                            textColor: HMSThemeColors.onPrimaryHighEmphasis,
+                          );
+                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          color: HMSThemeColors.onPrimaryHighEmphasis,
-                          size: 12,
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                      child: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: HMSThemeColors.onPrimaryHighEmphasis,
+                        size: 12,
                       ),
-                    ],
-                  ),
-                ))
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

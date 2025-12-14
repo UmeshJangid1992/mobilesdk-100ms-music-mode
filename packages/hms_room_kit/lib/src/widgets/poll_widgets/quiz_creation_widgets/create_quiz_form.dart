@@ -22,16 +22,17 @@ class CreateQuizForm extends StatefulWidget {
   final HMSPollQuestionBuilder questionBuilder;
   final Function deleteQuestionCallback;
   final Function saveQuizCallback;
-  const CreateQuizForm(
-      {super.key,
-      required this.questionNumber,
-      required this.totalQuestions,
-      required this.optionsTextController,
-      required this.questionController,
-      required this.questionBuilder,
-      required this.deleteQuestionCallback,
-      required this.saveQuizCallback,
-      required this.pointWeightageController});
+  const CreateQuizForm({
+    super.key,
+    required this.questionNumber,
+    required this.totalQuestions,
+    required this.optionsTextController,
+    required this.questionController,
+    required this.questionBuilder,
+    required this.deleteQuestionCallback,
+    required this.saveQuizCallback,
+    required this.pointWeightageController,
+  });
 
   @override
   State<CreateQuizForm> createState() => _CreatePollFormState();
@@ -63,15 +64,16 @@ class _CreatePollFormState extends State<CreateQuizForm> {
     if (widget.optionsTextController.isEmpty) {
       _optionsTextController = [
         TextEditingController(),
-        TextEditingController()
+        TextEditingController(),
       ];
     } else {
       _optionsTextController = widget.optionsTextController;
     }
 
     if (widget.questionBuilder.type == HMSPollQuestionType.singleChoice) {
-      int index = widget.questionBuilder.quizOptions
-          .indexWhere((element) => element.isOptionCorrect);
+      int index = widget.questionBuilder.quizOptions.indexWhere(
+        (element) => element.isOptionCorrect,
+      );
       if (index != -1) {
         _correctOption = widget.questionBuilder.quizOptions[index];
       }
@@ -184,65 +186,64 @@ class _CreatePollFormState extends State<CreateQuizForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             HMSTitleText(
-                text:
-                    "QUESTION ${widget.questionNumber + 1} OF ${widget.totalQuestions}",
-                textColor: HMSThemeColors.onSurfaceLowEmphasis,
-                fontSize: 10,
-                letterSpacing: 1.5,
-                lineHeight: 16),
-            const SizedBox(
-              height: 8,
+              text:
+                  "QUESTION ${widget.questionNumber + 1} OF ${widget.totalQuestions}",
+              textColor: HMSThemeColors.onSurfaceLowEmphasis,
+              fontSize: 10,
+              letterSpacing: 1.5,
+              lineHeight: 16,
             ),
+            const SizedBox(height: 8),
             HMSSubheadingText(
               text: "Question Type",
               textColor: HMSThemeColors.onSurfaceHighEmphasis,
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Dropdown for poll type
             DropdownButtonHideUnderline(
-                child: HMSDropDown(
-                    dropDownItems: Utilities.getQuestionTypeForPollQuiz()
-                        .map((e) => DropdownMenuItem(
-                              value: e.item2,
-                              child: HMSTitleText(
-                                text: e.item1,
-                                textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ))
-                        .toList(),
-                    buttonStyleData: ButtonStyleData(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
+              child: HMSDropDown(
+                dropDownItems: Utilities.getQuestionTypeForPollQuiz()
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e.item2,
+                        child: HMSTitleText(
+                          text: e.item1,
+                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                          fontWeight: FontWeight.w400,
                         ),
-                        decoration: BoxDecoration(
-                          color: HMSThemeColors.surfaceBright,
-                          borderRadius: BorderRadius.circular(8),
-                        )),
-                    dropdownStyleData: DropdownStyleData(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: HMSThemeColors.surfaceBright,
-                        )),
-                    selectedValue: widget.questionBuilder.type,
-                    updateSelectedValue: (value) {
-                      _updateQuizType(value);
-                    })),
-            const SizedBox(
-              height: 8,
+                      ),
+                    )
+                    .toList(),
+                buttonStyleData: ButtonStyleData(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: HMSThemeColors.surfaceBright,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: HMSThemeColors.surfaceBright,
+                  ),
+                ),
+                selectedValue: widget.questionBuilder.type,
+                updateSelectedValue: (value) {
+                  _updateQuizType(value);
+                },
+              ),
             ),
+            const SizedBox(height: 8),
             HMSSubheadingText(
               text: "Question",
               textColor: HMSThemeColors.onSurfaceHighEmphasis,
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Textfield for setting the question
             SizedBox(
@@ -254,7 +255,8 @@ class _CreatePollFormState extends State<CreateQuizForm> {
                 textInputAction: TextInputAction.done,
                 textCapitalization: TextCapitalization.words,
                 style: HMSTextStyle.setTextStyle(
-                    color: HMSThemeColors.onSurfaceHighEmphasis),
+                  color: HMSThemeColors.onSurfaceHighEmphasis,
+                ),
                 controller: _questionController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
@@ -263,39 +265,36 @@ class _CreatePollFormState extends State<CreateQuizForm> {
                   setState(() {});
                 },
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    fillColor: HMSThemeColors.surfaceBright,
-                    filled: true,
-                    hintText: "e.g. Solve for 2x + ½ = 21",
-                    hintStyle: HMSTextStyle.setTextStyle(
-                        color: HMSThemeColors.onSurfaceLowEmphasis,
-                        height: 1.5,
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                        fontWeight: FontWeight.w400),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: HMSThemeColors.primaryDefault)),
-                    border:
-                        const OutlineInputBorder(borderSide: BorderSide.none)),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  fillColor: HMSThemeColors.surfaceBright,
+                  filled: true,
+                  hintText: "e.g. Solve for 2x + ½ = 21",
+                  hintStyle: HMSTextStyle.setTextStyle(
+                    color: HMSThemeColors.onSurfaceLowEmphasis,
+                    height: 1.5,
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                      color: HMSThemeColors.primaryDefault,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(borderSide: BorderSide.none),
+                ),
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Divider
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-              ),
-              child: Divider(
-                height: 5,
-                color: HMSThemeColors.borderBright,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Divider(height: 5, color: HMSThemeColors.borderBright),
             ),
 
             HMSSubheadingText(
@@ -304,136 +303,148 @@ class _CreatePollFormState extends State<CreateQuizForm> {
               maxLines: 2,
             ),
 
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Here we set the options
             ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _optionsTextController.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                                activeColor:
-                                    HMSThemeColors.onSurfaceHighEmphasis,
-                                checkColor: HMSThemeColors.surfaceDefault,
-                                value: (widget.questionBuilder.type ==
-                                        HMSPollQuestionType.singleChoice)
-                                    ? (_optionsTextController[index].text ==
-                                        _correctOption?.text)
-                                    : _isCorrectAnswer(
-                                        _optionsTextController[index].text),
-                                shape: widget.questionBuilder.type ==
-                                        HMSPollQuestionType.singleChoice
-                                    ? const CircleBorder()
-                                    : const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(4))),
-                                onChanged: (value) {
-                                  if (value == true &&
-                                      _optionsTextController[index]
-                                          .text
-                                          .isNotEmpty) {
-                                    if (widget.questionBuilder.type ==
-                                        HMSPollQuestionType.singleChoice) {
-                                      _correctOption = HMSPollQuizOption(
-                                          text: _optionsTextController[index]
-                                              .text);
-                                      _correctOption?.isCorrect = true;
-                                    } else if (widget.questionBuilder.type ==
-                                        HMSPollQuestionType.multiChoice) {
-                                      var selectedOption = HMSPollQuizOption(
-                                          text: _optionsTextController[index]
-                                              .text);
-                                      selectedOption.isCorrect = true;
-                                      _correctOptions?.add(selectedOption);
-                                    }
-                                  } else {
-                                    if (widget.questionBuilder.type ==
-                                        HMSPollQuestionType.multiChoice) {
-                                      _correctOptions?.removeWhere((element) =>
-                                          element.text ==
-                                          _optionsTextController[index].text);
-                                    }
-                                  }
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _optionsTextController.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Checkbox(
+                            activeColor: HMSThemeColors.onSurfaceHighEmphasis,
+                            checkColor: HMSThemeColors.surfaceDefault,
+                            value: (widget.questionBuilder.type ==
+                                    HMSPollQuestionType.singleChoice)
+                                ? (_optionsTextController[index].text ==
+                                    _correctOption?.text)
+                                : _isCorrectAnswer(
+                                    _optionsTextController[index].text,
+                                  ),
+                            shape: widget.questionBuilder.type ==
+                                    HMSPollQuestionType.singleChoice
+                                ? const CircleBorder()
+                                : const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(4),
+                                    ),
+                                  ),
+                            onChanged: (value) {
+                              if (value == true &&
+                                  _optionsTextController[index]
+                                      .text
+                                      .isNotEmpty) {
+                                if (widget.questionBuilder.type ==
+                                    HMSPollQuestionType.singleChoice) {
+                                  _correctOption = HMSPollQuizOption(
+                                    text: _optionsTextController[index].text,
+                                  );
+                                  _correctOption?.isCorrect = true;
+                                } else if (widget.questionBuilder.type ==
+                                    HMSPollQuestionType.multiChoice) {
+                                  var selectedOption = HMSPollQuizOption(
+                                    text: _optionsTextController[index].text,
+                                  );
+                                  selectedOption.isCorrect = true;
+                                  _correctOptions?.add(selectedOption);
+                                }
+                              } else {
+                                if (widget.questionBuilder.type ==
+                                    HMSPollQuestionType.multiChoice) {
+                                  _correctOptions?.removeWhere(
+                                    (element) =>
+                                        element.text ==
+                                        _optionsTextController[index].text,
+                                  );
+                                }
+                              }
 
-                                  setState(() {});
-                                }),
-                            const SizedBox(
-                              width: 4,
-                            )
-                          ],
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            height: 48,
-                            child: TextField(
-                              cursorColor: HMSThemeColors.onSurfaceHighEmphasis,
-                              onTapOutside: (event) =>
-                                  FocusManager.instance.primaryFocus?.unfocus(),
-                              textInputAction: TextInputAction.done,
-                              textCapitalization: TextCapitalization.words,
-                              style: HMSTextStyle.setTextStyle(
-                                  color: HMSThemeColors.onSurfaceHighEmphasis),
-                              controller: _optionsTextController[index],
-                              keyboardType: TextInputType.text,
-                              onChanged: (value) {
-                                _saveQuizOption(value, index);
-                              },
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 12),
-                                  fillColor: HMSThemeColors.surfaceBright,
-                                  filled: true,
-                                  hintText: "Option ${index + 1}",
-                                  hintStyle: HMSTextStyle.setTextStyle(
-                                      color:
-                                          HMSThemeColors.onSurfaceLowEmphasis,
-                                      height: 1.5,
-                                      fontSize: 16,
-                                      letterSpacing: 0.5,
-                                      fontWeight: FontWeight.w400),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(8)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              HMSThemeColors.primaryDefault)),
-                                  border: const OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
+                              setState(() {});
+                            },
+                          ),
+                          const SizedBox(width: 4),
+                        ],
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 48,
+                          child: TextField(
+                            cursorColor: HMSThemeColors.onSurfaceHighEmphasis,
+                            onTapOutside: (event) =>
+                                FocusManager.instance.primaryFocus?.unfocus(),
+                            textInputAction: TextInputAction.done,
+                            textCapitalization: TextCapitalization.words,
+                            style: HMSTextStyle.setTextStyle(
+                              color: HMSThemeColors.onSurfaceHighEmphasis,
+                            ),
+                            controller: _optionsTextController[index],
+                            keyboardType: TextInputType.text,
+                            onChanged: (value) {
+                              _saveQuizOption(value, index);
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              fillColor: HMSThemeColors.surfaceBright,
+                              filled: true,
+                              hintText: "Option ${index + 1}",
+                              hintStyle: HMSTextStyle.setTextStyle(
+                                color: HMSThemeColors.onSurfaceLowEmphasis,
+                                height: 1.5,
+                                fontSize: 16,
+                                letterSpacing: 0.5,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                                borderSide: BorderSide(
+                                  color: HMSThemeColors.primaryDefault,
+                                ),
+                              ),
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
                             ),
                           ),
                         ),
-                        if (_optionsTextController.length > 2)
-                          IconButton(
-                              onPressed: () {
-                                if (_correctOption?.text ==
-                                    _optionsTextController[index].text) {
-                                  _correctOption = null;
-                                }
-                                _optionsTextController.removeAt(index);
-                                _isQuizValid();
-                                setState(() {});
-                              },
-                              icon: SvgPicture.asset(
-                                  "packages/hms_room_kit/lib/src/assets/icons/delete_poll.svg",
-                                  width: 24,
-                                  height: 24,
-                                  colorFilter: ColorFilter.mode(
-                                      HMSThemeColors.onSurfaceLowEmphasis,
-                                      BlendMode.srcIn)))
-                      ],
-                    ),
-                  );
-                }),
+                      ),
+                      if (_optionsTextController.length > 2)
+                        IconButton(
+                          onPressed: () {
+                            if (_correctOption?.text ==
+                                _optionsTextController[index].text) {
+                              _correctOption = null;
+                            }
+                            _optionsTextController.removeAt(index);
+                            _isQuizValid();
+                            setState(() {});
+                          },
+                          icon: SvgPicture.asset(
+                            "packages/hms_room_kit/lib/src/assets/icons/delete_poll.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              HMSThemeColors.onSurfaceLowEmphasis,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
             if (_optionsTextController.length < 8)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -444,15 +455,15 @@ class _CreatePollFormState extends State<CreateQuizForm> {
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                          "packages/hms_room_kit/lib/src/assets/icons/add_option.svg",
-                          width: 24,
-                          height: 24,
-                          colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceMediumEmphasis,
-                              BlendMode.srcIn)),
-                      const SizedBox(
-                        width: 16,
+                        "packages/hms_room_kit/lib/src/assets/icons/add_option.svg",
+                        width: 24,
+                        height: 24,
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceMediumEmphasis,
+                          BlendMode.srcIn,
+                        ),
                       ),
+                      const SizedBox(width: 16),
                       HMSSubheadingText(
                         text: "Add an option",
                         textColor: HMSThemeColors.onSurfaceMediumEmphasis,
@@ -463,21 +474,17 @@ class _CreatePollFormState extends State<CreateQuizForm> {
               ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-              ),
-              child: Divider(
-                height: 5,
-                color: HMSThemeColors.borderBright,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Divider(height: 5, color: HMSThemeColors.borderBright),
             ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 HMSSubheadingText(
-                    text: "Point Weightage",
-                    textColor: HMSThemeColors.onSurfaceMediumEmphasis),
+                  text: "Point Weightage",
+                  textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+                ),
                 SizedBox(
                   width: 88,
                   height: 48,
@@ -488,38 +495,45 @@ class _CreatePollFormState extends State<CreateQuizForm> {
                     inputFormatters: [_numberOnlyFormatter],
                     keyboardType: TextInputType.number,
                     style: HMSTextStyle.setTextStyle(
-                        color: HMSThemeColors.onSurfaceHighEmphasis),
+                      color: HMSThemeColors.onSurfaceHighEmphasis,
+                    ),
                     controller: _pointWeightageController,
                     onChanged: (value) {
                       _setWeight(value);
                       setState(() {});
                     },
                     decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
-                        fillColor: HMSThemeColors.surfaceBright,
-                        filled: true,
-                        hintStyle: HMSTextStyle.setTextStyle(
-                            color: HMSThemeColors.onSurfaceLowEmphasis,
-                            height: 1.5,
-                            fontSize: 16,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w400),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                            borderSide: BorderSide(
-                                color: HMSThemeColors.primaryDefault)),
-                        border: const OutlineInputBorder(
-                            borderSide: BorderSide.none)),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
+                      fillColor: HMSThemeColors.surfaceBright,
+                      filled: true,
+                      hintStyle: HMSTextStyle.setTextStyle(
+                        color: HMSThemeColors.onSurfaceLowEmphasis,
+                        height: 1.5,
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                        borderSide: BorderSide(
+                          color: HMSThemeColors.primaryDefault,
+                        ),
+                      ),
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
 
             ///Save the question
             Row(
@@ -543,28 +557,33 @@ class _CreatePollFormState extends State<CreateQuizForm> {
                 //   width: 8,
                 // ),
                 ElevatedButton(
-                    style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor: (_questionController.text.isNotEmpty)
-                            ? MaterialStateProperty.all(
-                                HMSThemeColors.secondaryDefault)
-                            : MaterialStateProperty.all(
-                                HMSThemeColors.secondaryDim),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ))),
-                    onPressed: () {
-                      saveQuestion();
-                    },
-                    child: HMSTitleText(
-                        text: "Save",
-                        textColor: _isQuizValid()
-                            ? HMSThemeColors.onSecondaryHighEmphasis
-                            : HMSThemeColors.onSecondaryLowEmphasis))
+                  style: ButtonStyle(
+                    elevation: WidgetStateProperty.all(0),
+                    backgroundColor: (_questionController.text.isNotEmpty)
+                        ? WidgetStateProperty.all(
+                            HMSThemeColors.secondaryDefault,
+                          )
+                        : WidgetStateProperty.all(
+                            HMSThemeColors.secondaryDim,
+                          ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    saveQuestion();
+                  },
+                  child: HMSTitleText(
+                    text: "Save",
+                    textColor: _isQuizValid()
+                        ? HMSThemeColors.onSecondaryHighEmphasis
+                        : HMSThemeColors.onSecondaryLowEmphasis,
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

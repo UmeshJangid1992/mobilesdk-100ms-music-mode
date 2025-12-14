@@ -9,8 +9,10 @@ part of 'meeting_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$MeetingStore on MeetingStoreBase, Store {
-  late final _$hmsExceptionAtom =
-      Atom(name: 'MeetingStoreBase.hmsException', context: context);
+  late final _$hmsExceptionAtom = Atom(
+    name: 'MeetingStoreBase.hmsException',
+    context: context,
+  );
 
   @override
   HMSException? get hmsException {
@@ -25,8 +27,10 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
     });
   }
 
-  late final _$isVideoOnAtom =
-      Atom(name: 'MeetingStoreBase.isVideoOn', context: context);
+  late final _$isVideoOnAtom = Atom(
+    name: 'MeetingStoreBase.isVideoOn',
+    context: context,
+  );
 
   @override
   bool get isVideoOn {
@@ -41,8 +45,10 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
     });
   }
 
-  late final _$isMicOnAtom =
-      Atom(name: 'MeetingStoreBase.isMicOn', context: context);
+  late final _$isMicOnAtom = Atom(
+    name: 'MeetingStoreBase.isMicOn',
+    context: context,
+  );
 
   @override
   bool get isMicOn {
@@ -57,8 +63,10 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
     });
   }
 
-  late final _$isScreenShareOnAtom =
-      Atom(name: 'MeetingStoreBase.isScreenShareOn', context: context);
+  late final _$isScreenShareOnAtom = Atom(
+    name: 'MeetingStoreBase.isScreenShareOn',
+    context: context,
+  );
 
   @override
   bool get isScreenShareOn {
@@ -73,8 +81,10 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
     });
   }
 
-  late final _$isRoomEndedAtom =
-      Atom(name: 'MeetingStoreBase.isRoomEnded', context: context);
+  late final _$isRoomEndedAtom = Atom(
+    name: 'MeetingStoreBase.isRoomEnded',
+    context: context,
+  );
 
   @override
   bool get isRoomEnded {
@@ -89,8 +99,10 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
     });
   }
 
-  late final _$trackStatusAtom =
-      Atom(name: 'MeetingStoreBase.trackStatus', context: context);
+  late final _$trackStatusAtom = Atom(
+    name: 'MeetingStoreBase.trackStatus',
+    context: context,
+  );
 
   @override
   ObservableMap<String, HMSTrackUpdate> get trackStatus {
@@ -105,8 +117,10 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
     });
   }
 
-  late final _$peerTracksAtom =
-      Atom(name: 'MeetingStoreBase.peerTracks', context: context);
+  late final _$peerTracksAtom = Atom(
+    name: 'MeetingStoreBase.peerTracks',
+    context: context,
+  );
 
   @override
   ObservableList<PeerTrackNode> get peerTracks {
@@ -121,48 +135,62 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
     });
   }
 
-  late final _$joinAsyncAction =
-      AsyncAction('MeetingStoreBase.join', context: context);
+  late final _$joinAsyncAction = AsyncAction(
+    'MeetingStoreBase.join',
+    context: context,
+  );
 
   @override
   Future<bool> join(String user, String roomUrl) {
     return _$joinAsyncAction.run(() => super.join(user, roomUrl));
   }
 
-  late final _$toggleMicMuteStatusAsyncAction =
-      AsyncAction('MeetingStoreBase.toggleMicMuteStatus', context: context);
+  late final _$toggleMicMuteStatusAsyncAction = AsyncAction(
+    'MeetingStoreBase.toggleMicMuteStatus',
+    context: context,
+  );
 
   @override
   Future<void> toggleMicMuteStatus() {
-    return _$toggleMicMuteStatusAsyncAction
-        .run(() => super.toggleMicMuteStatus());
+    return _$toggleMicMuteStatusAsyncAction.run(
+      () => super.toggleMicMuteStatus(),
+    );
   }
 
-  late final _$toggleCameraMuteStatusAsyncAction =
-      AsyncAction('MeetingStoreBase.toggleCameraMuteStatus', context: context);
+  late final _$toggleCameraMuteStatusAsyncAction = AsyncAction(
+    'MeetingStoreBase.toggleCameraMuteStatus',
+    context: context,
+  );
 
   @override
   Future<void> toggleCameraMuteStatus() {
-    return _$toggleCameraMuteStatusAsyncAction
-        .run(() => super.toggleCameraMuteStatus());
+    return _$toggleCameraMuteStatusAsyncAction.run(
+      () => super.toggleCameraMuteStatus(),
+    );
   }
 
-  late final _$isScreenShareActiveAsyncAction =
-      AsyncAction('MeetingStoreBase.isScreenShareActive', context: context);
+  late final _$isScreenShareActiveAsyncAction = AsyncAction(
+    'MeetingStoreBase.isScreenShareActive',
+    context: context,
+  );
 
   @override
   Future<void> isScreenShareActive() {
-    return _$isScreenShareActiveAsyncAction
-        .run(() => super.isScreenShareActive());
+    return _$isScreenShareActiveAsyncAction.run(
+      () => super.isScreenShareActive(),
+    );
   }
 
-  late final _$MeetingStoreBaseActionController =
-      ActionController(name: 'MeetingStoreBase', context: context);
+  late final _$MeetingStoreBaseActionController = ActionController(
+    name: 'MeetingStoreBase',
+    context: context,
+  );
 
   @override
   void addUpdateListener() {
     final _$actionInfo = _$MeetingStoreBaseActionController.startAction(
-        name: 'MeetingStoreBase.addUpdateListener');
+      name: 'MeetingStoreBase.addUpdateListener',
+    );
     try {
       return super.addUpdateListener();
     } finally {
@@ -173,7 +201,8 @@ mixin _$MeetingStore on MeetingStoreBase, Store {
   @override
   void removeUpdateListener() {
     final _$actionInfo = _$MeetingStoreBaseActionController.startAction(
-        name: 'MeetingStoreBase.removeUpdateListener');
+      name: 'MeetingStoreBase.removeUpdateListener',
+    );
     try {
       return super.removeUpdateListener();
     } finally {

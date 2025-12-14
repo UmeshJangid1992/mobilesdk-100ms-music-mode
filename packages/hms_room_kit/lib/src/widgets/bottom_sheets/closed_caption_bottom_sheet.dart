@@ -26,14 +26,15 @@ class ClosedCaptionBottomSheet extends StatefulWidget {
   final Function? onButtonPressed;
   final Color? buttonColor;
 
-  const ClosedCaptionBottomSheet(
-      {super.key,
-      this.bottomSheetTitleIcon,
-      this.title,
-      this.subTitle,
-      this.buttonText,
-      this.onButtonPressed,
-      this.buttonColor});
+  const ClosedCaptionBottomSheet({
+    super.key,
+    this.bottomSheetTitleIcon,
+    this.title,
+    this.subTitle,
+    this.buttonText,
+    this.onButtonPressed,
+    this.buttonColor,
+  });
 
   @override
   State<ClosedCaptionBottomSheet> createState() =>
@@ -71,53 +72,51 @@ class _ClosedCaptionBottomSheetState extends State<ClosedCaptionBottomSheet> {
                   Row(
                     children: [
                       widget.bottomSheetTitleIcon ?? const SizedBox(),
-                      widget.bottomSheetTitleIcon ??
-                          const SizedBox(
-                            width: 8,
-                          ),
+                      widget.bottomSheetTitleIcon ?? const SizedBox(width: 8),
                       SizedBox(
-                          width: MediaQuery.of(context).size.width - 100,
-                          child: widget.title ?? const SizedBox())
+                        width: MediaQuery.of(context).size.width - 100,
+                        child: widget.title ?? const SizedBox(),
+                      ),
                     ],
                   ),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      HMSCrossButton(),
-                    ],
-                  )
+                    children: [HMSCrossButton()],
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               ElevatedButton(
-                  style: ButtonStyle(
-                      shadowColor:
-                          MaterialStateProperty.all(HMSThemeColors.surfaceDim),
-                      backgroundColor: MaterialStateProperty.all(
-                          widget.buttonColor ?? HMSThemeColors.primaryDefault),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ))),
-                  onPressed: () {
-                    if (widget.onButtonPressed != null) {
-                      widget.onButtonPressed!();
-                    }
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 48,
-                    child: Center(
-                      child: HMSTitleText(
-                          text: widget.buttonText ?? "",
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis),
+                style: ButtonStyle(
+                  shadowColor: WidgetStateProperty.all(
+                    HMSThemeColors.surfaceDim,
+                  ),
+                  backgroundColor: WidgetStateProperty.all(
+                    widget.buttonColor ?? HMSThemeColors.primaryDefault,
+                  ),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  )),
-              const SizedBox(
-                height: 16,
+                  ),
+                ),
+                onPressed: () {
+                  if (widget.onButtonPressed != null) {
+                    widget.onButtonPressed!();
+                  }
+                  Navigator.pop(context);
+                },
+                child: SizedBox(
+                  height: 48,
+                  child: Center(
+                    child: HMSTitleText(
+                      text: widget.buttonText ?? "",
+                      textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                    ),
+                  ),
+                ),
               ),
+              const SizedBox(height: 16),
               widget.subTitle ?? const SizedBox(),
             ],
           ),

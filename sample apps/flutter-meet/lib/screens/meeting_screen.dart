@@ -38,13 +38,17 @@ class _MeetingScreenState extends State<MeetingScreen> {
   @override
   Widget build(BuildContext context) {
     final _isVideoOff = context.select<UserDataStore, bool>(
-        (user) => user.remoteVideoTrack?.isMute ?? true);
-    final _peer =
-        context.select<UserDataStore, HMSPeer?>((user) => user.remotePeer);
-    final remoteTrack = context
-        .select<UserDataStore, HMSTrack?>((user) => user.remoteVideoTrack);
-    final localTrack = context
-        .select<UserDataStore, HMSVideoTrack?>((user) => user.localTrack);
+      (user) => user.remoteVideoTrack?.isMute ?? true,
+    );
+    final _peer = context.select<UserDataStore, HMSPeer?>(
+      (user) => user.remotePeer,
+    );
+    final remoteTrack = context.select<UserDataStore, HMSTrack?>(
+      (user) => user.remoteVideoTrack,
+    );
+    final localTrack = context.select<UserDataStore, HMSVideoTrack?>(
+      (user) => user.localTrack,
+    );
 
     return WillPopScope(
       onWillPop: () async {
@@ -57,228 +61,229 @@ class _MeetingScreenState extends State<MeetingScreen> {
           body: (_isLoading)
               ? const CircularProgressIndicator()
               : (_peer == null)
-                  ? Container(
-                      color: Colors.black.withOpacity(0.9),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: Stack(
+              ? Container(
+                  color: Colors.black.withOpacity(0.9),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        child: IconButton(
+                          onPressed: () {
+                            context.read<UserDataStore>().leaveRoom();
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Positioned(
-                              child: IconButton(
-                                  onPressed: () {
-                                    context.read<UserDataStore>().leaveRoom();
-                                    Navigator.pop(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_back_ios,
+                          Padding(
+                            padding: EdgeInsets.only(left: 20.0, bottom: 20),
+                            child: Text(
+                              "You're the only one here",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              "Share meeting link with others",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              "that you want in the meeting",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20.0, top: 10),
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ],
+                      ),
+                      DraggableWidget(
+                        topMargin: 10,
+                        bottomMargin: 130,
+                        horizontalSpace: 10,
+                        child: localPeerTile(localTrack),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Container(
+                        color: Colors.black.withOpacity(0.9),
+                        child: _isVideoOff
+                            ? Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.blue.withAlpha(60),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 2.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Icon(
+                                    Icons.videocam_off,
                                     color: Colors.white,
-                                  ))),
-                          const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                                    size: 30,
+                                  ),
+                                ),
+                              )
+                            : (remoteTrack != null)
+                            ? Container(
+                                child: HMSVideoView(
+                                  scaleType: ScaleType.SCALE_ASPECT_FILL,
+                                  track: remoteTrack as HMSVideoTrack,
+                                ),
+                              )
+                            : const Center(child: Text("No Video")),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: 20.0, bottom: 20),
-                                child: Text(
-                                  "You're the only one here",
-                                  style: TextStyle(
+                              GestureDetector(
+                                onTap: () async {
+                                  context.read<UserDataStore>().leaveRoom();
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.red.withAlpha(60),
+                                        blurRadius: 3.0,
+                                        spreadRadius: 5.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: const CircleAvatar(
+                                    radius: 25,
+                                    backgroundColor: Colors.red,
+                                    child: Icon(
+                                      Icons.call_end,
                                       color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 20.0),
-                                child: Text(
-                                  "Share meeting link with others",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
+                              GestureDetector(
+                                onTap: () => {
+                                  SdkInitializer.hmssdk.toggleCameraMuteState(),
+                                  setState(() {
+                                    isLocalVideoOn = !isLocalVideoOn;
+                                  }),
+                                },
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.transparent
+                                      .withOpacity(0.2),
+                                  child: Icon(
+                                    isLocalVideoOn
+                                        ? Icons.videocam
+                                        : Icons.videocam_off_rounded,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 20.0),
-                                child: Text(
-                                  "that you want in the meeting",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 20.0, top: 10),
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
+                              GestureDetector(
+                                onTap: () => {
+                                  SdkInitializer.hmssdk.toggleMicMuteState(),
+                                  setState(() {
+                                    isLocalAudioOn = !isLocalAudioOn;
+                                  }),
+                                },
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.transparent
+                                      .withOpacity(0.2),
+                                  child: Icon(
+                                    isLocalAudioOn ? Icons.mic : Icons.mic_off,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          DraggableWidget(
-                            topMargin: 10,
-                            bottomMargin: 130,
-                            horizontalSpace: 10,
-                            child: localPeerTile(localTrack),
-                          ),
-                        ],
+                        ),
                       ),
-                    )
-                  : SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Stack(
-                        children: [
-                          Container(
-                              color: Colors.black.withOpacity(0.9),
-                              child: _isVideoOff
-                                  ? Center(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color:
-                                                    Colors.blue.withAlpha(60),
-                                                blurRadius: 10.0,
-                                                spreadRadius: 2.0,
-                                              ),
-                                            ]),
-                                        child: const Icon(
-                                          Icons.videocam_off,
-                                          color: Colors.white,
-                                          size: 30,
-                                        ),
-                                      ),
-                                    )
-                                  : (remoteTrack != null)
-                                      ? Container(
-                                          child: HMSVideoView(
-                                            scaleType:
-                                                ScaleType.SCALE_ASPECT_FILL,
-                                            track: remoteTrack as HMSVideoTrack,
-                                          ),
-                                        )
-                                      : const Center(child: Text("No Video"))),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      context.read<UserDataStore>().leaveRoom();
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.red.withAlpha(60),
-                                              blurRadius: 3.0,
-                                              spreadRadius: 5.0,
-                                            ),
-                                          ]),
-                                      child: const CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor: Colors.red,
-                                        child: Icon(Icons.call_end,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () => {
-                                      SdkInitializer.hmssdk
-                                          .toggleCameraMuteState(),
-                                      setState(() {
-                                        isLocalVideoOn = !isLocalVideoOn;
-                                      })
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor:
-                                          Colors.transparent.withOpacity(0.2),
-                                      child: Icon(
-                                        isLocalVideoOn
-                                            ? Icons.videocam
-                                            : Icons.videocam_off_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () => {
-                                      SdkInitializer.hmssdk
-                                          .toggleMicMuteState(),
-                                      setState(() {
-                                        isLocalAudioOn = !isLocalAudioOn;
-                                      })
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor:
-                                          Colors.transparent.withOpacity(0.2),
-                                      child: Icon(
-                                        isLocalAudioOn
-                                            ? Icons.mic
-                                            : Icons.mic_off,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                      Positioned(
+                        top: 10,
+                        left: 10,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.read<UserDataStore>().leaveRoom();
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
                           ),
-                          Positioned(
-                            top: 10,
-                            left: 10,
-                            child: GestureDetector(
-                              onTap: () {
-                                context.read<UserDataStore>().leaveRoom();
-                                Navigator.pop(context);
-                              },
-                              child: const Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 10,
-                            right: 10,
-                            child: GestureDetector(
-                              onTap: () {
-                                if (isLocalVideoOn) {
-                                  SdkInitializer.hmssdk.switchCamera();
-                                }
-                              },
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor:
-                                    Colors.transparent.withOpacity(0.2),
-                                child: const Icon(
-                                  Icons.switch_camera_outlined,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          DraggableWidget(
-                            topMargin: 10,
-                            bottomMargin: 130,
-                            horizontalSpace: 10,
-                            child: localPeerTile(localTrack),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (isLocalVideoOn) {
+                              SdkInitializer.hmssdk.switchCamera();
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.transparent.withOpacity(
+                              0.2,
+                            ),
+                            child: const Icon(
+                              Icons.switch_camera_outlined,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      DraggableWidget(
+                        topMargin: 10,
+                        bottomMargin: 130,
+                        horizontalSpace: 10,
+                        child: localPeerTile(localTrack),
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );
@@ -292,13 +297,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
         width: 100,
         color: Colors.black,
         child: (isLocalVideoOn && localTrack != null)
-            ? HMSVideoView(
-                track: localTrack,
-              )
-            : const Icon(
-                Icons.videocam_off_rounded,
-                color: Colors.white,
-              ),
+            ? HMSVideoView(track: localTrack)
+            : const Icon(Icons.videocam_off_rounded, color: Colors.white),
       ),
     );
   }

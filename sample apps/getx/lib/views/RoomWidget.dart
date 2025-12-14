@@ -19,56 +19,66 @@ class RoomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: GetX<RoomController>(builder: (controller) {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height:
-                MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
-            child: GridView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.peerTrackList.length,
-              itemBuilder: (ctx, index) {
-                return Card(
+        body: GetX<RoomController>(
+          builder: (controller) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height:
+                  MediaQuery.of(context).size.height -
+                  kBottomNavigationBarHeight,
+              child: GridView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.peerTrackList.length,
+                itemBuilder: (ctx, index) {
+                  return Card(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     elevation: 5,
-                    child: VideoWidget(index, roomController));
-              },
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    child: VideoWidget(index, roomController),
+                  );
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisExtent: MediaQuery.of(context).size.width / 2),
-            ),
-          );
-        }),
-        bottomNavigationBar: GetX<RoomController>(builder: (controller) {
-          return BottomNavigationBar(
+                  mainAxisExtent: MediaQuery.of(context).size.width / 2,
+                ),
+              ),
+            );
+          },
+        ),
+        bottomNavigationBar: GetX<RoomController>(
+          builder: (controller) {
+            return BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.black,
               selectedItemColor: Colors.grey,
               unselectedItemColor: Colors.grey,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(controller.isLocalAudioOn.value
-                      ? Icons.mic
-                      : Icons.mic_off),
+                  icon: Icon(
+                    controller.isLocalAudioOn.value ? Icons.mic : Icons.mic_off,
+                  ),
                   label: 'Mic',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(controller.isLocalVideoOn.value
-                      ? Icons.videocam
-                      : Icons.videocam_off),
+                  icon: Icon(
+                    controller.isLocalVideoOn.value
+                        ? Icons.videocam
+                        : Icons.videocam_off,
+                  ),
                   label: 'Camera',
                 ),
                 //For screenshare in iOS follow the steps here : https://www.100ms.live/docs/flutter/v2/features/Screen-Share
                 if (Platform.isAndroid)
                   BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.screen_share,
-                        color: (controller.isScreenShareActive.value)
-                            ? Colors.green
-                            : Colors.grey,
-                      ),
-                      label: "ScreenShare"),
+                    icon: Icon(
+                      Icons.screen_share,
+                      color: (controller.isScreenShareActive.value)
+                          ? Colors.green
+                          : Colors.grey,
+                    ),
+                    label: "ScreenShare",
+                  ),
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.cancel),
                   label: 'Leave',
@@ -76,8 +86,10 @@ class RoomWidget extends StatelessWidget {
               ],
 
               //New
-              onTap: (index) => _onItemTapped(index));
-        }),
+              onTap: (index) => _onItemTapped(index),
+            );
+          },
+        ),
       ),
     );
   }

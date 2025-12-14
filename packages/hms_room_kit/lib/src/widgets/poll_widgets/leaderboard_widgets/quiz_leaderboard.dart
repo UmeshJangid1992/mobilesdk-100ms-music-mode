@@ -67,7 +67,8 @@ class _QuizLeaderboardState extends State<QuizLeaderboard> {
                   ),
                   Container(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.4),
+                      maxWidth: MediaQuery.of(context).size.width * 0.4,
+                    ),
                     child: HMSTitleText(
                       text: widget.pollStore.poll.title,
                       fontSize: 20,
@@ -75,133 +76,134 @@ class _QuizLeaderboardState extends State<QuizLeaderboard> {
                       maxLines: 2,
                     ),
                   ),
-                  const SizedBox(
-                    width: 12,
-                  ),
+                  const SizedBox(width: 12),
                   LiveBadge(
                     badgeColor: HMSThemeColors.secondaryDefault,
                     text: "ENDED",
                     width: 50,
-                  )
+                  ),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 16),
-                child: Divider(
-                  color: HMSThemeColors.borderDefault,
-                  height: 5,
-                ),
+                child: Divider(color: HMSThemeColors.borderDefault, height: 5),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   HMSTitleText(
-                      text: "Participation Summary",
-                      textColor: HMSThemeColors.onSurfaceHighEmphasis),
+                    text: "Participation Summary",
+                    textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
 
               ///Here we check whether to render the creator leaderboard summary
               ///or voter leaderboard summary
-              Builder(builder: (context) {
-                ///Poll creator flow
-                ///
-                ///If the peer has poll write permissions then we render
-                ///the creator summary else we render the voter summary
-                if ((context
-                        .read<MeetingStore>()
-                        .localPeer
-                        ?.role
-                        .permissions
-                        .pollWrite ??
-                    false)) {
-                  double? votedPercent, correctPercent;
-                  String? votedDescription, correctDescription;
+              Builder(
+                builder: (context) {
+                  ///Poll creator flow
+                  ///
+                  ///If the peer has poll write permissions then we render
+                  ///the creator summary else we render the voter summary
+                  if ((context
+                          .read<MeetingStore>()
+                          .localPeer
+                          ?.role
+                          .permissions
+                          .pollWrite ??
+                      false)) {
+                    double? votedPercent, correctPercent;
+                    String? votedDescription, correctDescription;
 
-                  ///If respondedPeersCount is not null and totalPeersCount is not null and greater than 0
-                  ///then only we assign values else we pass null values.
-                  if (widget.pollStore.pollLeaderboardResponse?.summary
-                              ?.respondedPeersCount !=
-                          null &&
-                      ((widget.pollStore.pollLeaderboardResponse?.summary
-                                  ?.totalPeersCount ??
-                              -1) >
-                          0)) {
-                    votedPercent = ((widget.pollStore.pollLeaderboardResponse!
-                                .summary!.respondedPeersCount! *
-                            100) /
-                        (widget.pollStore.pollLeaderboardResponse!.summary!
-                            .totalPeersCount!));
-                    votedDescription =
-                        "${widget.pollStore.pollLeaderboardResponse!.summary!.respondedPeersCount!}/${widget.pollStore.pollLeaderboardResponse!.summary!.totalPeersCount!}";
-                  }
+                    ///If respondedPeersCount is not null and totalPeersCount is not null and greater than 0
+                    ///then only we assign values else we pass null values.
+                    if (widget.pollStore.pollLeaderboardResponse?.summary
+                                ?.respondedPeersCount !=
+                            null &&
+                        ((widget.pollStore.pollLeaderboardResponse?.summary
+                                    ?.totalPeersCount ??
+                                -1) >
+                            0)) {
+                      votedPercent = ((widget.pollStore.pollLeaderboardResponse!
+                                  .summary!.respondedPeersCount! *
+                              100) /
+                          (widget.pollStore.pollLeaderboardResponse!.summary!
+                              .totalPeersCount!));
+                      votedDescription =
+                          "${widget.pollStore.pollLeaderboardResponse!.summary!.respondedPeersCount!}/${widget.pollStore.pollLeaderboardResponse!.summary!.totalPeersCount!}";
+                    }
 
-                  if (widget.pollStore.pollLeaderboardResponse?.summary
-                              ?.respondedCorrectlyPeersCount !=
-                          null &&
-                      ((widget.pollStore.pollLeaderboardResponse?.summary
-                                  ?.totalPeersCount ??
-                              -1) >
-                          0)) {
-                    correctPercent = ((widget.pollStore.pollLeaderboardResponse!
-                                .summary!.respondedCorrectlyPeersCount! *
-                            100) /
-                        (widget.pollStore.pollLeaderboardResponse!.summary!
-                            .totalPeersCount!));
-                    correctDescription =
-                        "${widget.pollStore.pollLeaderboardResponse!.summary!.respondedCorrectlyPeersCount!}/${widget.pollStore.pollLeaderboardResponse!.summary!.totalPeersCount!}";
-                  }
+                    if (widget.pollStore.pollLeaderboardResponse?.summary
+                                ?.respondedCorrectlyPeersCount !=
+                            null &&
+                        ((widget.pollStore.pollLeaderboardResponse?.summary
+                                    ?.totalPeersCount ??
+                                -1) >
+                            0)) {
+                      correctPercent = ((widget
+                                  .pollStore
+                                  .pollLeaderboardResponse!
+                                  .summary!
+                                  .respondedCorrectlyPeersCount! *
+                              100) /
+                          (widget.pollStore.pollLeaderboardResponse!.summary!
+                              .totalPeersCount!));
+                      correctDescription =
+                          "${widget.pollStore.pollLeaderboardResponse!.summary!.respondedCorrectlyPeersCount!}/${widget.pollStore.pollLeaderboardResponse!.summary!.totalPeersCount!}";
+                    }
 
-                  ///Here we render the leaderboard creator summary
-                  return LeaderboardCreatorSummary(
-                    votedPercent: votedPercent,
-                    votedDescription: votedDescription,
-                    correctDescription: correctDescription,
-                    correctPercent: correctPercent,
-                    avgTimeInMilliseconds: widget
-                        .pollStore
-                        .pollLeaderboardResponse
-                        ?.summary
-                        ?.averageTime
-                        ?.inMilliseconds,
-                    avgScore: widget.pollStore.pollLeaderboardResponse!.summary!
-                        .averageScore,
-                  );
-                } else {
-                  ///Poll Voter flow
-                  ///Here we fetch the entry of the local peer based on the [customerUserId]
-                  var localPeerUserId =
-                      context.read<MeetingStore>().localPeer?.customerUserId;
-                  var index = widget.pollStore.pollLeaderboardResponse?.entries
-                          ?.indexWhere((element) =>
-                              element.peer?.userId == localPeerUserId) ??
-                      -1;
-
-                  ///If the peer details are not present we render empty SizedBox()
-                  ///else we render [LeaderboardVoterSummary] widget
-                  if (index != -1) {
-                    var entry = widget
-                        .pollStore.pollLeaderboardResponse?.entries?[index];
-                    return LeaderboardVoterSummary(
-                      rank:
-                          "${entry?.position}/${widget.pollStore.pollLeaderboardResponse?.summary?.totalPeersCount}",
-                      points: entry?.score,
-                      correctAnswers: entry?.correctResponses,
-                      totalQuestions: widget.pollStore.poll.questions?.length,
-                      avgTimeInMilliseconds: entry?.duration?.inMilliseconds,
+                    ///Here we render the leaderboard creator summary
+                    return LeaderboardCreatorSummary(
+                      votedPercent: votedPercent,
+                      votedDescription: votedDescription,
+                      correctDescription: correctDescription,
+                      correctPercent: correctPercent,
+                      avgTimeInMilliseconds: widget
+                          .pollStore
+                          .pollLeaderboardResponse
+                          ?.summary
+                          ?.averageTime
+                          ?.inMilliseconds,
+                      avgScore: widget.pollStore.pollLeaderboardResponse!
+                          .summary!.averageScore,
                     );
+                  } else {
+                    ///Poll Voter flow
+                    ///Here we fetch the entry of the local peer based on the [customerUserId]
+                    var localPeerUserId =
+                        context.read<MeetingStore>().localPeer?.customerUserId;
+                    var index = widget
+                            .pollStore.pollLeaderboardResponse?.entries
+                            ?.indexWhere(
+                          (element) => element.peer?.userId == localPeerUserId,
+                        ) ??
+                        -1;
+
+                    ///If the peer details are not present we render empty SizedBox()
+                    ///else we render [LeaderboardVoterSummary] widget
+                    if (index != -1) {
+                      var entry = widget
+                          .pollStore.pollLeaderboardResponse?.entries?[index];
+                      return LeaderboardVoterSummary(
+                        rank:
+                            "${entry?.position}/${widget.pollStore.pollLeaderboardResponse?.summary?.totalPeersCount}",
+                        points: entry?.score,
+                        correctAnswers: entry?.correctResponses,
+                        totalQuestions: widget.pollStore.poll.questions?.length,
+                        avgTimeInMilliseconds: entry?.duration?.inMilliseconds,
+                      );
+                    }
+                    return const SizedBox();
                   }
-                  return const SizedBox();
-                }
-              }),
-              const SizedBox(
-                height: 24,
+                },
               ),
+              const SizedBox(height: 24),
               LeaderboardRankings(
-                  totalScore: _totalScore, pollStore: widget.pollStore),
+                totalScore: _totalScore,
+                pollStore: widget.pollStore,
+              ),
 
               /// This is only rendered if the number of peers is greater than 5
               if ((widget.pollStore.pollLeaderboardResponse!.summary
@@ -210,9 +212,7 @@ class _QuizLeaderboardState extends State<QuizLeaderboard> {
                   5)
                 Container(
                   color: HMSThemeColors.surfaceDefault,
-                  child: const Divider(
-                    height: 5,
-                  ),
+                  child: const Divider(height: 5),
                 ),
 
               /// This is only rendered if the number of peers is greater than 5
@@ -224,59 +224,66 @@ class _QuizLeaderboardState extends State<QuizLeaderboard> {
                 GestureDetector(
                   onTap: () {
                     context.read<MeetingStore>().fetchLeaderboard(
-                        widget.pollStore.poll,
-                        count: 200,
-                        startIndex: 0);
+                          widget.pollStore.poll,
+                          count: 200,
+                          startIndex: 0,
+                        );
                     var meetingStore = context.read<MeetingStore>();
                     showModalBottomSheet(
-                        isScrollControlled: true,
-                        backgroundColor: HMSThemeColors.surfaceDim,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(16)),
+                      isScrollControlled: true,
+                      backgroundColor: HMSThemeColors.surfaceDim,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
                         ),
-                        context: context,
-                        builder: (ctx) => ChangeNotifierProvider.value(
-                            value: meetingStore,
-                            child: LeaderboardRankingsList(
-                                totalScore: _totalScore,
-                                pollStore: widget.pollStore)));
+                      ),
+                      context: context,
+                      builder: (ctx) => ChangeNotifierProvider.value(
+                        value: meetingStore,
+                        child: LeaderboardRankingsList(
+                          totalScore: _totalScore,
+                          pollStore: widget.pollStore,
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     color: HMSThemeColors.surfaceDefault,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Row(
                             children: [
                               HMSSubheadingText(
-                                  text: "View All",
-                                  textColor:
-                                      HMSThemeColors.onSurfaceHighEmphasis),
+                                text: "View All",
+                                textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 4.0),
                                 child: SvgPicture.asset(
-                                    "packages/hms_room_kit/lib/src/assets/icons/right_arrow.svg",
-                                    width: 24,
-                                    height: 24,
-                                    colorFilter: ColorFilter.mode(
-                                        HMSThemeColors.onSurfaceHighEmphasis,
-                                        BlendMode.srcIn)),
+                                  "packages/hms_room_kit/lib/src/assets/icons/right_arrow.svg",
+                                  width: 24,
+                                  height: 24,
+                                  colorFilter: ColorFilter.mode(
+                                    HMSThemeColors.onSurfaceHighEmphasis,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-              const SizedBox(
-                height: 12,
-              )
+              const SizedBox(height: 12),
             ],
           ),
         ),

@@ -14,17 +14,19 @@ class _TextureViewGridState extends State<TextureViewGrid> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const PageScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisExtent: MediaQuery.of(context).size.width / 2),
-        itemCount: widget.peerTracks.length,
-        itemBuilder: (context, index) {
-          return ListenablePeerWidget(
-            peerTracks: widget.peerTracks,
-            index: index,
-          );
-        });
+      scrollDirection: Axis.horizontal,
+      physics: const PageScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisExtent: MediaQuery.of(context).size.width / 2,
+      ),
+      itemCount: widget.peerTracks.length,
+      itemBuilder: (context, index) {
+        return ListenablePeerWidget(
+          peerTracks: widget.peerTracks,
+          index: index,
+        );
+      },
+    );
   }
 }

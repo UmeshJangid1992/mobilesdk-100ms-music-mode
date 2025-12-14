@@ -6,5 +6,5 @@ enum MeetingMode {
   equalProminenceWithoutInset,
   audio,
   activeSpeakerWithInset,
-  activeSpeakerWithoutInset
+  activeSpeakerWithoutInset,
 }

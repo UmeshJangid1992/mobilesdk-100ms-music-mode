@@ -17,7 +17,7 @@ import live.hms.hmssdk_flutter.HmssdkFlutterPlugin
 import live.hms.hmssdk_flutter.R
 import live.hms.video.media.tracks.HMSVideoTrack
 import live.hms.videoview.HMSVideoView
-import org.webrtc.RendererCommon
+import hms.webrtc.RendererCommon
 import java.io.ByteArrayOutputStream
 
 class HMSVideoView(

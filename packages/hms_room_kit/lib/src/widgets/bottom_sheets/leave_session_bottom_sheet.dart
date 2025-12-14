@@ -51,12 +51,17 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 LeaveSessionTile(
-                  tilePadding:
-                      const EdgeInsets.only(top: 12.0, left: 18, right: 18),
+                  tilePadding: const EdgeInsets.only(
+                    top: 12.0,
+                    left: 18,
+                    right: 18,
+                  ),
                   leading: SvgPicture.asset(
                     "packages/hms_room_kit/lib/src/assets/icons/exit_room.svg",
                     colorFilter: ColorFilter.mode(
-                        HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+                      HMSThemeColors.onSurfaceHighEmphasis,
+                      BlendMode.srcIn,
+                    ),
                     semanticsLabel: "leave_room_button",
                   ),
                   title: "Leave",
@@ -71,16 +76,15 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                       backgroundColor: HMSThemeColors.surfaceDim,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16)),
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
                       ),
                       context: context,
                       builder: (ctx) => ChangeNotifierProvider.value(
                         value: widget.meetingStore,
                         child: EndServiceBottomSheet(
-                          onButtonPressed: () => {
-                            widget.meetingStore.leave(),
-                          },
+                          onButtonPressed: () => {widget.meetingStore.leave()},
                           title: HMSTitleText(
                             text:
                                 "Leave ${HMSRoomLayout.peerType == PeerRoleType.conferencing ? "Session" : "Stream"}",
@@ -93,8 +97,9 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                             height: 20,
                             width: 20,
                             colorFilter: ColorFilter.mode(
-                                HMSThemeColors.alertErrorDefault,
-                                BlendMode.srcIn),
+                              HMSThemeColors.alertErrorDefault,
+                              BlendMode.srcIn,
+                            ),
                           ),
                           subTitle: HMSSubheadingText(
                             text:
@@ -106,7 +111,7 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                               "Leave ${HMSRoomLayout.peerType == PeerRoleType.conferencing ? "Session" : "Stream"}",
                         ),
                       ),
-                    )
+                    ),
                   },
                 ),
                 LeaveSessionTile(
@@ -114,7 +119,9 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                   leading: SvgPicture.asset(
                     "packages/hms_room_kit/lib/src/assets/icons/end.svg",
                     colorFilter: ColorFilter.mode(
-                        HMSThemeColors.alertErrorBrighter, BlendMode.srcIn),
+                      HMSThemeColors.alertErrorBrighter,
+                      BlendMode.srcIn,
+                    ),
                     semanticsLabel: "leave_room_button",
                   ),
                   title: ((widget.meetingStore.localPeer?.role.permissions
@@ -138,8 +145,9 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                       backgroundColor: HMSThemeColors.surfaceDim,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16)),
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
                       ),
                       context: context,
                       builder: (ctx) => ChangeNotifierProvider.value(
@@ -156,8 +164,10 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                               }
                             else
                               {
-                                widget.meetingStore
-                                    .endRoom(false, "Room Ended From Flutter"),
+                                widget.meetingStore.endRoom(
+                                  false,
+                                  "Room Ended From Flutter",
+                                ),
                               },
                           },
                           title: HMSTitleText(
@@ -176,8 +186,9 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                             height: 20,
                             width: 20,
                             colorFilter: ColorFilter.mode(
-                                HMSThemeColors.alertErrorDefault,
-                                BlendMode.srcIn),
+                              HMSThemeColors.alertErrorDefault,
+                              BlendMode.srcIn,
+                            ),
                           ),
                           subTitle: HMSSubheadingText(
                             text: ((widget.meetingStore.localPeer?.role
@@ -197,7 +208,7 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                               : "End Session",
                         ),
                       ),
-                    )
+                    ),
                   },
                 ),
               ],
@@ -206,9 +217,7 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
         : ChangeNotifierProvider.value(
             value: widget.meetingStore,
             child: EndServiceBottomSheet(
-              onButtonPressed: () => {
-                widget.meetingStore.leave(),
-              },
+              onButtonPressed: () => {widget.meetingStore.leave()},
               title: HMSTitleText(
                 text:
                     "Leave ${HMSRoomLayout.peerType == PeerRoleType.conferencing ? "Session" : "Stream"}",
@@ -221,7 +230,9 @@ class _LeaveSessionBottomSheetState extends State<LeaveSessionBottomSheet> {
                 height: 20,
                 width: 20,
                 colorFilter: ColorFilter.mode(
-                    HMSThemeColors.alertErrorDefault, BlendMode.srcIn),
+                  HMSThemeColors.alertErrorDefault,
+                  BlendMode.srcIn,
+                ),
               ),
               subTitle: HMSSubheadingText(
                 text:

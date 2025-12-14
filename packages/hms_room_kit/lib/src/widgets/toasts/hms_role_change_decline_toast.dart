@@ -27,12 +27,13 @@ class HMSRoleChangeDeclineToast extends StatelessWidget {
   final Color? toastColor;
   final double? toastPosition;
 
-  const HMSRoleChangeDeclineToast(
-      {super.key,
-      required this.peer,
-      required this.meetingStore,
-      this.toastColor,
-      this.toastPosition});
+  const HMSRoleChangeDeclineToast({
+    super.key,
+    required this.peer,
+    required this.meetingStore,
+    this.toastColor,
+    this.toastPosition,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,9 @@ class HMSRoleChangeDeclineToast extends StatelessWidget {
         height: 17,
         width: 15,
         colorFilter: ColorFilter.mode(
-            HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+          HMSThemeColors.onSurfaceHighEmphasis,
+          BlendMode.srcIn,
+        ),
       ),
       subtitle: SizedBox(
         width: MediaQuery.of(context).size.width * 0.65,
@@ -64,8 +67,10 @@ class HMSRoleChangeDeclineToast extends StatelessWidget {
           size: 24,
         ),
         onPressed: () {
-          meetingStore.removeToast(HMSToastsType.roleChangeDeclineToast,
-              data: peer);
+          meetingStore.removeToast(
+            HMSToastsType.roleChangeDeclineToast,
+            data: peer,
+          );
         },
       ),
     );

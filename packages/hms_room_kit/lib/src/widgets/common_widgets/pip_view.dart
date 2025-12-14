@@ -18,37 +18,42 @@ class _PipViewState extends State<PipView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Selector<MeetingStore, List<PeerTrackNode>>(
-          selector: (_, meetingStore) => meetingStore.peerTracks,
-          builder: (_, data, __) {
-            return data.isNotEmpty
-                ? ChangeNotifierProvider.value(
-                    key: ValueKey("${data[0].uid}video_view"),
-                    value: data[0],
-                    child:
-                        Selector<PeerTrackNode, Tuple2<HMSVideoTrack?, bool>>(
-                      selector: (_, peerTrackNode) => Tuple2(
-                          peerTrackNode.track,
-                          peerTrackNode.track?.isMute ?? true),
-                      builder: (_, peerTrackToDisplay, __) {
-                        return (peerTrackToDisplay.item1 == null ||
-                                peerTrackToDisplay.item2 ||
-                                peerTrackToDisplay.item1?.isDegraded == true)
-                            ? Semantics(
-                                label: "fl_video_off",
-                                child: const AudioLevelAvatar())
-                            : HMSVideoView(
-                                key: Key(
-                                    "${peerTrackToDisplay.item1!.trackId}pipView"),
-                                track: peerTrackToDisplay.item1!,
-                                scaleType: (peerTrackToDisplay.item1!.source !=
-                                        "REGULAR")
-                                    ? ScaleType.SCALE_ASPECT_FIT
-                                    : ScaleType.SCALE_ASPECT_FILL,
-                                setMirror: false);
-                      },
-                    ))
-                : Container();
-          }),
+        selector: (_, meetingStore) => meetingStore.peerTracks,
+        builder: (_, data, __) {
+          return data.isNotEmpty
+              ? ChangeNotifierProvider.value(
+                  key: ValueKey("${data[0].uid}video_view"),
+                  value: data[0],
+                  child: Selector<PeerTrackNode, Tuple2<HMSVideoTrack?, bool>>(
+                    selector: (_, peerTrackNode) => Tuple2(
+                      peerTrackNode.track,
+                      peerTrackNode.track?.isMute ?? true,
+                    ),
+                    builder: (_, peerTrackToDisplay, __) {
+                      return (peerTrackToDisplay.item1 == null ||
+                              peerTrackToDisplay.item2 ||
+                              peerTrackToDisplay.item1?.isDegraded == true)
+                          ? Semantics(
+                              label: "fl_video_off",
+                              child: const AudioLevelAvatar(),
+                            )
+                          : HMSVideoView(
+                              key: Key(
+                                "${peerTrackToDisplay.item1!.trackId}pipView",
+                              ),
+                              track: peerTrackToDisplay.item1!,
+                              scaleType: (peerTrackToDisplay.item1!.source !=
+                                      "REGULAR")
+                                  ? ScaleType.SCALE_ASPECT_FIT
+                                  : ScaleType.SCALE_ASPECT_FILL,
+                              setMirror: false,
+                            );
+                    },
+                  ),
+                )
+              : Container();
+        },
+      ),
     );
   }
 }

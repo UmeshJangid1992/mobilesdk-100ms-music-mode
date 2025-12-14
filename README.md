@@ -104,24 +104,54 @@ The default [Example app](https://github.com/100mslive/100ms-flutter/tree/main/p
 ## ☝️ Minimum Configuration
 
 - Support for Flutter 3.3.0 or above
-- Support for Android API level 21 or above
-- Support for Java 8 or above
+- Support for Android API level 24 or above
+- Support for Java 17 or above
 - Support for iOS 12 or above
 - Xcode 12 or above
 
 ## 🤝 Recommended Configuration
 
-- Flutter 3.7.0 or above
-- Android API level 33 or above
-- Java 11 or above
+- Flutter 3.13.0 or above
+- Android API level 35 or above
+- Java 17 or above
 - iOS 16 or above
-- Xcode 14 or above
+- Xcode 15 or above
 
 ## 📱 Supported Devices
 
-- The Android SDK supports Android API level 21 and above. It is built for armeabi-v7a, arm64-v8a, x86, and x86_64 architectures. Devices running Android OS 12 or above is recommended.
+- The Android SDK supports Android API level 24 and above. It is built for 64-bit architectures only (arm64-v8a, x86_64). Devices running Android OS 12 or above is recommended.
 
 - iPhone & iPads with iOS version 12 or above are supported. Devices running iOS 16 or above is recommended.
+
+## 🔧 Android Build Requirements
+
+To ensure compatibility and optimal performance, your app must use:
+
+- **Android Gradle Plugin (AGP)**: 8.9.0 or higher
+- **Gradle**: 8.10 or higher
+- **NDK**: r28 (28.0.12674087) or higher
+- **Kotlin**: 2.0.21 or higher
+- **Java**: JDK 17 or higher
+- **Architecture Support**: 64-bit only (arm64-v8a, x86_64)
+
+Example configuration in `android/app/build.gradle`:
+
+```gradle
+android {
+    compileSdkVersion 35
+    ndkVersion "28.0.12674087"
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 35
+
+        ndk {
+            // Only support 64-bit architectures for 16KB page size support
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
+    }
+}
+```
 
 ## 🤖 [Android Permissions](https://www.100ms.live/docs/flutter/v2/how-to-guides/install-the-sdk/integration#android)
 

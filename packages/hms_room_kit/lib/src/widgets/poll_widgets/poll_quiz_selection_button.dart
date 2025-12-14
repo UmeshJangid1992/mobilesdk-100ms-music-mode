@@ -14,12 +14,12 @@ class PollQuizSelectionButton extends StatelessWidget {
   final String iconName;
   final String text;
 
-  const PollQuizSelectionButton(
-      {Key? key,
-      required this.isSelected,
-      required this.iconName,
-      required this.text})
-      : super(key: key);
+  const PollQuizSelectionButton({
+    Key? key,
+    required this.isSelected,
+    required this.iconName,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +39,25 @@ class PollQuizSelectionButton extends StatelessWidget {
         child: Row(
           children: [
             Container(
-                height: 48,
-                width: 48,
-                decoration: BoxDecoration(
-                  color: HMSThemeColors.borderBright,
-                  border: Border.all(
-                    color: isSelected
-                        ? HMSThemeColors.primaryDefault
-                        : HMSThemeColors.borderBright,
-                  ),
-                  borderRadius: BorderRadius.circular(4),
+              height: 48,
+              width: 48,
+              decoration: BoxDecoration(
+                color: HMSThemeColors.borderBright,
+                border: Border.all(
+                  color: isSelected
+                      ? HMSThemeColors.primaryDefault
+                      : HMSThemeColors.borderBright,
                 ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    "packages/hms_room_kit/lib/src/assets/icons/$iconName.svg",
-                    fit: BoxFit.scaleDown,
-                  ),
-                )),
-            const SizedBox(
-              width: 16,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  "packages/hms_room_kit/lib/src/assets/icons/$iconName.svg",
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
             ),
+            const SizedBox(width: 16),
             HMSTitleText(
               text: text,
               textColor: HMSThemeColors.onSurfaceHighEmphasis,

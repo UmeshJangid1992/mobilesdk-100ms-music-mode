@@ -7,11 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hms_room_kit/hms_room_kit.dart';
 
 class TestPrebuilt extends StatefulWidget {
-  const TestPrebuilt({
-    super.key,
-    this.width,
-    this.height,
-  });
+  const TestPrebuilt({super.key, this.width, this.height});
 
   final double? width;
   final double? height;

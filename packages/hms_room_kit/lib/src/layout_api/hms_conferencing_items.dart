@@ -116,16 +116,17 @@ class Elements {
   Map<String, dynamic>? brb;
   Map<String, dynamic>? handRaise;
   NoiseCancellation? noiseCancellation;
-  Elements(
-      {this.header,
-      this.chat,
-      this.participantList,
-      this.videoTileLayout,
-      this.emojiReactions,
-      this.onStageExp,
-      this.brb,
-      this.handRaise,
-      this.noiseCancellation});
+  Elements({
+    this.header,
+    this.chat,
+    this.participantList,
+    this.videoTileLayout,
+    this.emojiReactions,
+    this.onStageExp,
+    this.brb,
+    this.handRaise,
+    this.noiseCancellation,
+  });
 
   Elements.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -277,15 +278,16 @@ class Chat {
   List<String> rolesWhitelist = [];
   RealTimeControls? realTimeControls;
 
-  Chat(
-      {this.isOpenInitially,
-      this.isOverlay,
-      this.allowPinningMessages,
-      this.chatTitle,
-      this.messagePlaceholder,
-      this.isPrivateChatEnabled,
-      this.isPublicChatEnabled,
-      this.rolesWhitelist = const []});
+  Chat({
+    this.isOpenInitially,
+    this.isOverlay,
+    this.allowPinningMessages,
+    this.chatTitle,
+    this.messagePlaceholder,
+    this.isPrivateChatEnabled,
+    this.isPublicChatEnabled,
+    this.rolesWhitelist = const [],
+  });
 
   Chat.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -366,8 +368,11 @@ class RealTimeControls {
   bool? canDisableChat;
   bool? canHideMessage;
 
-  RealTimeControls(
-      {this.canBlockUser, this.canDisableChat, this.canHideMessage});
+  RealTimeControls({
+    this.canBlockUser,
+    this.canDisableChat,
+    this.canHideMessage,
+  });
 
   RealTimeControls.fromJson(Map<String, dynamic>? json) {
     if (json == null) {

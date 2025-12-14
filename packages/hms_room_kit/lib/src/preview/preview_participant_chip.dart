@@ -22,8 +22,11 @@ class PreviewParticipantChip extends StatelessWidget {
   final PreviewStore previewStore;
   final double width;
 
-  const PreviewParticipantChip(
-      {super.key, required this.previewStore, required this.width});
+  const PreviewParticipantChip({
+    super.key,
+    required this.previewStore,
+    required this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,30 +42,33 @@ class PreviewParticipantChip extends StatelessWidget {
                 child: Container(
                   height: 40,
                   decoration: BoxDecoration(
-                      color: HMSThemeColors.alertErrorDefault,
-                      borderRadius: BorderRadius.circular(20)),
+                    color: HMSThemeColors.alertErrorDefault,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Center(
-                      child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          "packages/hms_room_kit/lib/src/assets/icons/white_dot.svg",
-                          width: 20,
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0, right: 6),
-                          child: HMSSubtitleText(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            "packages/hms_room_kit/lib/src/assets/icons/white_dot.svg",
+                            width: 20,
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.0, right: 6),
+                            child: HMSSubtitleText(
                               text: "LIVE",
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.25,
-                              textColor: HMSThemeColors.onSurfaceHighEmphasis),
-                        ),
-                      ],
+                              textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  )),
+                  ),
                 ),
               )
             : Container(),
@@ -73,21 +79,29 @@ class PreviewParticipantChip extends StatelessWidget {
             : Container(
                 height: 40,
                 decoration: BoxDecoration(
-                    color: HMSThemeColors.surfaceDefault,
-                    border: Border.all(
-                        width: 1, color: HMSThemeColors.borderDefault),
-                    borderRadius: BorderRadius.circular(20)),
+                  color: HMSThemeColors.surfaceDefault,
+                  border: Border.all(
+                    width: 1,
+                    color: HMSThemeColors.borderDefault,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 8.0, bottom: 8, left: 20, right: 16),
+                      top: 8.0,
+                      bottom: 8,
+                      left: 20,
+                      right: 16,
+                    ),
                     child: peerCount == 1
                         ? HMSTitleText(
                             text: "You are the first to join",
                             fontSize: 14,
                             lineHeight: 20,
                             letterSpacing: 0.25,
-                            textColor: HMSThemeColors.onSurfaceHighEmphasis)
+                            textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                          )
                         : PreviewParticipantsText(
                             peerCount: previewStore.peerCount,
                           ),

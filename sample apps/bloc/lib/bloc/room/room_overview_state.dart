@@ -10,37 +10,40 @@ class RoomOverviewState extends Equatable {
   final bool isAudioMute;
   final bool leaveMeeting;
   final bool isScreenShareActive;
-  const RoomOverviewState(
-      {this.status = RoomOverviewStatus.initial,
-      this.peerTrackNodes = const [],
-      this.isVideoMute = false,
-      this.isAudioMute = false,
-      this.leaveMeeting = false,
-      this.isScreenShareActive = false});
+  const RoomOverviewState({
+    this.status = RoomOverviewStatus.initial,
+    this.peerTrackNodes = const [],
+    this.isVideoMute = false,
+    this.isAudioMute = false,
+    this.leaveMeeting = false,
+    this.isScreenShareActive = false,
+  });
 
   @override
   List<Object?> get props => [
-        status,
-        peerTrackNodes,
-        isAudioMute,
-        isVideoMute,
-        leaveMeeting,
-        isScreenShareActive
-      ];
+    status,
+    peerTrackNodes,
+    isAudioMute,
+    isVideoMute,
+    leaveMeeting,
+    isScreenShareActive,
+  ];
 
-  RoomOverviewState copyWith(
-      {RoomOverviewStatus? status,
-      List<PeerTrackNode>? peerTrackNodes,
-      bool? isVideoMute,
-      bool? isAudioMute,
-      bool? leaveMeeting,
-      bool? isScreenShareActive}) {
+  RoomOverviewState copyWith({
+    RoomOverviewStatus? status,
+    List<PeerTrackNode>? peerTrackNodes,
+    bool? isVideoMute,
+    bool? isAudioMute,
+    bool? leaveMeeting,
+    bool? isScreenShareActive,
+  }) {
     return RoomOverviewState(
-        status: status ?? this.status,
-        peerTrackNodes: peerTrackNodes ?? this.peerTrackNodes,
-        isVideoMute: isVideoMute ?? this.isVideoMute,
-        isAudioMute: isAudioMute ?? this.isAudioMute,
-        leaveMeeting: leaveMeeting ?? this.leaveMeeting,
-        isScreenShareActive: isScreenShareActive ?? this.isScreenShareActive);
+      status: status ?? this.status,
+      peerTrackNodes: peerTrackNodes ?? this.peerTrackNodes,
+      isVideoMute: isVideoMute ?? this.isVideoMute,
+      isAudioMute: isAudioMute ?? this.isAudioMute,
+      leaveMeeting: leaveMeeting ?? this.leaveMeeting,
+      isScreenShareActive: isScreenShareActive ?? this.isScreenShareActive,
+    );
   }
 }

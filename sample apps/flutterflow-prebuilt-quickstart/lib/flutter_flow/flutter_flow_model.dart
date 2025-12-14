@@ -10,19 +10,13 @@ Widget wrapWithModel<T extends FlutterFlowModel>({
   bool updateOnChange = false,
 }) {
   // Set the component to optionally update the page on updates.
-  model.setOnUpdate(
-    onUpdate: updateCallback,
-    updateOnChange: updateOnChange,
-  );
+  model.setOnUpdate(onUpdate: updateCallback, updateOnChange: updateOnChange);
   // Models for components within a page will be disposed by the page's model,
   // so we don't want the component widget to dispose them until the page is
   // itself disposed.
   model.disposeOnWidgetDisposal = false;
   // Wrap in a Provider so that the model can be accessed by the component.
-  return Provider<T>.value(
-    value: model,
-    child: child,
-  );
+  return Provider<T>.value(value: model, child: child);
 }
 
 T createModel<T extends FlutterFlowModel>(
@@ -75,10 +69,9 @@ abstract class FlutterFlowModel<W extends Widget> {
   FlutterFlowModel setOnUpdate({
     bool updateOnChange = false,
     required VoidCallback onUpdate,
-  }) =>
-      this
-        .._updateCallback = onUpdate
-        ..updateOnChange = updateOnChange;
+  }) => this
+    .._updateCallback = onUpdate
+    ..updateOnChange = updateOnChange;
   // Update the containing page when this model received an update.
   void updatePage(VoidCallback callback) {
     callback();
@@ -113,8 +106,9 @@ class FlutterFlowDynamicModels<T extends FlutterFlowModel> {
   }
 
   S? getValueAtIndex<S>(int index, S? Function(T) getValue) {
-    final uniqueKey =
-        _childrenIndexes.entries.firstWhereOrNull((e) => e.value == index)?.key;
+    final uniqueKey = _childrenIndexes.entries
+        .firstWhereOrNull((e) => e.value == index)
+        ?.key;
     return getValueForKey(uniqueKey, getValue);
   }
 

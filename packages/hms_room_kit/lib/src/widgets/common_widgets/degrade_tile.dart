@@ -22,46 +22,45 @@ class DegradeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Selector<PeerTrackNode, bool>(
-        builder: (_, data, __) {
-          return data
-              ? Container(
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Stack(
-                    children: [
-                      Container(
-                        color: Colors.black.withOpacity(0.5),
+      builder: (_, data, __) {
+        return data
+            ? Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Stack(
+                  children: [
+                    Container(
+                      color: Colors.black.withOpacity(0.5),
+                      alignment: Alignment.center,
+                      child: Align(
                         alignment: Alignment.center,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              HMSSubheadingText(
-                                text: "Poor connection",
-                                textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.1,
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              HMSSubtitleText(
-                                text:
-                                    "The video will resume\n automatically when the\n connection improves",
-                                textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                              )
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            HMSSubheadingText(
+                              text: "Poor connection",
+                              textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.1,
+                            ),
+                            const SizedBox(height: 4),
+                            HMSSubtitleText(
+                              text:
+                                  "The video will resume\n automatically when the\n connection improves",
+                              textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                            ),
+                          ],
                         ),
                       ),
-                      NameAndNetwork(maxWidth: constraints.maxWidth),
-                    ],
-                  ),
-                )
-              : const SizedBox();
-        },
-        selector: (_, peerTrackNode) =>
-            peerTrackNode.track?.isDegraded ?? false);
+                    ),
+                    NameAndNetwork(maxWidth: constraints.maxWidth),
+                  ],
+                ),
+              )
+            : const SizedBox();
+      },
+      selector: (_, peerTrackNode) => peerTrackNode.track?.isDegraded ?? false,
+    );
   }
 }

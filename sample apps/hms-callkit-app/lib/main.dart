@@ -37,11 +37,9 @@ class _MyAppState extends State<MyApp> {
       initialRoute: AppRoute.homePage,
       navigatorKey: NavigationService.instance.navigationKey,
       navigatorObservers: <NavigatorObserver>[
-        NavigationService.instance.routeObserver
+        NavigationService.instance.routeObserver,
       ],
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
     );
   }
 }

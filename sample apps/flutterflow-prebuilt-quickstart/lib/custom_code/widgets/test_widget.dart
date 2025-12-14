@@ -5,11 +5,7 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 class TestWidget extends StatefulWidget {
-  const TestWidget({
-    super.key,
-    this.width,
-    this.height,
-  });
+  const TestWidget({super.key, this.width, this.height});
 
   final double? width;
   final double? height;

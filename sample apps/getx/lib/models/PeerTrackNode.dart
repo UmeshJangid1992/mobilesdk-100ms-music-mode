@@ -19,6 +19,11 @@ class PeerTrackNode {
   @override
   int get hashCode => isMute.hashCode ^ peer.hashCode ^ isOffScreen.hashCode;
 
-  PeerTrackNode(this.uid, this.hmsVideoTrack, this.isMute, this.peer,
-      {this.isOffScreen = false});
+  PeerTrackNode(
+    this.uid,
+    this.hmsVideoTrack,
+    this.isMute,
+    this.peer, {
+    this.isOffScreen = false,
+  });
 }

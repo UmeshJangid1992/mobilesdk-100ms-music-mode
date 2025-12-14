@@ -1,0 +1,13 @@
+{
+  "name": "100ms-flutter-scripts",
+  "version": "1.0.0",
+  "description": "Helper scripts for 100ms Flutter project",
+  "private": true,
+  "scripts": {
+    "update-changelog": "node update-changelog-versions.js",
+    "generate-version-info": "node generate-version-info.js"
+  },
+  "keywords": [],
+  "author": "100ms",
+  "license": "ISC"
+}

@@ -16,34 +16,39 @@ class ListenablePeerWidget extends StatelessWidget {
   final List<PeerTrackNode> peerTracks;
   final ScaleType scaleType;
 
-  const ListenablePeerWidget(
-      {super.key,
-      required this.index,
-      required this.peerTracks,
-      this.scaleType = ScaleType.SCALE_ASPECT_FILL});
+  const ListenablePeerWidget({
+    super.key,
+    required this.index,
+    required this.peerTracks,
+    this.scaleType = ScaleType.SCALE_ASPECT_FILL,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        key: ValueKey("${peerTracks[index].uid}video_view"),
-        value: peerTracks[index],
-        child: Selector<MeetingStore, HMSTextureViewController>(
-            selector: (_, meetingStore) {
+      key: ValueKey("${peerTracks[index].uid}video_view"),
+      value: peerTracks[index],
+      child: Selector<MeetingStore, HMSTextureViewController>(
+        selector: (_, meetingStore) {
           ///Here we check if the track is of a screenshare
           ///we render it using screenshareViewController
           ///while for other tracks we render it using viewControllers list
           if (peerTracks[index].track?.source == "SCREEN") {
-            meetingStore.screenshareViewController ??=
-                HMSTextureViewController(addTrackByDefault: false);
+            meetingStore.screenshareViewController ??= HMSTextureViewController(
+              addTrackByDefault: false,
+            );
             return meetingStore.screenshareViewController!;
           }
           return meetingStore.viewControllers[index % 6];
-        }, builder: (_, viewController, __) {
+        },
+        builder: (_, viewController, __) {
           return PeerTile(
             videoViewController: viewController,
             key: ValueKey("${peerTracks[index].uid}audio_view"),
             scaleType: scaleType,
           );
-        }));
+        },
+      ),
+    );
   }
 }

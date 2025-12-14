@@ -11,12 +11,16 @@ class PreviewState extends Equatable {
   final bool isVideoOff;
   final List<HMSVideoTrack> tracks;
 
-  PreviewState copyWith(
-      {bool? isMicOff, bool? isVideoOff, List<HMSVideoTrack>? tracks}) {
+  PreviewState copyWith({
+    bool? isMicOff,
+    bool? isVideoOff,
+    List<HMSVideoTrack>? tracks,
+  }) {
     return PreviewState(
-        isMicOff: isMicOff ?? this.isMicOff,
-        isVideoOff: isVideoOff ?? this.isVideoOff,
-        tracks: tracks ?? this.tracks);
+      isMicOff: isMicOff ?? this.isMicOff,
+      isVideoOff: isVideoOff ?? this.isVideoOff,
+      tracks: tracks ?? this.tracks,
+    );
   }
 
   @override

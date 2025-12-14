@@ -18,12 +18,12 @@ class HMSChatPauseResumeToast extends StatelessWidget {
   final String userName;
   final MeetingStore meetingStore;
 
-  const HMSChatPauseResumeToast(
-      {Key? key,
-      required this.isChatEnabled,
-      required this.userName,
-      required this.meetingStore})
-      : super(key: key);
+  const HMSChatPauseResumeToast({
+    Key? key,
+    required this.isChatEnabled,
+    required this.userName,
+    required this.meetingStore,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class HMSChatPauseResumeToast extends StatelessWidget {
             text:
                 "Chat has been ${isChatEnabled ? "resumed" : "paused"} by ${userName.substring(0, math.min(10, userName.length))}",
             textColor: HMSThemeColors.onSurfaceMediumEmphasis,
-          )
+          ),
         ],
       ),
       cancelToastButton: IconButton(

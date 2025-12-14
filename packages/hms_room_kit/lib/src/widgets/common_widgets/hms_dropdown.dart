@@ -78,7 +78,8 @@ class _HMSDropDownState extends State<HMSDropDown> {
       iconStyleData: widget.iconStyleData == null
           ? IconStyleData(
               icon: const Icon(Icons.keyboard_arrow_down),
-              iconEnabledColor: HMSThemeColors.onSurfaceHighEmphasis)
+              iconEnabledColor: HMSThemeColors.onSurfaceHighEmphasis,
+            )
           : widget.iconStyleData!,
       buttonStyleData: widget.buttonStyleData == null
           ? ButtonStyleData(
@@ -92,9 +93,7 @@ class _HMSDropDownState extends State<HMSDropDown> {
             )
           : widget.buttonStyleData!,
       menuItemStyleData: widget.menuItemStyleData == null
-          ? const MenuItemStyleData(
-              height: 48,
-            )
+          ? const MenuItemStyleData(height: 48)
           : widget.menuItemStyleData!,
     );
   }

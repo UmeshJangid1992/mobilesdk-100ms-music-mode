@@ -6,7 +6,6 @@ import 'dart:ui';
 import 'package:app_links/app_links.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,14 +41,10 @@ void main() async {
 
   Provider.debugCheckInvalidValueType = null;
 
-  // Get any initial links
-  final PendingDynamicLinkData? initialLink =
-      await FirebaseDynamicLinks.instance.getInitialLink();
-
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
-  runApp(HMSExampleApp(initialLink: initialLink?.link));
+  runApp(HMSExampleApp());
 }
 
 ///This function sets up the foreground service interaction
@@ -60,8 +55,7 @@ void startCallback() {
 }
 
 class HMSExampleApp extends StatefulWidget {
-  final Uri? initialLink;
-  HMSExampleApp({Key? key, this.initialLink}) : super(key: key);
+  HMSExampleApp({Key? key}) : super(key: key);
 
   @override
   _HMSExampleAppState createState() => _HMSExampleAppState();
@@ -102,7 +96,6 @@ class _HMSExampleAppState extends State<HMSExampleApp>
     super.initState();
     _initURIHandler();
     _incomingLinkHandler();
-    initDynamicLinks();
     _controller = AnimationController(
       duration: Duration(seconds: (5)),
       vsync: this,
@@ -113,11 +106,8 @@ class _HMSExampleAppState extends State<HMSExampleApp>
     if (!_initialURILinkHandled) {
       _initialURILinkHandled = true;
       try {
-        if (widget.initialLink != null) {
-          return;
-        }
         _appLinks = AppLinks();
-        _currentURI = await _appLinks?.getInitialAppLink();
+        _currentURI = await _appLinks?.getInitialLink();
         if (_currentURI != null) {
           if (!mounted) {
             return;
@@ -158,29 +148,6 @@ class _HMSExampleAppState extends State<HMSExampleApp>
           return;
         }
       });
-    }
-  }
-
-  Future<void> initDynamicLinks() async {
-    FirebaseDynamicLinks.instance.onLink
-        .listen((PendingDynamicLinkData dynamicLinkData) {
-      if (!mounted) {
-        return;
-      }
-      if (dynamicLinkData.link.toString().length == 0) {
-        return;
-      }
-      setState(() {
-        _currentURI = dynamicLinkData.link;
-      });
-    }).onError((error) {
-      print('onLink error');
-      print(error.message);
-    });
-
-    if (widget.initialLink != null) {
-      _currentURI = widget.initialLink;
-      setState(() {});
     }
   }
 
@@ -263,7 +230,8 @@ class _HomePageState extends State<HomePage> {
     if (widget.deepLinkURL == null && savedMeetingUrl.isNotEmpty) {
       meetingLinkController.text = savedMeetingUrl;
     } else {
-      meetingLinkController.text = widget.deepLinkURL ?? "";
+      meetingLinkController.text = widget.deepLinkURL ??
+          "https://hmsflutter.app.100ms.live/meeting/cte-xyht-skd";
     }
 
     int audioModeInt = await Utilities.getIntData(key: "audio-mode");
@@ -495,15 +463,15 @@ class _HomePageState extends State<HomePage> {
                               Expanded(
                                   child: ElevatedButton(
                                 style: ButtonStyle(
-                                    shadowColor: MaterialStateProperty.all(
+                                    shadowColor: WidgetStateProperty.all(
                                         themeSurfaceColor),
                                     backgroundColor:
                                         meetingLinkController.text.isEmpty
-                                            ? MaterialStateProperty.all(
+                                            ? WidgetStateProperty.all(
                                                 themeSurfaceColor)
-                                            : MaterialStateProperty.all(
+                                            : WidgetStateProperty.all(
                                                 hmsdefaultColor),
-                                    shape: MaterialStateProperty.all<
+                                    shape: WidgetStateProperty.all<
                                             RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8.0),
@@ -576,12 +544,11 @@ class _HomePageState extends State<HomePage> {
                   width: width * 0.95,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                        shadowColor: MaterialStateProperty.all(hmsdefaultColor),
+                        shadowColor: WidgetStateProperty.all(hmsdefaultColor),
                         backgroundColor:
-                            MaterialStateProperty.all(hmsdefaultColor),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
+                            WidgetStateProperty.all(hmsdefaultColor),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ))),
                     onPressed: () async {

@@ -20,10 +20,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '100ms mobx',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          colorScheme: ColorScheme.dark(
-            primary: Colors.blue.shade700,
-          )),
+        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.dark(primary: Colors.blue.shade700),
+      ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
@@ -69,13 +68,12 @@ class _HomePageState extends State<HomePage> {
             const Text(
               "100ms Mobx Example",
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             SizedBox(
               width: 300.0,
               child: TextField(
@@ -83,18 +81,18 @@ class _HomePageState extends State<HomePage> {
                 autofocus: true,
                 keyboardType: TextInputType.url,
                 decoration: InputDecoration(
-                    hintText: 'Enter Room URL',
-                    suffixIcon: IconButton(
-                      onPressed: roomCode.clear,
-                      icon: const Icon(Icons.clear),
-                    ),
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)))),
+                  hintText: 'Enter Room URL',
+                  suffixIcon: IconButton(
+                    onPressed: roomCode.clear,
+                    icon: const Icon(Icons.clear),
+                  ),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(
-              height: 30.0,
-            ),
+            const SizedBox(height: 30.0),
             SizedBox(
               width: 300.0,
               child: TextField(
@@ -102,26 +100,28 @@ class _HomePageState extends State<HomePage> {
                 autofocus: true,
                 keyboardType: TextInputType.url,
                 decoration: InputDecoration(
-                    hintText: 'Enter Name',
-                    suffixIcon: IconButton(
-                      onPressed: nameTextController.clear,
-                      icon: const Icon(Icons.clear),
-                    ),
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)))),
+                  hintText: 'Enter Name',
+                  suffixIcon: IconButton(
+                    onPressed: nameTextController.clear,
+                    icon: const Icon(Icons.clear),
+                  ),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(
-              height: 30.0,
-            ),
+            const SizedBox(height: 30.0),
             SizedBox(
               width: 300.0,
               child: ElevatedButton(
                 style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                ))),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                ),
                 onPressed: () async {
                   if (roomCode.text.isNotEmpty &&
                       nameTextController.text.isNotEmpty) {
@@ -130,20 +130,24 @@ class _HomePageState extends State<HomePage> {
                       HMSSDK hmssdk = HMSSDK();
                       await hmssdk.build();
                       var _hmssdkInteractor = HMSSDKInteractor(hmssdk: hmssdk);
-                      var _meetingStore =
-                          MeetingStore(hmssdkInteractor: _hmssdkInteractor);
+                      var _meetingStore = MeetingStore(
+                        hmssdkInteractor: _hmssdkInteractor,
+                      );
                       _meetingStore.addUpdateListener();
                       bool ans = await _meetingStore.join(
-                          nameTextController.text, roomCode.text);
+                        nameTextController.text,
+                        roomCode.text,
+                      );
                       if (!ans) {
                         const SnackBar(content: Text("Unable to Join"));
                       } else {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Meeting(
-                                      meetingStore: _meetingStore,
-                                    )));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Meeting(meetingStore: _meetingStore),
+                          ),
+                        );
                       }
                     }
                   }
@@ -151,12 +155,15 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   padding: const EdgeInsets.all(4.0),
                   decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(16))),
-                  child: const Text('Join Meeting',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                  ),
+                  child: const Text(
+                    'Join Meeting',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

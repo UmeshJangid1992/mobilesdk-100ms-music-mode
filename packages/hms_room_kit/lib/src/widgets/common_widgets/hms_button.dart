@@ -11,27 +11,30 @@ class HMSButton extends StatelessWidget {
   final Function() onPressed;
   final Widget childWidget;
   final Color? buttonBackgroundColor;
-  const HMSButton(
-      {super.key,
-      required this.width,
-      this.shadowColor,
-      required this.onPressed,
-      required this.childWidget,
-      this.buttonBackgroundColor});
+  const HMSButton({
+    super.key,
+    required this.width,
+    this.shadowColor,
+    required this.onPressed,
+    required this.childWidget,
+    this.buttonBackgroundColor,
+  });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: width,
-        child: ElevatedButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                  buttonBackgroundColor ?? HMSThemeColors.primaryDefault),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ))),
-          onPressed: onPressed,
-          child: childWidget,
-        ));
+      width: width,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(
+            buttonBackgroundColor ?? HMSThemeColors.primaryDefault,
+          ),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          ),
+        ),
+        onPressed: onPressed,
+        child: childWidget,
+      ),
+    );
   }
 }

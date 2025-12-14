@@ -28,14 +28,15 @@ class EndServiceBottomSheet extends StatefulWidget {
   final Function? onButtonPressed;
   final Color? buttonColor;
 
-  const EndServiceBottomSheet(
-      {super.key,
-      this.bottomSheetTitleIcon,
-      this.title,
-      this.subTitle,
-      this.buttonText,
-      this.onButtonPressed,
-      this.buttonColor});
+  const EndServiceBottomSheet({
+    super.key,
+    this.bottomSheetTitleIcon,
+    this.title,
+    this.subTitle,
+    this.buttonText,
+    this.onButtonPressed,
+    this.buttonColor,
+  });
 
   @override
   State<EndServiceBottomSheet> createState() => _EndServiceBottomSheetState();
@@ -74,54 +75,51 @@ class _EndServiceBottomSheetState extends State<EndServiceBottomSheet> {
                   Row(
                     children: [
                       widget.bottomSheetTitleIcon ?? const SizedBox(),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      widget.title ?? const SizedBox()
+                      const SizedBox(width: 8),
+                      widget.title ?? const SizedBox(),
                     ],
                   ),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      HMSCrossButton(),
-                    ],
-                  )
+                    children: [HMSCrossButton()],
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               widget.subTitle ?? const SizedBox(),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               ElevatedButton(
-                  style: ButtonStyle(
-                      shadowColor:
-                          MaterialStateProperty.all(HMSThemeColors.surfaceDim),
-                      backgroundColor: MaterialStateProperty.all(
-                          widget.buttonColor ??
-                              HMSThemeColors.alertErrorDefault),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ))),
-                  onPressed: () {
-                    if (widget.onButtonPressed != null) {
-                      widget.onButtonPressed!();
-                    }
-                    context.read<MeetingStore>().removeBottomSheet(context);
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 48,
-                    child: Center(
-                      child: HMSTitleText(
-                          text: widget.buttonText ?? "",
-                          textColor: HMSThemeColors.alertErrorBrighter),
+                style: ButtonStyle(
+                  shadowColor: WidgetStateProperty.all(
+                    HMSThemeColors.surfaceDim,
+                  ),
+                  backgroundColor: WidgetStateProperty.all(
+                    widget.buttonColor ?? HMSThemeColors.alertErrorDefault,
+                  ),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  )),
-              Platform.isAndroid ? const SizedBox(height: 8) : const SizedBox()
+                  ),
+                ),
+                onPressed: () {
+                  if (widget.onButtonPressed != null) {
+                    widget.onButtonPressed!();
+                  }
+                  context.read<MeetingStore>().removeBottomSheet(context);
+                  Navigator.pop(context);
+                },
+                child: SizedBox(
+                  height: 48,
+                  child: Center(
+                    child: HMSTitleText(
+                      text: widget.buttonText ?? "",
+                      textColor: HMSThemeColors.alertErrorBrighter,
+                    ),
+                  ),
+                ),
+              ),
+              Platform.isAndroid ? const SizedBox(height: 8) : const SizedBox(),
             ],
           ),
         ),

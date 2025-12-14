@@ -29,31 +29,34 @@ class HMSSubheadingText extends StatelessWidget {
   final TextOverflow? textOverflow;
   final TextAlign? textAlign;
   final int? maxLines;
-  const HMSSubheadingText(
-      {Key? key,
-      required this.text,
-      required this.textColor,
-      this.letterSpacing = 0.25,
-      this.lineHeight = 20,
-      this.fontSize = 14,
-      this.maxLines,
-      this.fontWeight = FontWeight.w400,
-      this.textOverflow = TextOverflow.ellipsis,
-      this.textAlign = TextAlign.start})
-      : super(key: key);
+  const HMSSubheadingText({
+    Key? key,
+    required this.text,
+    required this.textColor,
+    this.letterSpacing = 0.25,
+    this.lineHeight = 20,
+    this.fontSize = 14,
+    this.maxLines,
+    this.fontWeight = FontWeight.w400,
+    this.textOverflow = TextOverflow.ellipsis,
+    this.textAlign = TextAlign.start,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        overflow: textOverflow,
-        softWrap: true,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: HMSTextStyle.setTextStyle(
-            height: lineHeight! / fontSize!,
-            fontSize: fontSize,
-            letterSpacing: letterSpacing,
-            color: textColor,
-            fontWeight: fontWeight));
+    return Text(
+      text,
+      overflow: textOverflow,
+      softWrap: true,
+      textAlign: textAlign,
+      maxLines: maxLines,
+      style: HMSTextStyle.setTextStyle(
+        height: lineHeight! / fontSize!,
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        color: textColor,
+        fontWeight: fontWeight,
+      ),
+    );
   }
 }

@@ -33,15 +33,17 @@ class HMSPrebuilt extends StatelessWidget {
   final Function? onLeave;
 
   ///The key for the widget
-  HMSPrebuilt(
-      {super.key,
-      required this.roomCode,
-      this.options,
-      this.onLeave,
-      this.authToken}) {
+  HMSPrebuilt({
+    super.key,
+    required this.roomCode,
+    this.options,
+    this.onLeave,
+    this.authToken,
+  }) {
     if (roomCode == null && authToken == null) {
       throw ArgumentError.notNull(
-          "At least one parameter roomCode or authToken must be provided.");
+        "At least one parameter roomCode or authToken must be provided.",
+      );
     }
   }
 

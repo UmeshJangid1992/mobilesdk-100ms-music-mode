@@ -4,8 +4,10 @@ import 'Constants.dart';
 import 'package:http/http.dart' as http;
 
 class RoomService {
-  Future<List<String?>?> getToken(
-      {required String user, required String room}) async {
+  Future<List<String?>?> getToken({
+    required String user,
+    required String room,
+  }) async {
     Constant.meetingUrl = room;
     List<String?> codeAndDomain = getCode(room) ?? [];
     if (codeAndDomain.isEmpty) {
@@ -15,12 +17,11 @@ class RoomService {
     Uri endPoint = codeAndDomain[2] == "true"
         ? Uri.parse(Constant.prodTokenEndpoint)
         : Uri.parse(Constant.qaTokenEndPoint);
-    http.Response response = await http.post(endPoint, body: {
-      'code': (codeAndDomain[1] ?? "").trim(),
-      'user_id': user,
-    }, headers: {
-      'subdomain': (codeAndDomain[0] ?? "").trim()
-    });
+    http.Response response = await http.post(
+      endPoint,
+      body: {'code': (codeAndDomain[1] ?? "").trim(), 'user_id': user},
+      headers: {'subdomain': (codeAndDomain[0] ?? "").trim()},
+    );
 
     var body = json.decode(response.body);
     return [body['token'], codeAndDomain[2]!.trim()];

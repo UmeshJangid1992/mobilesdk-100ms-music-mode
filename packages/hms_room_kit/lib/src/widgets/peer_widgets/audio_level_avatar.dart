@@ -15,12 +15,12 @@ class AudioLevelAvatar extends StatefulWidget {
   final double avatarTitleFontSize;
   final double avatarTitleTextLineHeight;
 
-  const AudioLevelAvatar(
-      {Key? key,
-      this.avatarRadius = 34,
-      this.avatarTitleFontSize = 34,
-      this.avatarTitleTextLineHeight = 32})
-      : super(key: key);
+  const AudioLevelAvatar({
+    Key? key,
+    this.avatarRadius = 34,
+    this.avatarTitleFontSize = 34,
+    this.avatarTitleTextLineHeight = 32,
+  }) : super(key: key);
 
   @override
   State<AudioLevelAvatar> createState() => _AudioLevelAvatarState();
@@ -30,17 +30,18 @@ class _AudioLevelAvatarState extends State<AudioLevelAvatar> {
   @override
   Widget build(BuildContext context) {
     return Center(
-
-        ///[Selector] is used to rebuild the widget when the audio level changes
-        child: Selector<PeerTrackNode, String>(
-            selector: (_, peerTrackNode) => peerTrackNode.peer.name,
-            builder: (_, peerName, __) {
-              return HMSCircularAvatar(
-                name: peerName,
-                avatarRadius: widget.avatarRadius,
-                avatarTitleFontSize: widget.avatarTitleFontSize,
-                avatarTitleTextLineHeight: widget.avatarTitleTextLineHeight,
-              );
-            }));
+      ///[Selector] is used to rebuild the widget when the audio level changes
+      child: Selector<PeerTrackNode, String>(
+        selector: (_, peerTrackNode) => peerTrackNode.peer.name,
+        builder: (_, peerName, __) {
+          return HMSCircularAvatar(
+            name: peerName,
+            avatarRadius: widget.avatarRadius,
+            avatarTitleFontSize: widget.avatarTitleFontSize,
+            avatarTitleTextLineHeight: widget.avatarTitleTextLineHeight,
+          );
+        },
+      ),
+    );
   }
 }

@@ -40,10 +40,12 @@ class HMSSDKInteractor {
     return await hmsSDK.toggleCameraMuteState();
   }
 
-  Future<void> switchCamera(
-      {HMSActionResultListener? hmsActionResultListener}) async {
+  Future<void> switchCamera({
+    HMSActionResultListener? hmsActionResultListener,
+  }) async {
     return await hmsSDK.switchCamera(
-        hmsActionResultListener: hmsActionResultListener);
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   Future<bool> isScreenShareActive() async {
@@ -51,29 +53,40 @@ class HMSSDKInteractor {
   }
 
   void sendBroadcastMessage(
-      String message, HMSActionResultListener hmsActionResultListener) {
+    String message,
+    HMSActionResultListener hmsActionResultListener,
+  ) {
     hmsSDK.sendBroadcastMessage(
-        message: message,
-        type: "chat",
-        hmsActionResultListener: hmsActionResultListener);
+      message: message,
+      type: "chat",
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
-  void sendDirectMessage(String message, HMSPeer peerTo,
-      HMSActionResultListener hmsActionResultListener) async {
+  void sendDirectMessage(
+    String message,
+    HMSPeer peerTo,
+    HMSActionResultListener hmsActionResultListener,
+  ) async {
     hmsSDK.sendDirectMessage(
-        message: message,
-        peerTo: peerTo,
-        type: "chat",
-        hmsActionResultListener: hmsActionResultListener);
+      message: message,
+      peerTo: peerTo,
+      type: "chat",
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
-  void sendGroupMessage(String message, List<HMSRole> hmsRolesTo,
-      HMSActionResultListener hmsActionResultListener) async {
+  void sendGroupMessage(
+    String message,
+    List<HMSRole> hmsRolesTo,
+    HMSActionResultListener hmsActionResultListener,
+  ) async {
     hmsSDK.sendGroupMessage(
-        message: message,
-        hmsRolesTo: hmsRolesTo,
-        type: "chat",
-        hmsActionResultListener: hmsActionResultListener);
+      message: message,
+      hmsRolesTo: hmsRolesTo,
+      type: "chat",
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   Future<void> preview({required HMSConfig config}) async {
@@ -113,11 +126,14 @@ class HMSSDKInteractor {
     hmsSDK.removePreviewListener(listener: listener);
   }
 
-  void acceptChangeRole(HMSRoleChangeRequest hmsRoleChangeRequest,
-      HMSActionResultListener hmsActionResultListener) {
+  void acceptChangeRole(
+    HMSRoleChangeRequest hmsRoleChangeRequest,
+    HMSActionResultListener hmsActionResultListener,
+  ) {
     hmsSDK.acceptChangeRole(
-        hmsRoleChangeRequest: hmsRoleChangeRequest,
-        hmsActionResultListener: hmsActionResultListener);
+      hmsRoleChangeRequest: hmsRoleChangeRequest,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   Future<HMSPeer?> getLocalPeer() async {
@@ -130,40 +146,53 @@ class HMSSDKInteractor {
     return peers?.firstWhere((element) => element.peerId == peerId);
   }
 
-  void changeTrackState(HMSTrack forRemoteTrack, bool mute,
-      HMSActionResultListener hmsActionResultListener) {
+  void changeTrackState(
+    HMSTrack forRemoteTrack,
+    bool mute,
+    HMSActionResultListener hmsActionResultListener,
+  ) {
     hmsSDK.changeTrackState(
-        forRemoteTrack: forRemoteTrack,
-        mute: mute,
-        hmsActionResultListener: hmsActionResultListener);
+      forRemoteTrack: forRemoteTrack,
+      mute: mute,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
-  void endRoom(bool lock, String reason,
-      HMSActionResultListener hmsActionResultListener) {
+  void endRoom(
+    bool lock,
+    String reason,
+    HMSActionResultListener hmsActionResultListener,
+  ) {
     hmsSDK.endRoom(
-        lock: lock,
-        reason: reason,
-        hmsActionResultListener: hmsActionResultListener);
+      lock: lock,
+      reason: reason,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   void removePeer(
-      HMSPeer peer, HMSActionResultListener hmsActionResultListener) {
+    HMSPeer peer,
+    HMSActionResultListener hmsActionResultListener,
+  ) {
     hmsSDK.removePeer(
-        peer: peer,
-        reason: "Removing Peer from Flutter",
-        hmsActionResultListener: hmsActionResultListener);
+      peer: peer,
+      reason: "Removing Peer from Flutter",
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
-  void changeRole(
-      {required HMSPeer forPeer,
-      required HMSRole toRole,
-      bool force = false,
-      required HMSActionResultListener hmsActionResultListener}) {
+  void changeRole({
+    required HMSPeer forPeer,
+    required HMSRole toRole,
+    bool force = false,
+    required HMSActionResultListener hmsActionResultListener,
+  }) {
     hmsSDK.changeRoleOfPeer(
-        forPeer: forPeer,
-        toRole: toRole,
-        force: force,
-        hmsActionResultListener: hmsActionResultListener);
+      forPeer: forPeer,
+      toRole: toRole,
+      force: force,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   Future<List<HMSRole>> getRoles() async {
@@ -194,44 +223,60 @@ class HMSSDKInteractor {
     hmsSDK.unMuteRoomAudioLocally();
   }
 
-  void startRtmpOrRecording(HMSRecordingConfig hmsRecordingConfig,
-      HMSActionResultListener hmsActionResultListener) {
+  void startRtmpOrRecording(
+    HMSRecordingConfig hmsRecordingConfig,
+    HMSActionResultListener hmsActionResultListener,
+  ) {
     hmsSDK.startRtmpOrRecording(
-        hmsRecordingConfig: hmsRecordingConfig,
-        hmsActionResultListener: hmsActionResultListener);
+      hmsRecordingConfig: hmsRecordingConfig,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   void stopRtmpAndRecording(HMSActionResultListener hmsActionResultListener) {
     hmsSDK.stopRtmpAndRecording(
-        hmsActionResultListener: hmsActionResultListener);
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   Future<HMSRoom?> getRoom() async {
     return await hmsSDK.getRoom();
   }
 
-  void changeMetadata(
-      {required String metadata,
-      required HMSActionResultListener hmsActionResultListener}) {
+  void changeMetadata({
+    required String metadata,
+    required HMSActionResultListener hmsActionResultListener,
+  }) {
     hmsSDK.changeMetadata(
-        metadata: metadata, hmsActionResultListener: hmsActionResultListener);
+      metadata: metadata,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
-  void changeName(
-      {required String name,
-      required HMSActionResultListener hmsActionResultListener}) {
+  void changeName({
+    required String name,
+    required HMSActionResultListener hmsActionResultListener,
+  }) {
     hmsSDK.changeName(
-        name: name, hmsActionResultListener: hmsActionResultListener);
+      name: name,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
-  void changeTrackStateForRole(bool mute, HMSTrackKind? kind, String? source,
-      List<HMSRole>? roles, HMSActionResultListener? hmsActionResultListener) {
+  void changeTrackStateForRole(
+    bool mute,
+    HMSTrackKind? kind,
+    String? source,
+    List<HMSRole>? roles,
+    HMSActionResultListener? hmsActionResultListener,
+  ) {
     hmsSDK.changeTrackStateForRole(
-        mute: mute,
-        kind: kind,
-        source: source,
-        roles: roles,
-        hmsActionResultListener: hmsActionResultListener);
+      mute: mute,
+      kind: kind,
+      source: source,
+      roles: roles,
+      hmsActionResultListener: hmsActionResultListener,
+    );
   }
 
   Future<List<HMSPeer>?> getPeers() async {

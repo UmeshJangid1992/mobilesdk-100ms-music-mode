@@ -22,15 +22,16 @@ class PollVoteCard extends StatefulWidget {
   final Function? updatePage;
   final Function? setPageSize;
 
-  const PollVoteCard(
-      {super.key,
-      required this.questionNumber,
-      required this.totalQuestions,
-      required this.question,
-      required this.isPoll,
-      this.startTime,
-      this.updatePage,
-      this.setPageSize});
+  const PollVoteCard({
+    super.key,
+    required this.questionNumber,
+    required this.totalQuestions,
+    required this.question,
+    required this.isPoll,
+    this.startTime,
+    this.updatePage,
+    this.setPageSize,
+  });
 
   @override
   State<PollVoteCard> createState() => _PollVoteCardState();
@@ -83,23 +84,23 @@ class _PollVoteCardState extends State<PollVoteCard> {
               Row(
                 children: [
                   HMSTitleText(
-                      text:
-                          "QUESTION ${widget.questionNumber + 1} OF ${widget.totalQuestions}: ",
-                      textColor: HMSThemeColors.onSurfaceLowEmphasis,
-                      fontSize: 10,
-                      letterSpacing: 1.5,
-                      lineHeight: 16),
+                    text:
+                        "QUESTION ${widget.questionNumber + 1} OF ${widget.totalQuestions}: ",
+                    textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                    fontSize: 10,
+                    letterSpacing: 1.5,
+                    lineHeight: 16,
+                  ),
                   HMSTitleText(
-                      fontSize: 10,
-                      letterSpacing: 1.5,
-                      lineHeight: 16,
-                      text: Utilities.getQuestionType(widget.question.type),
-                      textColor: HMSThemeColors.onSurfaceLowEmphasis)
+                    fontSize: 10,
+                    letterSpacing: 1.5,
+                    lineHeight: 16,
+                    text: Utilities.getQuestionType(widget.question.type),
+                    textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               HMSTitleText(
                 text: widget.question.text,
                 textColor: HMSThemeColors.onSurfaceHighEmphasis,
@@ -107,114 +108,126 @@ class _PollVoteCardState extends State<PollVoteCard> {
                 fontWeight: FontWeight.w400,
               ),
               ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.question.options.length,
-                  itemBuilder: (BuildContext context, index) {
-                    return Row(
-                      children: [
-                        Checkbox(
-                            activeColor: HMSThemeColors.onSurfaceHighEmphasis,
-                            checkColor: HMSThemeColors.surfaceDefault,
-                            value: ((widget.question.type ==
-                                    HMSPollQuestionType.singleChoice)
-                                ? selectedOption ==
-                                    widget.question.options[index]
-                                : selectedOptions
-                                    .contains(widget.question.options[index])),
-                            shape: widget.question.type ==
-                                    HMSPollQuestionType.singleChoice
-                                ? const CircleBorder()
-                                : const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4))),
-                            onChanged: (value) {
-                              if (value == true) {
-                                if (widget.question.type ==
-                                    HMSPollQuestionType.singleChoice) {
-                                  selectedOption =
-                                      widget.question.options[index];
-                                } else if (widget.question.type ==
-                                    HMSPollQuestionType.multiChoice) {
-                                  selectedOptions
-                                      .add(widget.question.options[index]);
-                                }
-                              } else {
-                                if (widget.question.type ==
-                                    HMSPollQuestionType.multiChoice) {
-                                  selectedOptions
-                                      .remove(widget.question.options[index]);
-                                }
-                              }
-                              resetPollAnswerValidity();
-                              setState(() {});
-                            }),
-                        Expanded(
-                          child: HMSSubheadingText(
-                              text: widget.question.options[index].text ?? "",
-                              maxLines: 3,
-                              textColor: HMSThemeColors.onSurfaceHighEmphasis),
-                        )
-                      ],
-                    );
-                  }),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.question.options.length,
+                itemBuilder: (BuildContext context, index) {
+                  return Row(
+                    children: [
+                      Checkbox(
+                        activeColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        checkColor: HMSThemeColors.surfaceDefault,
+                        value: ((widget.question.type ==
+                                HMSPollQuestionType.singleChoice)
+                            ? selectedOption == widget.question.options[index]
+                            : selectedOptions.contains(
+                                widget.question.options[index],
+                              )),
+                        shape: widget.question.type ==
+                                HMSPollQuestionType.singleChoice
+                            ? const CircleBorder()
+                            : const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
+                                ),
+                              ),
+                        onChanged: (value) {
+                          if (value == true) {
+                            if (widget.question.type ==
+                                HMSPollQuestionType.singleChoice) {
+                              selectedOption = widget.question.options[index];
+                            } else if (widget.question.type ==
+                                HMSPollQuestionType.multiChoice) {
+                              selectedOptions.add(
+                                widget.question.options[index],
+                              );
+                            }
+                          } else {
+                            if (widget.question.type ==
+                                HMSPollQuestionType.multiChoice) {
+                              selectedOptions.remove(
+                                widget.question.options[index],
+                              );
+                            }
+                          }
+                          resetPollAnswerValidity();
+                          setState(() {});
+                        },
+                      ),
+                      Expanded(
+                        child: HMSSubheadingText(
+                          text: widget.question.options[index].text ?? "",
+                          maxLines: 3,
+                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   HMSButton(
-                      width: MediaQuery.of(context).size.width *
-                          (widget.isPoll ? 0.21 : 0.30),
-                      onPressed: () {
-                        ///Here we check whether the poll/quiz Answer is valid and it's not answered yet
-                        if (isPollAnswerValid && !_isAnswered) {
-                          if (widget.question.type ==
-                                  HMSPollQuestionType.singleChoice &&
-                              selectedOption != null) {
-                            context
-                                .read<MeetingStore>()
-                                .addSingleChoicePollResponse(
-                                    context.read<HMSPollStore>().poll,
-                                    widget.question,
-                                    selectedOption!,
-                                    timeTakenToAnswer: widget.isPoll
-                                        ? null
-                                        : widget.startTime != null
-                                            ? (DateTime.now()
-                                                .difference(widget.startTime!))
-                                            : null);
-                            selectedOption = null;
-                          } else if (widget.question.type ==
-                                  HMSPollQuestionType.multiChoice &&
-                              selectedOptions.isNotEmpty) {
-                            context
-                                .read<MeetingStore>()
-                                .addMultiChoicePollResponse(
-                                    context.read<HMSPollStore>().poll,
-                                    widget.question,
-                                    selectedOptions,
-                                    timeTakenToAnswer: widget.isPoll
-                                        ? null
-                                        : widget.startTime != null
-                                            ? (DateTime.now()
-                                                .difference(widget.startTime!))
-                                            : null);
-                            selectedOptions = [];
-                          }
-                          if (!widget.isPoll && widget.updatePage != null) {
-                            widget.updatePage!(widget.totalQuestions);
-                          }
+                    width: MediaQuery.of(context).size.width *
+                        (widget.isPoll ? 0.21 : 0.30),
+                    onPressed: () {
+                      ///Here we check whether the poll/quiz Answer is valid and it's not answered yet
+                      if (isPollAnswerValid && !_isAnswered) {
+                        if (widget.question.type ==
+                                HMSPollQuestionType.singleChoice &&
+                            selectedOption != null) {
+                          context
+                              .read<MeetingStore>()
+                              .addSingleChoicePollResponse(
+                                context.read<HMSPollStore>().poll,
+                                widget.question,
+                                selectedOption!,
+                                timeTakenToAnswer: widget.isPoll
+                                    ? null
+                                    : widget.startTime != null
+                                        ? (DateTime.now().difference(
+                                            widget.startTime!,
+                                          ))
+                                        : null,
+                              );
+                          selectedOption = null;
+                        } else if (widget.question.type ==
+                                HMSPollQuestionType.multiChoice &&
+                            selectedOptions.isNotEmpty) {
+                          context
+                              .read<MeetingStore>()
+                              .addMultiChoicePollResponse(
+                                context.read<HMSPollStore>().poll,
+                                widget.question,
+                                selectedOptions,
+                                timeTakenToAnswer: widget.isPoll
+                                    ? null
+                                    : widget.startTime != null
+                                        ? (DateTime.now().difference(
+                                            widget.startTime!,
+                                          ))
+                                        : null,
+                              );
+                          selectedOptions = [];
                         }
-                      },
-                      buttonBackgroundColor: isPollAnswerValid || !_isAnswered
-                          ? HMSThemeColors.primaryDefault
-                          : HMSThemeColors.primaryDisabled,
-                      childWidget: HMSTitleText(
-                          text: widget.isPoll ? "Vote" : "Answer",
-                          textColor: isPollAnswerValid || !_isAnswered
-                              ? HMSThemeColors.onPrimaryHighEmphasis
-                              : HMSThemeColors.onPrimaryLowEmphasis))
+                        if (!widget.isPoll && widget.updatePage != null) {
+                          widget.updatePage!(widget.totalQuestions);
+                        }
+                      }
+                    },
+                    buttonBackgroundColor: isPollAnswerValid || !_isAnswered
+                        ? HMSThemeColors.primaryDefault
+                        : HMSThemeColors.primaryDisabled,
+                    childWidget: HMSTitleText(
+                      text: widget.isPoll ? "Vote" : "Answer",
+                      textColor: isPollAnswerValid || !_isAnswered
+                          ? HMSThemeColors.onPrimaryHighEmphasis
+                          : HMSThemeColors.onPrimaryLowEmphasis,
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

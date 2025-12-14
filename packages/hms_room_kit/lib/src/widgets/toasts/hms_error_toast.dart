@@ -21,12 +21,13 @@ class HMSErrorToast extends StatefulWidget {
   final MeetingStore meetingStore;
   final Color? toastColor;
   final double? toastPosition;
-  const HMSErrorToast(
-      {super.key,
-      required this.error,
-      required this.meetingStore,
-      this.toastColor,
-      this.toastPosition});
+  const HMSErrorToast({
+    super.key,
+    required this.error,
+    required this.meetingStore,
+    this.toastColor,
+    this.toastPosition,
+  });
 
   @override
   State<HMSErrorToast> createState() => _HMSErrorToastState();
@@ -56,8 +57,10 @@ class _HMSErrorToastState extends State<HMSErrorToast> {
             toastColor: widget.toastColor,
             toastPosition: widget.toastPosition,
             subtitle: HMSSubheadingText(
-              text: widget.error.description
-                  .substring(0, math.min(30, widget.error.description.length)),
+              text: widget.error.description.substring(
+                0,
+                math.min(30, widget.error.description.length),
+              ),
               textColor: HMSThemeColors.onSurfaceHighEmphasis,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.1,

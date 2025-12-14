@@ -27,8 +27,11 @@ class _HLSStreamTimerState extends State<HLSStreamTimer> {
 
     if (startedAt != null) {
       _secondsElapsed = DateTime.now()
-          .difference(DateTime.fromMillisecondsSinceEpoch(
-              startedAt.millisecondsSinceEpoch))
+          .difference(
+            DateTime.fromMillisecondsSinceEpoch(
+              startedAt.millisecondsSinceEpoch,
+            ),
+          )
           .inSeconds;
     }
     _startTimer();
@@ -68,8 +71,9 @@ class _HLSStreamTimerState extends State<HLSStreamTimer> {
   @override
   Widget build(BuildContext context) {
     return HMSSubtitleText(
-        text: _getFormattedTime(),
-        letterSpacing: 0.4,
-        textColor: HMSThemeColors.onSurfaceMediumEmphasis);
+      text: _getFormattedTime(),
+      letterSpacing: 0.4,
+      textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+    );
   }
 }

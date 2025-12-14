@@ -10,11 +10,12 @@ class TranscriptStore extends ChangeNotifier {
   final int start;
   final String? peerName;
 
-  TranscriptStore(
-      {required this.transcript,
-      required this.peerId,
-      required this.start,
-      required this.peerName});
+  TranscriptStore({
+    required this.transcript,
+    required this.peerId,
+    required this.start,
+    required this.peerName,
+  });
 
   void notify() {
     notifyListeners();

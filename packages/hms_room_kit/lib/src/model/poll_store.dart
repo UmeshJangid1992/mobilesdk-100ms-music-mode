@@ -22,7 +22,8 @@ class HMSPollStore extends ChangeNotifier {
   }
 
   void updatePollLeaderboardResponse(
-      HMSPollLeaderboardResponse pollLeaderboardResponse) {
+    HMSPollLeaderboardResponse pollLeaderboardResponse,
+  ) {
     this.pollLeaderboardResponse = pollLeaderboardResponse;
     notifyListeners();
   }

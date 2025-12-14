@@ -1,17 +1,53 @@
 # Latest Versions
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | [![Pub Version](https://img.shields.io/pub/v/hms_room_kit)](https://pub.dev/packages/hms_room_kit)     |
-| hmssdk_flutter | [![Pub Version](https://img.shields.io/pub/v/hmssdk_flutter)](https://pub.dev/packages/hmssdk_flutter) |
+| Package          | Version                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------- |
+| hms_room_kit     | [![Pub Version](https://img.shields.io/pub/v/hms_room_kit)](https://pub.dev/packages/hms_room_kit)         |
+| hmssdk_flutter   | [![Pub Version](https://img.shields.io/pub/v/hmssdk_flutter)](https://pub.dev/packages/hmssdk_flutter)     |
 | hms_video_plugin | [![Pub Version](https://img.shields.io/pub/v/hms_video_plugin)](https://pub.dev/packages/hms_video_plugin) |
+
+# 1.11.0 - 2025-10-29
+
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.2.0   |
+| hmssdk_flutter | 1.11.0  |
+
+### Breaking Changes
+
+- **Minimum Flutter version updated to 3.24.0** (previously 2.10.0)
+- **Android minimum SDK increased to API 24** (previously 21)
+- **Android now supports 64-bit architectures only** (arm64-v8a, x86_64) for 16KB page size compliance
+
+### Android Updates
+
+- Updated Android Gradle Plugin to 8.9.0
+- Updated compile SDK to API 36
+- Updated NDK to r28 (27.2.12479018)
+- Added Kotlin JVM target 17
+- Updated native 100ms Android SDK to 2.9.78 (from 2.9.67)
+
+### iOS Updates
+
+- Updated native 100ms iOS SDK to 1.17.0 (from 1.16.1)
+- Updated 100ms iOS Broadcast Extension to 1.0.1 (from 0.0.9)
+
+### Other Changes
+
+- Updated lints package to ^6.0.0 (from ^3.0.0)
+
+**Note:** These changes ensure compatibility with Google Play's 16KB page size requirement and improve overall platform performance.
+
+Uses Android SDK 2.9.78 & iOS SDK 1.17.0
+
+**Full Changelog**: [1.10.6...1.11.0](https://github.com/100mslive/100ms-flutter/compare/1.10.6...1.11.0)
 
 # 1.10.6 - 2024-09-17
 
-| Package                     | Version  |
-| ----------------------------|----------|
-| hms_room_kit                | 1.1.6    |
-| hmssdk_flutter              | 1.10.6   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.6   |
+| hmssdk_flutter | 1.10.6  |
 
 ### Breaking Changes
 
@@ -21,7 +57,6 @@
   Users will have to add the dependency manually in their Android project to use Noise Cancellation.
   This change is made to reduce the size of the package.
   Refer to the [Noise Cancellation](https://www.100ms.live/docs/flutter/v2/how-to-guides/extend-capabilities/noise-cancellation) documentation for more details.
-
 
 ### hmssdk_flutter
 
@@ -35,13 +70,12 @@ Uses Android SDK 2.9.67 & iOS SDK 1.16.1
 
 **Full Changelog**: [1.10.5...1.10.6](https://github.com/100mslive/100ms-flutter/compare/1.10.5...1.10.6)
 
-
 # 1.10.5 - 2024-07-25
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.5  |
-| hmssdk_flutter              | 1.10.5 |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.5   |
+| hmssdk_flutter | 1.10.5  |
 
 Uses Android SDK 2.9.64 & iOS SDK 1.15.0
 
@@ -49,16 +83,16 @@ Uses Android SDK 2.9.64 & iOS SDK 1.15.0
 
 # 1.10.4 - 2024-07-01
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.4  |
-| hmssdk_flutter              | 1.10.4 |
-| hms_video_plugin            | 0.0.2  |
+| Package          | Version |
+| ---------------- | ------- |
+| hms_room_kit     | 1.1.4   |
+| hmssdk_flutter   | 1.10.4  |
+| hms_video_plugin | 0.0.2   |
 
 ### ✨ Added
 
 - Live Transcription in webRTC calls
-  
+
   HMSSDK now provides support for transcription in webRTC calls. You can now start/stop transcription using `HMSTranscriptionController` methods. HMSSDK provides also provides callbacks for transcription start/stop events. Learn more about it [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/extend-capabilities/live-captions)
 
 ### 🛠️ Changed
@@ -69,15 +103,13 @@ Uses Android SDK 2.9.59 & iOS SDK 1.12.0
 
 **Full Changelog**: [1.10.3...1.10.4](https://github.com/100mslive/100ms-flutter/compare/1.10.3...1.10.4)
 
-
 # 1.10.3 - 2024-06-12
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.3  |
-| hmssdk_flutter              | 1.10.3 |
-| hms_video_plugin            | 0.0.1  |
-
+| Package          | Version |
+| ---------------- | ------- |
+| hms_room_kit     | 1.1.3   |
+| hmssdk_flutter   | 1.10.3  |
+| hms_video_plugin | 0.0.1   |
 
 Uses Android SDK 2.9.59 & iOS SDK 1.12.0
 
@@ -85,10 +117,10 @@ Uses Android SDK 2.9.59 & iOS SDK 1.12.0
 
 # 1.10.2 - 2024-05-15
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.2  |
-| hmssdk_flutter              | 1.10.2 |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.2   |
+| hmssdk_flutter | 1.10.2  |
 
 ### ✨ Added
 
@@ -110,16 +142,16 @@ Uses Android SDK 2.9.56 & iOS SDK 1.10.0
 
 # 1.10.1 - 2024-04-26
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.1 |
-| hmssdk_flutter              | 1.10.1 |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.1   |
+| hmssdk_flutter | 1.10.1  |
 
 ### ✨ Added
 
 - Support for captions in HLS Player
 
-  HMSSDK now provides support for captions in HLS Player. You can now `enable` or `disable` captions in the HLS Player using the 
+  HMSSDK now provides support for captions in HLS Player. You can now `enable` or `disable` captions in the HLS Player using the
   `HMSHLSPlayerController` methods. Moreover HMSSDK provides a new `onCues` callback to get captions. Learn more about it [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/record-and-live-stream/hls-player#how-to-enabledisable-captions)
 
 Uses Android SDK 2.9.54 & iOS SDK 1.9.0
@@ -128,10 +160,10 @@ Uses Android SDK 2.9.54 & iOS SDK 1.9.0
 
 # 1.10.0 - 2024-04-22
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.1.0 |
-| hmssdk_flutter              | 1.10.0 |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.1.0   |
+| hmssdk_flutter | 1.10.0  |
 
 ### ✨ Added
 
@@ -140,8 +172,8 @@ Uses Android SDK 2.9.54 & iOS SDK 1.9.0
   You can enhance your app's audio quality with the newly integrated Noise Cancellation feature in HMSSDK. With this addition, control Noise Cancellation settings through the `HMSNoiseCancellationController`
 
   Learn more about leveraging this capability in your app by checking the documentation [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/extend-capabilities/noise-cancellation).
-  
-- [SIP](https://www.100ms.live/docs/server-side/v2/how-to-guides/Session%20Initiation%20Protocol%20(SIP)/SIP-Interconnect) Capability
+
+- [SIP](<https://www.100ms.live/docs/server-side/v2/how-to-guides/Session%20Initiation%20Protocol%20(SIP)/SIP-Interconnect>) Capability
 
   HMSSDK now offers a way to differentiate between SIP and non-SIP users in the Room. You can use the `type` property in the `HMSPeer` class to check if a peer is a SIP user.
 
@@ -157,10 +189,10 @@ Uses Android SDK 2.9.54 & iOS SDK 1.8.0
 
 # 1.9.14 - 2024-04-01
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.17  |
-| hmssdk_flutter              | 1.9.14  |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.17  |
+| hmssdk_flutter | 1.9.14  |
 
 ### 🛠️ Fix
 
@@ -172,33 +204,30 @@ Uses Android SDK 2.9.51 & iOS SDK 1.8.0
 
 # 1.9.13 - 2024-03-15
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.16  |
-| hmssdk_flutter              | 1.9.13  |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.16  |
+| hmssdk_flutter | 1.9.13  |
 
 ### ✨ Added
 
 - Leave Room Immediately if App is Killed(iOS only)
-
   - HMSSDK automatically triggers `leave` method call when the iOS application is terminated.
 
 Updated to Android SDK 2.9.51 & iOS SDK 1.6.0
 
 **Full Changelog**: [1.9.12...1.9.13](https://github.com/100mslive/100ms-flutter/compare/1.9.12...1.9.13)
 
-
 # 1.9.12 - 2024-03-04
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.15  |
-| hmssdk_flutter              | 1.9.12  |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.15  |
+| hmssdk_flutter | 1.9.12  |
 
 ### ✨ Added
 
 - Introducing methods to fetch polls, questions, leaderboards and results
-
   - Users can now fetch polls based on the poll state, questions for a poll and poll results
     using the `fetchPollList`, `fetchPollQuestions` and `getPollResults` methods.
     Checkout the docs [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/interact-with-room/room/polls#fetchpolllist)
@@ -209,15 +238,14 @@ Updated to iOS SDK 1.6.0
 
 # 1.9.11 - 2024-02-26
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.14  |
-| hmssdk_flutter              | 1.9.11  |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.14  |
+| hmssdk_flutter | 1.9.11  |
 
 ### ✨ Added
 
 - Introducing leaderboard APIs
-
   - Users can now fetch rankings and quiz summary using the `fetchLeaderboard` method. More information about leaderboard can be found [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/interact-with-room/room/polls)
 
 Updated to Android SDK 2.9.4 & iOS SDK 1.5.1
@@ -226,30 +254,28 @@ Updated to Android SDK 2.9.4 & iOS SDK 1.5.1
 
 # 1.9.10 - 2024-02-16
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.13  |
-| hmssdk_flutter              | 1.9.10   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.13  |
+| hmssdk_flutter | 1.9.10  |
 
 ### ✨ Added
 
 - Introducing Quizzes
-
   - Users can now seamlessly create, answer, and manage quizzes using HMSSDK.
 
 **Full Changelog**: [1.9.9...1.9.10](https://github.com/100mslive/100ms-flutter/compare/1.9.9...1.9.10)
 
 # 1.9.9 - 2024-02-12
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.12  |
-| hmssdk_flutter              | 1.9.9   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.12  |
+| hmssdk_flutter | 1.9.9   |
 
 ### ✨ Added
 
 - Introducing Polls
-
   - APIs for Comprehensive Poll Management:
     - `quickStartPoll` to start polls
     - `addSingleChoicePollResponse` & `addMultiChoicePollResponse` for adding single and multi choice response
@@ -269,10 +295,10 @@ Updated to Android SDK 2.9.0 & iOS SDK 1.5.0
 
 # 1.9.8 - 2024-02-01
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.11  |
-| hmssdk_flutter              | 1.9.8   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.11  |
+| hmssdk_flutter | 1.9.8   |
 
 ### 🛠️ Changed
 
@@ -284,10 +310,10 @@ Updated to Android SDK 2.9.0 & iOS SDK 1.5.0
 
 # 1.9.7 - 2024-01-18
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.10  |
-| hmssdk_flutter              | 1.9.7   |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.10  |
+| hmssdk_flutter | 1.9.7   |
 
 Updated to Android SDK 2.8.8 & iOS SDK 1.4.2
 
@@ -295,10 +321,10 @@ Updated to Android SDK 2.8.8 & iOS SDK 1.4.2
 
 # 1.9.6 - 2024-01-15
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.9  |
-| hmssdk_flutter              | 1.9.6  |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.9   |
+| hmssdk_flutter | 1.9.6   |
 
 ### ✨ Added
 
@@ -316,12 +342,12 @@ Updated to Android SDK 2.8.5 & iOS SDK 1.4.1
 
 # 1.9.5 - 2023-12-15
 
-| Package                                | Version                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| hms_room_kit                | 1.0.8  |
-| hmssdk_flutter              | 1.9.5  |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.8   |
+| hmssdk_flutter | 1.9.5   |
 
-### Added 
+### Added
 
 - Added `state` property to recording and streaming classes to get the current state of recording and streaming.
 
@@ -329,7 +355,7 @@ Updated to Android SDK 2.8.5 & iOS SDK 1.4.1
 
 ### Changed
 
-- Removed `addTrackByDefault` property from `HMSTextureView`. 
+- Removed `addTrackByDefault` property from `HMSTextureView`.
 
   This should not affect any existing implementation as `addTrackByDefault` was set to `true` by default.
   Learn more about `HMSTextureView` [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/set-up-video-conferencing/render-video/hms-texture-view).
@@ -340,10 +366,10 @@ Updated to Android SDK 2.8.3 & iOS SDK 1.4.0
 
 # 1.9.4 - 2023-12-08
 
-| Package        | Version                                                                                                |
-| -------------- | ------------------------------------------------------------------------------------------------------ |
-| hms_room_kit   | 1.0.7     |
-| hmssdk_flutter | 1.9.4     |
+| Package        | Version |
+| -------------- | ------- |
+| hms_room_kit   | 1.0.7   |
+| hmssdk_flutter | 1.9.4   |
 
 ### Added
 
@@ -394,7 +420,6 @@ Updated to Android SDK 2.7.9 & iOS SDK 1.1.0
 ### Added
 
 - Large Room Support
-
   - Added first class "Hand Raise" apis: `raiseLocalPeerHand`, `lowerLocalPeerHand`, `lowerRemotePeerHand`
   - Added `onPeerListUpdate` event on `HMSUpdateListener`, This requires overriding the `onPeerListUpdate` method in all implementations of HMSUpdateListener.
   - Added "Peer List Iterator" APIs - `getPeerListIterator`
@@ -521,7 +546,6 @@ Updated to Android SDK 2.6.8 & iOS SDK 0.9.5
   On iOS devices, you can now show the Native Airplay UI provided by iOS. Users can control the connected device which can be Airpods, any Bluetooth earphones, Wired Headsets, etc through which the Room's audio should be routed.
 
   Learn more about it [here](https://www.100ms.live/docs/flutter/v2/how-to-guides/configure-your-device/speaker/audio-output-routing#switch-audio-output-device-ui-ios-only).
-
   - Added `messageId` to `HMSMessage`
 
   You can now uniquely identify a message using the `messageId` property of `HMSMessage` class.
@@ -577,7 +601,6 @@ Updated to Android SDK 2.6.2 & iOS SDK 0.9.3
   The latest update includes changes in the implementation of Screen share and Audio share on Android. If you are using Screenshare or Local Audio Share functionalities, upgrading to this version or above will require changes to be made to the `onActivityResult` method of `MainActivity.kt`.
 
   More details are available in the Migration Guide listed below:
-
   - [Screen Share Migration Guide](https://www.100ms.live/docs/flutter/v2/how--to-guides/set-up-video-conferencing/screen-share#migrating-from-older-hmssdk-version-to-150-or-above)
 
   - [Audio Share Migration Guide](https://www.100ms.live/docs/flutter/v2/how--to-guides/set-up-video-conferencing/local-audio-share#migrating-from-older-hmssdk-version-to-150-or-above)
@@ -611,7 +634,6 @@ Full Changelog: [1.4.0...1.5.0](https://github.com/100mslive/100ms-flutter/compa
 ### Added
 
 - Join using Room Codes
-
   - Room Codes is a streamlined and secure way to manage user authentication in Rooms.
   - By generating short codes via `getAuthTokenByRoomCode` API, you can easily manage user access with one code per role for each room, without the need for server infrastructure
   - This feature ensures a smoother login experience for users while enhancing security.

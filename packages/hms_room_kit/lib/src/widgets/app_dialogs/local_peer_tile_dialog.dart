@@ -17,18 +17,19 @@ class LocalPeerTileDialog extends StatefulWidget {
   final Function()? toggleFlash;
   final Function() setOnSpotlight;
   final bool isSpotlightedPeer;
-  const LocalPeerTileDialog(
-      {super.key,
-      required this.isAudioMode,
-      this.isVideoOn = false,
-      required this.toggleCamera,
-      required this.peerName,
-      required this.changeRole,
-      required this.roles,
-      required this.changeName,
-      this.toggleFlash,
-      required this.setOnSpotlight,
-      this.isSpotlightedPeer = false});
+  const LocalPeerTileDialog({
+    super.key,
+    required this.isAudioMode,
+    this.isVideoOn = false,
+    required this.toggleCamera,
+    required this.peerName,
+    required this.changeRole,
+    required this.roles,
+    required this.changeName,
+    this.toggleFlash,
+    required this.setOnSpotlight,
+    this.isSpotlightedPeer = false,
+  });
 
   @override
   LocalPeerTileDialogState createState() => LocalPeerTileDialogState();
@@ -41,7 +42,9 @@ class LocalPeerTileDialogState extends State<LocalPeerTileDialog> {
       title: Text(
         widget.peerName,
         style: HMSTextStyle.setTextStyle(
-            color: iconColor, fontWeight: FontWeight.bold),
+          color: iconColor,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       backgroundColor: themeBottomSheetColor,
       content: SizedBox(
@@ -62,13 +65,11 @@ class LocalPeerTileDialogState extends State<LocalPeerTileDialog> {
                       "packages/hms_room_kit/lib/src/assets/icons/pencil.svg",
                       colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
                     ),
-                    const SizedBox(
-                      width: 16,
-                    ),
+                    const SizedBox(width: 16),
                     Text(
                       "Change Name",
                       style: HMSTextStyle.setTextStyle(color: iconColor),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -84,16 +85,16 @@ class LocalPeerTileDialogState extends State<LocalPeerTileDialog> {
                     children: [
                       SvgPicture.asset(
                         "packages/hms_room_kit/lib/src/assets/icons/role_change.svg",
-                        colorFilter:
-                            ColorFilter.mode(iconColor, BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(
+                          iconColor,
+                          BlendMode.srcIn,
+                        ),
                       ),
-                      const SizedBox(
-                        width: 16,
-                      ),
+                      const SizedBox(width: 16),
                       Text(
                         "Change Role",
                         style: HMSTextStyle.setTextStyle(color: iconColor),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -109,13 +110,11 @@ class LocalPeerTileDialogState extends State<LocalPeerTileDialog> {
                   child: Row(
                     children: [
                       const Icon(Icons.flashlight_on_outlined),
-                      const SizedBox(
-                        width: 16,
-                      ),
+                      const SizedBox(width: 16),
                       Text(
                         "Toggle Flash",
                         style: HMSTextStyle.setTextStyle(color: iconColor),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -132,18 +131,18 @@ class LocalPeerTileDialogState extends State<LocalPeerTileDialog> {
                     children: [
                       SvgPicture.asset(
                         "packages/hms_room_kit/lib/src/assets/icons/spotlight.svg",
-                        colorFilter:
-                            ColorFilter.mode(iconColor, BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(
+                          iconColor,
+                          BlendMode.srcIn,
+                        ),
                       ),
-                      const SizedBox(
-                        width: 16,
-                      ),
+                      const SizedBox(width: 16),
                       Text(
                         widget.isSpotlightedPeer
                             ? "Remove From Spotlight"
                             : "Spotlight Tile",
                         style: HMSTextStyle.setTextStyle(color: iconColor),
-                      )
+                      ),
                     ],
                   ),
                 ),

@@ -13,7 +13,7 @@ class PreviewController extends GetxController
 
   PreviewController(this.url, this.name);
 
-//To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
+  //To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
   HMSSDK hmsSdk = Get.put(HMSSDK());
 
   @override
@@ -24,11 +24,9 @@ class PreviewController extends GetxController
     if (token == null) return;
 
     HMSConfig config = Get.put(
-        HMSConfig(
-          authToken: token,
-          userName: name,
-        ),
-        tag: "");
+      HMSConfig(authToken: token, userName: name),
+      tag: "",
+    );
 
     hmsSdk.preview(config: config);
 
@@ -54,17 +52,19 @@ class PreviewController extends GetxController
   }
 
   @override
-  void onException(
-      {HMSActionResultListenerMethod? methodType,
-      Map<String, dynamic>? arguments,
-      required HMSException hmsException}) {
+  void onException({
+    HMSActionResultListenerMethod? methodType,
+    Map<String, dynamic>? arguments,
+    required HMSException hmsException,
+  }) {
     Get.snackbar("Error", hmsException.message ?? "");
   }
 
   @override
-  void onSuccess(
-      {HMSActionResultListenerMethod? methodType,
-      Map<String, dynamic>? arguments}) {
+  void onSuccess({
+    HMSActionResultListenerMethod? methodType,
+    Map<String, dynamic>? arguments,
+  }) {
     Get.back();
   }
 
@@ -102,16 +102,18 @@ class PreviewController extends GetxController
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // Checkout the docs about handling onAudioDeviceChanged updates in preview here: https://www.100ms.live/docs/flutter/v2/how--to-guides/set-up-video-conferencing/preview
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 }

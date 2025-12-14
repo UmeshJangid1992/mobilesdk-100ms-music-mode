@@ -1,23 +1,88 @@
-Board: https://app.devrev.ai/100ms/vistas/vista-250
+### 🚀 Major Updates
 
-- Add support for zoom in camera controls
-https://app.devrev.ai/100ms/works/ISS-23282
+  #### Android 16KB Page Size Compliance
+  - Added full support for Android devices with 16KB page sizes
+  - Ensures compliance with Google Play requirement (effective November 1, 2025)
+  - Optimized memory allocation and performance for modern Android devices
+  - Updated NDK configuration for 16KB page size compatibility
 
-- Add support for Music Mode
-https://app.devrev.ai/100ms/works/ISS-22859
+  #### Build System Modernization
+  **Android:**
+  - Android Gradle Plugin (AGP): Upgraded to 8.9.0 (from 7.3.0)
+  - Gradle: Updated to 8.10/8.11.1 (from 7.5)
+  - Kotlin: Updated to 2.1.10 (from previous version)
+  - NDK: Updated to r28 (28.0.12674087) with 16KB page size support
+  - Updated build.gradle configurations across all modules
+  - Migrated to declarative plugin management in settings.gradle
 
-- Support for long running sessions
-https://app.devrev.ai/100ms/works/ISS-23134
+  **iOS:**
+  - Updated Podfile configuration
+  - Updated minimum deployment target to 16.0
+  - Updated Xcode project settings for modern iOS development
+  - Refreshed Podfile.lock with compatible dependencies
 
-- Hand Raise sorting based on Time
-https://app.devrev.ai/100ms/works/ISS-23102
+  ---
 
-- Change Role on Prebuilt
-https://app.devrev.ai/100ms/works/ISS-22877
+  ### ⚠️ Breaking Changes
 
-- Resolved crash when performing Role Change to VNRT
+  #### Platform Requirements
+  **Flutter:**
+  - Minimum version: 3.24.0 (previously lower)
+  - Recommended version: 3.27.0
+  - Update your Flutter installation if below minimum version
 
-Room Kit: 1.1.6
-Core SDK: 1.10.6
-Android SDK: 2.9.67
-iOS SDK: 1.16.1
+  **Android:**
+  - Minimum SDK (minSdkVersion): API 24 / Android 7.0 (previously API 21)
+  - Target SDK (targetSdkVersion): API 35 / Android 15 (previously API 34)
+  - Compile SDK (compileSdkVersion): API 35
+  - Dropped support for Android 6.0 and below
+  - **Architecture:** 64-bit only (arm64-v8a, x86_64) - removed 32-bit support (armeabi-v7a, x86)
+
+  **iOS:**
+  - Minimum deployment target: iOS 16.0 (previously 12.0)
+  - Dropped support for iOS versions below 16.0
+
+  **Java:**
+  - Added .java-version file for consistent Java version management
+  - Ensured compatibility with AGP 8.9.0 requirements
+
+  ---
+
+  ### ✨ New Features & Enhancements
+
+  #### Example App Improvements
+  - **QR Code Scanner:**
+    - Enhanced QR code screen with improved mobile_scanner integration
+    - Added proper camera permission handling
+    - Improved barcode detection and processing
+    - Better error handling and user feedback
+
+  - **AndroidManifest.xml Updates:**
+    - Added foregroundServiceType attributes for proper service declaration
+    - Added camera foreground service type for QR scanning
+    - Added microphone foreground service type for audio calls
+    - Updated permissions for Android 12+ compatibility
+    - Improved activity launch modes and window configuration
+
+  - **Main App Structure:**
+    - Cleaned up main.dart with better organization
+    - Improved app initialization flow
+    - Enhanced navigation structure
+
+  #### Configuration & Build Files
+  - Added comprehensive gradle.properties configuration
+  - Updated proguard-rules.pro for better code optimization
+  - Improved build.gradle configurations with modern practices
+  - Added proper namespace declarations
+  - Updated AppDelegate.swift for iOS best practices
+
+
+---
+
+Current Version Info:
+Room Kit: 1.2.0
+Core SDK: 1.11.0
+Android SDK: 2.9.78
+iOS SDK: 1.17.0
+Flutter version: 3.35.7
+Example App Version: 1.6.2 (532)

@@ -15,8 +15,11 @@ class LeaderboardRankingsList extends StatelessWidget {
   final int totalScore;
   final HMSPollStore pollStore;
 
-  const LeaderboardRankingsList(
-      {super.key, required this.totalScore, required this.pollStore});
+  const LeaderboardRankingsList({
+    super.key,
+    required this.totalScore,
+    required this.pollStore,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,8 @@ class LeaderboardRankingsList extends StatelessWidget {
                   ),
                   Container(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.4),
+                      maxWidth: MediaQuery.of(context).size.width * 0.4,
+                    ),
                     child: HMSTitleText(
                       text: pollStore.poll.title,
                       fontSize: 20,
@@ -50,22 +54,17 @@ class LeaderboardRankingsList extends StatelessWidget {
                       maxLines: 2,
                     ),
                   ),
-                  const SizedBox(
-                    width: 12,
-                  ),
+                  const SizedBox(width: 12),
                   LiveBadge(
                     badgeColor: HMSThemeColors.secondaryDefault,
                     text: "ENDED",
                     width: 50,
-                  )
+                  ),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 16),
-                child: Divider(
-                  color: HMSThemeColors.borderDefault,
-                  height: 5,
-                ),
+                child: Divider(color: HMSThemeColors.borderDefault, height: 5),
               ),
               LeaderboardRankings(
                 totalScore: totalScore,

@@ -38,8 +38,9 @@ class AppUtilities {
     setFcmToken();
     _users = _dbConnection?.collection('users');
     _userDataStore = UserDataStore(userRef: _users);
-    firebaseFunctions =
-        FirebaseFunctions.instance.httpsCallable("notifySubscribers");
+    firebaseFunctions = FirebaseFunctions.instance.httpsCallable(
+      "notifySubscribers",
+    );
     getPermissions();
   }
 
@@ -47,22 +48,22 @@ class AppUtilities {
 
   ///Function to get notification permission
   void getPermissions() async {
-    NotificationSettings? settings =
-        await _firebaseMessaging?.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    NotificationSettings? settings = await _firebaseMessaging
+        ?.requestPermission(
+          alert: true,
+          announcement: false,
+          badge: true,
+          carPlay: false,
+          criticalAlert: false,
+          provisional: false,
+          sound: true,
+        );
 
     await FlutterCallkitIncoming.requestNotificationPermission({
       "rationaleMessagePermission":
           "Notification permission is required, to show notification.",
       "postNotificationMessageRequired":
-          "Notification permission is required, Please allow notification permission from setting."
+          "Notification permission is required, Please allow notification permission from setting.",
     });
 
     log('Callkit: User granted permission: ${settings?.authorizationStatus}');
@@ -79,8 +80,9 @@ class AppUtilities {
     ];
 
     GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId:
-          Platform.isAndroid ? null : "Enter authentication client id here",
+      clientId: Platform.isAndroid
+          ? null
+          : "Enter authentication client id here",
       scopes: scopes,
     );
     GoogleSignInAccount? result = await googleSignIn.signIn();
@@ -92,44 +94,49 @@ class AppUtilities {
       idToken: googleSignInAuthentication.idToken,
     );
 
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithCredential(credential);
     return userCredential;
   }
 
   ///[signUpUser] handles the signup functionality
-  Future<bool> signUpUser(
-      {required String userName,
-      required String email,
-      required String imgUrl}) async {
+  Future<bool> signUpUser({
+    required String userName,
+    required String email,
+    required String imgUrl,
+  }) async {
     bool isUserPresent = await doesUserExist(email: email);
 
     ///Here if the user is not present we add the user to the database
     if (!isUserPresent && _fcmToken != null) {
       UserDataModel user = UserDataModel(
-          email: email,
-          userName: userName,
-          fcmToken: _fcmToken!,
-          imgUrl: imgUrl);
-      _users?.add({
-        "email": email,
-        "user_name": userName,
-        "fcm_token": _fcmToken,
-        "img_url": imgUrl,
-        "is_busy": false
-      }).then((DocumentReference doc) {
-        ///Setting the current user
-        ///and getting the users list
-        setCurrentUser(user: user);
-        log('DocumentSnapshot added with ID: ${doc.id}');
-        if (_users != null) {
-          userDataStore?.getUsers();
-        }
-        return true;
-      }).onError((error, stackTrace) {
-        log(error.toString());
-        return false;
-      });
+        email: email,
+        userName: userName,
+        fcmToken: _fcmToken!,
+        imgUrl: imgUrl,
+      );
+      _users
+          ?.add({
+            "email": email,
+            "user_name": userName,
+            "fcm_token": _fcmToken,
+            "img_url": imgUrl,
+            "is_busy": false,
+          })
+          .then((DocumentReference doc) {
+            ///Setting the current user
+            ///and getting the users list
+            setCurrentUser(user: user);
+            log('DocumentSnapshot added with ID: ${doc.id}');
+            if (_users != null) {
+              userDataStore?.getUsers();
+            }
+            return true;
+          })
+          .onError((error, stackTrace) {
+            log(error.toString());
+            return false;
+          });
     } else {
       ///Here if the user is already present we update the FCM token
       setLoggedInUserFCM(userName: userName, email: email, imgUrl: imgUrl);
@@ -138,11 +145,14 @@ class AppUtilities {
   }
 
   ///[setLoggedInUserFCM] function sets the FCM token for the logged in user
-  void setLoggedInUserFCM(
-      {required String? userName,
-      required String? email,
-      required String? imgUrl}) async {
-    log("Callkit: Setting logged in user FCM, Name: $userName, email: $email, imgUrl: $imgUrl");
+  void setLoggedInUserFCM({
+    required String? userName,
+    required String? email,
+    required String? imgUrl,
+  }) async {
+    log(
+      "Callkit: Setting logged in user FCM, Name: $userName, email: $email, imgUrl: $imgUrl",
+    );
     if (userName == null || email == null || imgUrl == null) {
       return;
     }
@@ -155,19 +165,22 @@ class AppUtilities {
     ///Here we set the FCM token for the user
     if (_fcmToken != null) {
       setCurrentUser(
-          user: UserDataModel(
-              email: email,
-              userName: userName,
-              fcmToken: _fcmToken!,
-              imgUrl: imgUrl));
+        user: UserDataModel(
+          email: email,
+          userName: userName,
+          fcmToken: _fcmToken!,
+          imgUrl: imgUrl,
+        ),
+      );
 
       ///Here we check if the user is already present in the database
       ///If the user is present we update the FCM token
       ///If the user is not present we add the user to the database
       ///and get the users list
       ///This is done to ensure that the user is present in the database
-      QuerySnapshot? data =
-          await _users?.where("email", isEqualTo: email).get();
+      QuerySnapshot? data = await _users
+          ?.where("email", isEqualTo: email)
+          .get();
       if (data?.docs.isEmpty ?? true) {
         signUpUser(userName: userName, email: email, imgUrl: imgUrl);
       }
@@ -216,8 +229,9 @@ class AppUtilities {
   ///If the user is busy we set the user state to true
   ///If the user is not busy we set the user state to false
   void setUserState(UserDataModel user, {required bool isBusy}) async {
-    QuerySnapshot? data =
-        await _users?.where("email", isEqualTo: user.email).get();
+    QuerySnapshot? data = await _users
+        ?.where("email", isEqualTo: user.email)
+        .get();
     if (data?.docs.isNotEmpty ?? false) {
       data?.docs.forEach((doc) {
         _users?.doc(doc.id).update({"is_busy": isBusy});
@@ -250,13 +264,14 @@ class AppUtilities {
       FirebaseFunctions.instance
           .httpsCallable("createRoom")
           .call(<String, dynamic>{
-        'roomName': 'callkit_${const Uuid().v4()}',
-        'templateId': type == CallType.audio
-            ? 'Enter audio room template id here'
-            : 'Enter video conferencing room template id here'
-      }).then((value) {
-        getRoomCodes(value.data, user, type);
-      });
+            'roomName': 'callkit_${const Uuid().v4()}',
+            'templateId': type == CallType.audio
+                ? 'Enter audio room template id here'
+                : 'Enter video conferencing room template id here',
+          })
+          .then((value) {
+            getRoomCodes(value.data, user, type);
+          });
     } on FirebaseFunctionsException catch (e) {
       log("Firebase Error $e");
     } catch (e) {
@@ -266,7 +281,10 @@ class AppUtilities {
 
   ///[getRoomCodes] function gets the room codes for the caller and the callee
   void getRoomCodes(
-      Map<String, dynamic> jsonData, UserDataModel user, CallType type) {
+    Map<String, dynamic> jsonData,
+    UserDataModel user,
+    CallType type,
+  ) {
     for (var item in jsonData['data']) {
       String role = item['role'];
       String code = item['code'];
@@ -282,7 +300,7 @@ class AppUtilities {
       "messageTitle": "${currentUser?.userName} is calling",
       "messageBody": currentUser?.toMap().toString(),
       "roomCode": roomCodesMap[UserRole.callee],
-      "callType": type == CallType.video ? "1" : "0"
+      "callType": type == CallType.video ? "1" : "0",
     });
     log("Callkit: Fetched RoomCodes $roomCodesMap");
 

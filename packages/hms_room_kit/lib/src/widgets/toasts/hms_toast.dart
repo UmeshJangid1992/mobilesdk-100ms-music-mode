@@ -20,14 +20,15 @@ class HMSToast extends StatefulWidget {
   final Widget? cancelToastButton;
   final Color? toastColor;
   final double? toastPosition;
-  const HMSToast(
-      {super.key,
-      this.leading,
-      this.subtitle,
-      this.action,
-      this.cancelToastButton,
-      this.toastPosition,
-      this.toastColor});
+  const HMSToast({
+    super.key,
+    this.leading,
+    this.subtitle,
+    this.action,
+    this.cancelToastButton,
+    this.toastPosition,
+    this.toastColor,
+  });
 
   @override
   State<HMSToast> createState() => _HMSToastState();
@@ -47,8 +48,9 @@ class _HMSToastState extends State<HMSToast> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         content: Container(
           decoration: BoxDecoration(
-              color: widget.toastColor ?? HMSThemeColors.surfaceDim,
-              borderRadius: BorderRadius.circular(8)),
+            color: widget.toastColor ?? HMSThemeColors.surfaceDim,
+            borderRadius: BorderRadius.circular(8),
+          ),
           height: 52,
           width: MediaQuery.of(context).size.width - 10,
           child: Padding(
@@ -60,11 +62,9 @@ class _HMSToastState extends State<HMSToast> {
                   children: [
                     widget.leading ?? Container(),
                     widget.leading != null
-                        ? const SizedBox(
-                            width: 8,
-                          )
+                        ? const SizedBox(width: 8)
                         : Container(),
-                    widget.subtitle ?? Container()
+                    widget.subtitle ?? Container(),
                   ],
                 ),
                 Row(
@@ -72,13 +72,11 @@ class _HMSToastState extends State<HMSToast> {
                   children: [
                     widget.action ?? Container(),
                     widget.cancelToastButton != null
-                        ? const SizedBox(
-                            width: 6,
-                          )
+                        ? const SizedBox(width: 6)
                         : Container(),
-                    widget.cancelToastButton ?? Container()
+                    widget.cancelToastButton ?? Container(),
                   ],
-                )
+                ),
               ],
             ),
           ),

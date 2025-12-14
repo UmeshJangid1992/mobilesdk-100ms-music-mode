@@ -51,11 +51,10 @@ class _PollQuizFormState extends State<PollQuizForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         HMSSubheadingText(
-            text: "${widget.isPoll ? "Poll" : "Quiz"} Name",
-            textColor: HMSThemeColors.onSurfaceHighEmphasis),
-        const SizedBox(
-          height: 8,
+          text: "${widget.isPoll ? "Poll" : "Quiz"} Name",
+          textColor: HMSThemeColors.onSurfaceHighEmphasis,
         ),
+        const SizedBox(height: 8),
 
         ///Text Field
         SizedBox(
@@ -67,46 +66,44 @@ class _PollQuizFormState extends State<PollQuizForm> {
             textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.words,
             style: HMSTextStyle.setTextStyle(
-                color: HMSThemeColors.onSurfaceHighEmphasis),
+              color: HMSThemeColors.onSurfaceHighEmphasis,
+            ),
             controller: _pollNameController,
             keyboardType: TextInputType.text,
             onChanged: (value) {
               setState(() {});
             },
             decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                fillColor: HMSThemeColors.surfaceDefault,
-                filled: true,
-                hintText: "Name this ${widget.isPoll ? "Poll" : "Quiz"}",
-                hintStyle: HMSTextStyle.setTextStyle(
-                    color: HMSThemeColors.onSurfaceLowEmphasis,
-                    height: 1.5,
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                    fontWeight: FontWeight.w400),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    borderSide:
-                        BorderSide(color: HMSThemeColors.primaryDefault)),
-                border: const OutlineInputBorder(borderSide: BorderSide.none)),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 12,
+              ),
+              fillColor: HMSThemeColors.surfaceDefault,
+              filled: true,
+              hintText: "Name this ${widget.isPoll ? "Poll" : "Quiz"}",
+              hintStyle: HMSTextStyle.setTextStyle(
+                color: HMSThemeColors.onSurfaceLowEmphasis,
+                height: 1.5,
+                fontSize: 16,
+                letterSpacing: 0.5,
+                fontWeight: FontWeight.w400,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: HMSThemeColors.primaryDefault),
+              ),
+              border: const OutlineInputBorder(borderSide: BorderSide.none),
+            ),
           ),
         ),
 
         ///Padding
-        const SizedBox(
-          height: 24,
-        ),
+        const SizedBox(height: 24),
 
         ///Divider
         Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 12.0,
-          ),
-          child: Divider(
-            height: 5,
-            color: HMSThemeColors.borderBright,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Divider(height: 5, color: HMSThemeColors.borderBright),
         ),
 
         ///Settings section
@@ -114,8 +111,9 @@ class _PollQuizFormState extends State<PollQuizForm> {
           Padding(
             padding: const EdgeInsets.only(bottom: 4.0),
             child: HMSSubheadingText(
-                text: "Settings",
-                textColor: HMSThemeColors.onSurfaceHighEmphasis),
+              text: "Settings",
+              textColor: HMSThemeColors.onSurfaceHighEmphasis,
+            ),
           ),
 
         ///Hide vote count switch
@@ -126,8 +124,9 @@ class _PollQuizFormState extends State<PollQuizForm> {
             dense: true,
             contentPadding: EdgeInsets.zero,
             title: HMSSubheadingText(
-                text: "Hide vote count",
-                textColor: HMSThemeColors.onSurfaceMediumEmphasis),
+              text: "Hide vote count",
+              textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+            ),
             trailing: SizedBox(
               height: 24,
               width: 40,
@@ -136,7 +135,7 @@ class _PollQuizFormState extends State<PollQuizForm> {
                 child: CupertinoSwitch(
                   value: _hideVoteCount,
                   onChanged: (value) => setHideVoteCount(value),
-                  activeColor: HMSThemeColors.primaryDefault,
+                  activeTrackColor: HMSThemeColors.primaryDefault,
                 ),
               ),
             ),
@@ -180,48 +179,49 @@ class _PollQuizFormState extends State<PollQuizForm> {
         // ),
 
         ///Padding
-        const SizedBox(
-          height: 24,
-        ),
+        const SizedBox(height: 24),
 
         ///Button to add question
         SizedBox(
           height: 40,
           child: HMSListenableButton(
-              textController: _pollNameController,
-              width: MediaQuery.of(context).size.width - 40,
-              onPressed: () {
-                if (_pollNameController.text.trim().isEmpty) return;
-                var meetingStore = context.read<MeetingStore>();
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  backgroundColor: HMSThemeColors.surfaceDim,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16)),
+            textController: _pollNameController,
+            width: MediaQuery.of(context).size.width - 40,
+            onPressed: () {
+              if (_pollNameController.text.trim().isEmpty) return;
+              var meetingStore = context.read<MeetingStore>();
+              showModalBottomSheet(
+                isScrollControlled: true,
+                backgroundColor: HMSThemeColors.surfaceDim,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
                   ),
-                  context: context,
-                  builder: (ctx) => ChangeNotifierProvider.value(
-                      value: meetingStore,
-                      child: PollQuestionBottomSheet(
-                        pollName: _pollNameController.text.trim(),
-                        isPoll: widget.isPoll,
-                        rolesThatCanViewResponse: _hideVoteCount
-                            ? meetingStore.localPeer != null
-                                ? [meetingStore.localPeer!.role]
-                                : null
-                            : null,
-                      )),
-                );
-              },
-              childWidget: HMSTitleText(
-                text: 'Create ${widget.isPoll ? "Poll" : "Quiz"}',
-                textColor: _pollNameController.text.isEmpty
-                    ? HMSThemeColors.onPrimaryLowEmphasis
-                    : HMSThemeColors.onPrimaryHighEmphasis,
-              )),
-        )
+                ),
+                context: context,
+                builder: (ctx) => ChangeNotifierProvider.value(
+                  value: meetingStore,
+                  child: PollQuestionBottomSheet(
+                    pollName: _pollNameController.text.trim(),
+                    isPoll: widget.isPoll,
+                    rolesThatCanViewResponse: _hideVoteCount
+                        ? meetingStore.localPeer != null
+                            ? [meetingStore.localPeer!.role]
+                            : null
+                        : null,
+                  ),
+                ),
+              );
+            },
+            childWidget: HMSTitleText(
+              text: 'Create ${widget.isPoll ? "Poll" : "Quiz"}',
+              textColor: _pollNameController.text.isEmpty
+                  ? HMSThemeColors.onPrimaryLowEmphasis
+                  : HMSThemeColors.onPrimaryHighEmphasis,
+            ),
+          ),
+        ),
       ],
     );
   }

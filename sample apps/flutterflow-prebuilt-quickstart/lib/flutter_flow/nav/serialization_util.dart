@@ -16,14 +16,14 @@ String dateTimeRangeToString(DateTimeRange dateTimeRange) {
 }
 
 String placeToString(FFPlace place) => jsonEncode({
-      'latLng': place.latLng.serialize(),
-      'name': place.name,
-      'address': place.address,
-      'city': place.city,
-      'state': place.state,
-      'country': place.country,
-      'zipCode': place.zipCode,
-    });
+  'latLng': place.latLng.serialize(),
+  'name': place.name,
+  'address': place.address,
+  'city': place.city,
+  'state': place.state,
+  'country': place.country,
+  'zipCode': place.zipCode,
+});
 
 String uploadedFileToString(FFUploadedFile uploadedFile) =>
     uploadedFile.serialize();
@@ -145,11 +145,7 @@ enum ParamType {
   JSON,
 }
 
-dynamic deserializeParam<T>(
-  String? param,
-  ParamType paramType,
-  bool isList,
-) {
+dynamic deserializeParam<T>(String? param, ParamType paramType, bool isList) {
   try {
     if (param == null) {
       return null;

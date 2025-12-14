@@ -46,7 +46,9 @@ class _HLSPlayerSeekbarState extends State<HLSPlayerSeekbar> {
             HMSHLSPlaylistType.dvr)
         ? Selector<HLSPlayerStore, Tuple2<Duration, Duration>>(
             selector: (_, hlsPlayerStore) => Tuple2(
-                hlsPlayerStore.timeFromLive, hlsPlayerStore.rollingWindow),
+              hlsPlayerStore.timeFromLive,
+              hlsPlayerStore.rollingWindow,
+            ),
             builder: (_, data, __) {
               maxValue = data.item2.inSeconds;
 
@@ -59,25 +61,28 @@ class _HLSPlayerSeekbarState extends State<HLSPlayerSeekbar> {
               return (maxValue > 0 && seekBarValue > 0)
                   ? SliderTheme(
                       data: SliderThemeData(
-                          trackHeight: isInteracting ? 6 : 4,
-                          trackShape: RoundedRectSliderTrackShape(),
-                          inactiveTrackColor: HMSThemeColors.baseWhite,
-                          activeTrackColor: HMSThemeColors.primaryDefault,
-                          thumbColor: HMSThemeColors.primaryDefault,
-                          thumbShape: RoundSliderThumbShape(
-                              enabledThumbRadius: isInteracting ? 10 : 6),
-                          overlayShape:
-                              RoundSliderOverlayShape(overlayRadius: 0)),
+                        trackHeight: isInteracting ? 6 : 4,
+                        trackShape: RoundedRectSliderTrackShape(),
+                        inactiveTrackColor: HMSThemeColors.baseWhite,
+                        activeTrackColor: HMSThemeColors.primaryDefault,
+                        thumbColor: HMSThemeColors.primaryDefault,
+                        thumbShape: RoundSliderThumbShape(
+                          enabledThumbRadius: isInteracting ? 10 : 6,
+                        ),
+                        overlayShape: RoundSliderOverlayShape(overlayRadius: 0),
+                      ),
                       child: Slider(
                         value: seekBarValue.toDouble(),
                         onChanged: (value) {},
                         onChangeEnd: (value) {
                           if (value > seekBarValue) {
                             HMSHLSPlayerController.seekForward(
-                                seconds: (value - seekBarValue).toInt());
+                              seconds: (value - seekBarValue).toInt(),
+                            );
                           } else {
                             HMSHLSPlayerController.seekBackward(
-                                seconds: (seekBarValue - value).toInt());
+                              seconds: (seekBarValue - value).toInt(),
+                            );
                           }
                           HMSHLSPlayerController.resume();
                           _toggleIsInteracting(false);
@@ -91,7 +96,8 @@ class _HLSPlayerSeekbarState extends State<HLSPlayerSeekbar> {
                       ),
                     )
                   : const SizedBox();
-            })
+            },
+          )
         : const SizedBox();
   }
 }

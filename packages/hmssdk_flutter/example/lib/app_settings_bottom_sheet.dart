@@ -212,7 +212,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                           fontWeight: FontWeight.w600),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
+                        activeTrackColor: hmsdefaultColor,
                         value: isDebugMode,
                         onChanged: (value) => {
                               isDebugMode = value,
@@ -268,7 +268,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                           fontWeight: FontWeight.w600),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
+                        activeTrackColor: hmsdefaultColor,
                         value: mirrorCamera,
                         onChanged: (value) => {
                               mirrorCamera = value,
@@ -298,7 +298,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                           fontWeight: FontWeight.w600),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
+                        activeTrackColor: hmsdefaultColor,
                         value: nameChangeOnPreview,
                         onChanged: (value) => {
                               nameChangeOnPreview = value,
@@ -327,7 +327,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                           fontWeight: FontWeight.w600),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
+                        activeTrackColor: hmsdefaultColor,
                         value: showStats,
                         onChanged: (value) => {
                               showStats = value,
@@ -357,7 +357,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                             fontWeight: FontWeight.w600),
                       ),
                       trailing: CupertinoSwitch(
-                          activeColor: hmsdefaultColor,
+                          activeTrackColor: hmsdefaultColor,
                           value: isSoftwareDecoderDisabled,
                           onChanged: (value) => {
                                 isSoftwareDecoderDisabled = value,
@@ -389,7 +389,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                             fontWeight: FontWeight.w600),
                       ),
                       trailing: CupertinoSwitch(
-                          activeColor: hmsdefaultColor,
+                          activeTrackColor: hmsdefaultColor,
                           value: isAudioMixerDisabled,
                           onChanged: (value) => {
                                 isAudioMixerDisabled = value,
@@ -418,7 +418,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                           fontWeight: FontWeight.w600),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
+                        activeTrackColor: hmsdefaultColor,
                         value: isAutoSimulcast,
                         onChanged: (value) => {
                               isAutoSimulcast = value,
@@ -447,7 +447,7 @@ class _AppSettingsBottomSheetState extends State<AppSettingsBottomSheet> {
                           fontWeight: FontWeight.w600),
                     ),
                     trailing: CupertinoSwitch(
-                        activeColor: hmsdefaultColor,
+                        activeTrackColor: hmsdefaultColor,
                         value: isVirtualBackgroundEnabled,
                         onChanged: (value) => {
                               isVirtualBackgroundEnabled = value,

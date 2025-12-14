@@ -17,25 +17,31 @@ class AppRoute {
     switch (settings.name) {
       case homePage:
         return MaterialPageRoute(
-            builder: (_) => const HomePage(), settings: settings);
+          builder: (_) => const HomePage(),
+          settings: settings,
+        );
       case callingPage:
         return MaterialPageRoute(
-            builder: (_) => MeetingPage(
-                  authToken: settings.arguments as String?,
-                  userName: 'Test User',
-                ),
-            settings: settings);
+          builder: (_) => MeetingPage(
+            authToken: settings.arguments as String?,
+            userName: 'Test User',
+          ),
+          settings: settings,
+        );
       case previewPage:
         return MaterialPageRoute(
-            builder: (_) => PreviewPage(
-                  authToken: settings.arguments as String?,
-                  userName: 'Test User',
-                ),
-            settings: settings);
+          builder: (_) => PreviewPage(
+            authToken: settings.arguments as String?,
+            userName: 'Test User',
+          ),
+          settings: settings,
+        );
       case receiveCallPage:
         return MaterialPageRoute(
-            builder: (_) => ReceiveCall(
-                callKitParams: settings.arguments as Map<String, dynamic>));
+          builder: (_) => ReceiveCall(
+            callKitParams: settings.arguments as Map<String, dynamic>,
+          ),
+        );
       default:
         return null;
     }

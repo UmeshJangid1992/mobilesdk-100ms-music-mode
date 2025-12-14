@@ -43,8 +43,10 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
 
     isLargeRoom = context.read<MeetingStore>().hmsRoom?.isLarge ?? false;
     if (isLargeRoom) {
-      timer = Timer.periodic(const Duration(seconds: 5),
-          (Timer t) => context.read<MeetingStore>().refreshPeerList());
+      timer = Timer.periodic(
+        const Duration(seconds: 5),
+        (Timer t) => context.read<MeetingStore>().refreshPeerList(),
+      );
     }
   }
 
@@ -59,13 +61,12 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
     showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: HMSThemeColors.surfaceDim,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       builder: (ctx) => ChangeNotifierProvider.value(
-          value: meetingStore,
-          child: ParticipantsViewAllBottomSheet(role: role)),
+        value: meetingStore,
+        child: ParticipantsViewAllBottomSheet(role: role),
+      ),
     );
   }
 
@@ -77,8 +78,9 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
     final meetingStore = context.read<MeetingStore>();
     PeerTrackNode? peerTrackNode;
     try {
-      peerTrackNode = meetingStore.peerTracks
-          .firstWhere((element) => element.uid == "${peer.peerId}mainVideo");
+      peerTrackNode = meetingStore.peerTracks.firstWhere(
+        (element) => element.uid == "${peer.peerId}mainVideo",
+      );
     } catch (e) {
       peerTrackNode = null;
     }
@@ -109,8 +111,9 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
             padding: EdgeInsets.zero,
             position: PopupMenuPosition.under,
             color: HMSThemeColors.surfaceDefault,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
             onSelected: (int value) async {
               ///Here we have defined the functions to be executed on clicking the options
               switch (value) {
@@ -127,17 +130,20 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
                     if (peer.metadata != null) {
                       String? peerMetadata = peer.metadata;
                       if (peerMetadata?.contains("prevRole") ?? false) {
-                        String? previousRole =
-                            jsonDecode(peer.metadata!)["prevRole"];
+                        String? previousRole = jsonDecode(
+                          peer.metadata!,
+                        )["prevRole"];
                         if (previousRole != null) {
                           try {
-                            HMSRole? offStageRole = meetingStore.roles
-                                .firstWhere(
-                                    (element) => element.name == previousRole);
+                            HMSRole? offStageRole =
+                                meetingStore.roles.firstWhere(
+                              (element) => element.name == previousRole,
+                            );
                             meetingStore.changeRoleOfPeer(
-                                peer: peer,
-                                roleName: offStageRole,
-                                forceChange: true);
+                              peer: peer,
+                              roleName: offStageRole,
+                              forceChange: true,
+                            );
                             return;
                           } catch (e) {
                             log(e.toString());
@@ -150,11 +156,14 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
                   HMSRole? onStageRole = meetingStore.getOnStageRole();
                   if (onStageRole != null) {
                     meetingStore.changeRoleOfPeer(
-                        peer: peer,
-                        roleName: onStageRole,
-                        forceChange: HMSRoomLayout.skipPreviewForRole);
-                    meetingStore.removeToast(HMSToastsType.roleChangeToast,
-                        data: peer);
+                      peer: peer,
+                      roleName: onStageRole,
+                      forceChange: HMSRoomLayout.skipPreviewForRole,
+                    );
+                    meetingStore.removeToast(
+                      HMSToastsType.roleChangeToast,
+                      data: peer,
+                    );
                   }
                   break;
                 case 2:
@@ -169,7 +178,9 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
                     return;
                   }
                   meetingStore.changeTrackState(
-                      peerTrackNode!.track!, !peerTrackNode.track!.isMute);
+                    peerTrackNode!.track!,
+                    !peerTrackNode.track!.isMute,
+                  );
                   break;
                 case 4:
 
@@ -177,8 +188,10 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
                   if (peerTrackNode?.audioTrack == null) {
                     return;
                   }
-                  meetingStore.changeTrackState(peerTrackNode!.audioTrack!,
-                      !peerTrackNode.audioTrack!.isMute);
+                  meetingStore.changeTrackState(
+                    peerTrackNode!.audioTrack!,
+                    !peerTrackNode.audioTrack!.isMute,
+                  );
                   break;
                 case 5:
 
@@ -189,24 +202,30 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
                     backgroundColor: HMSThemeColors.surfaceDim,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          topRight: Radius.circular(16)),
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
                     ),
                     context: context,
                     builder: (ctx) => ChangeNotifierProvider.value(
-                        value: meetingStore,
-                        child: Padding(
-                            padding: EdgeInsets.only(
-                                bottom: MediaQuery.of(ctx).viewInsets.bottom),
-                            child: ChangeRoleBottomSheet(
-                                peerName: peer.name,
-                                roles: meetingStore.roles,
-                                peer: peer,
-                                changeRole: (newRole, isForceChange) =>
-                                    meetingStore.changeRoleOfPeer(
-                                        peer: peer,
-                                        roleName: newRole,
-                                        forceChange: true)))),
+                      value: meetingStore,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(ctx).viewInsets.bottom,
+                        ),
+                        child: ChangeRoleBottomSheet(
+                          peerName: peer.name,
+                          roles: meetingStore.roles,
+                          peer: peer,
+                          changeRole: (newRole, isForceChange) =>
+                              meetingStore.changeRoleOfPeer(
+                            peer: peer,
+                            roleName: newRole,
+                            forceChange: true,
+                          ),
+                        ),
+                      ),
+                    ),
                   );
                 case 6:
 
@@ -223,160 +242,171 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
               color: HMSThemeColors.onSurfaceHighEmphasis,
             ),
             itemBuilder: (context) => [
-                  if (changeRolePermission &&
-                      isOnStageExpPresent &&
-                      (isOffStageRole || isOnStageRole))
-                    PopupMenuItem(
-                      value: 1,
-                      child: Row(children: [
-                        SvgPicture.asset(
-                            "packages/hms_room_kit/lib/src/assets/icons/change_role.svg",
-                            width: 20,
-                            height: 20,
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn)),
-                        const SizedBox(
-                          width: 8,
+              if (changeRolePermission &&
+                  isOnStageExpPresent &&
+                  (isOffStageRole || isOnStageRole))
+                PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "packages/hms_room_kit/lib/src/assets/icons/change_role.svg",
+                        width: 20,
+                        height: 20,
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
                         ),
-                        HMSTitleText(
-                          text: isOnStageRole
-                              ? "Remove from Stage"
-                              : "Bring on Stage",
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                          fontSize: 14,
-                          lineHeight: 20,
-                          letterSpacing: 0.1,
+                      ),
+                      const SizedBox(width: 8),
+                      HMSTitleText(
+                        text: isOnStageRole
+                            ? "Remove from Stage"
+                            : "Bring on Stage",
+                        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        fontSize: 14,
+                        lineHeight: 20,
+                        letterSpacing: 0.1,
+                      ),
+                    ],
+                  ),
+                ),
+              if (peer.isHandRaised)
+                PopupMenuItem(
+                  value: 2,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "packages/hms_room_kit/lib/src/assets/icons/lower_hand.svg",
+                        width: 18,
+                        height: 18,
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
                         ),
-                      ]),
-                    ),
-                  if (peer.isHandRaised)
-                    PopupMenuItem(
-                      value: 2,
-                      child: Row(children: [
-                        SvgPicture.asset(
-                            "packages/hms_room_kit/lib/src/assets/icons/lower_hand.svg",
-                            width: 18,
-                            height: 18,
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn)),
-                        const SizedBox(
-                          width: 8,
+                      ),
+                      const SizedBox(width: 8),
+                      HMSTitleText(
+                        text: "Lower Hand",
+                        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        fontSize: 14,
+                        lineHeight: 20,
+                        letterSpacing: 0.1,
+                      ),
+                    ],
+                  ),
+                ),
+              if (mutePermission &&
+                  peerTrackNode != null &&
+                  !peerTrackNode.peer.isLocal &&
+                  peerTrackNode.peer.type == HMSPeerType.regular)
+                PopupMenuItem(
+                  value: 3,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        peerTrackNode.track?.isMute ?? false
+                            ? "packages/hms_room_kit/lib/src/assets/icons/cam_state_on.svg"
+                            : "packages/hms_room_kit/lib/src/assets/icons/cam_state_off.svg",
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
                         ),
-                        HMSTitleText(
-                          text: "Lower Hand",
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                          fontSize: 14,
-                          lineHeight: 20,
-                          letterSpacing: 0.1,
+                        width: 20,
+                        height: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      HMSTitleText(
+                        text:
+                            "${peerTrackNode.track?.isMute ?? false ? "Unmute" : "Mute"} Video",
+                        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        fontSize: 14,
+                        lineHeight: 20,
+                        letterSpacing: 0.1,
+                      ),
+                    ],
+                  ),
+                ),
+              if (mutePermission &&
+                  peerTrackNode != null &&
+                  !peerTrackNode.peer.isLocal)
+                PopupMenuItem(
+                  value: 4,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        peerTrackNode.audioTrack?.isMute ?? false
+                            ? "packages/hms_room_kit/lib/src/assets/icons/mic_state_on.svg"
+                            : "packages/hms_room_kit/lib/src/assets/icons/mic_state_off.svg",
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
                         ),
-                      ]),
-                    ),
-                  if (mutePermission &&
-                      peerTrackNode != null &&
-                      !peerTrackNode.peer.isLocal &&
-                      peerTrackNode.peer.type == HMSPeerType.regular)
-                    PopupMenuItem(
-                      value: 3,
-                      child: Row(children: [
-                        SvgPicture.asset(
-                          peerTrackNode.track?.isMute ?? false
-                              ? "packages/hms_room_kit/lib/src/assets/icons/cam_state_on.svg"
-                              : "packages/hms_room_kit/lib/src/assets/icons/cam_state_off.svg",
-                          colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceHighEmphasis,
-                              BlendMode.srcIn),
-                          width: 20,
-                          height: 20,
+                        width: 20,
+                        height: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      HMSTitleText(
+                        text:
+                            "${peerTrackNode.audioTrack?.isMute ?? false ? "Unmute" : "Mute"} Audio",
+                        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        fontSize: 14,
+                        lineHeight: 20,
+                        letterSpacing: 0.1,
+                      ),
+                    ],
+                  ),
+                ),
+              if (changeRolePermission && meetingStore.roles.length > 1)
+                PopupMenuItem(
+                  value: 5,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "packages/hms_room_kit/lib/src/assets/icons/peer_settings.svg",
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
                         ),
-                        const SizedBox(
-                          width: 8,
+                      ),
+                      const SizedBox(width: 8),
+                      HMSTitleText(
+                        text: "Switch Role",
+                        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        fontSize: 14,
+                        lineHeight: 20,
+                        letterSpacing: 0.1,
+                      ),
+                    ],
+                  ),
+                ),
+              if (removePeerPermission)
+                PopupMenuItem(
+                  value: 6,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "packages/hms_room_kit/lib/src/assets/icons/peer_remove.svg",
+                        width: 20,
+                        height: 20,
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.alertErrorDefault,
+                          BlendMode.srcIn,
                         ),
-                        HMSTitleText(
-                          text:
-                              "${peerTrackNode.track?.isMute ?? false ? "Unmute" : "Mute"} Video",
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                          fontSize: 14,
-                          lineHeight: 20,
-                          letterSpacing: 0.1,
-                        ),
-                      ]),
-                    ),
-                  if (mutePermission &&
-                      peerTrackNode != null &&
-                      !peerTrackNode.peer.isLocal)
-                    PopupMenuItem(
-                      value: 4,
-                      child: Row(children: [
-                        SvgPicture.asset(
-                          peerTrackNode.audioTrack?.isMute ?? false
-                              ? "packages/hms_room_kit/lib/src/assets/icons/mic_state_on.svg"
-                              : "packages/hms_room_kit/lib/src/assets/icons/mic_state_off.svg",
-                          colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceHighEmphasis,
-                              BlendMode.srcIn),
-                          width: 20,
-                          height: 20,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        HMSTitleText(
-                          text:
-                              "${peerTrackNode.audioTrack?.isMute ?? false ? "Unmute" : "Mute"} Audio",
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                          fontSize: 14,
-                          lineHeight: 20,
-                          letterSpacing: 0.1,
-                        ),
-                      ]),
-                    ),
-                  if (changeRolePermission && meetingStore.roles.length > 1)
-                    PopupMenuItem(
-                      value: 5,
-                      child: Row(children: [
-                        SvgPicture.asset(
-                            "packages/hms_room_kit/lib/src/assets/icons/peer_settings.svg",
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn)),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        HMSTitleText(
-                          text: "Switch Role",
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                          fontSize: 14,
-                          lineHeight: 20,
-                          letterSpacing: 0.1,
-                        ),
-                      ]),
-                    ),
-                  if (removePeerPermission)
-                    PopupMenuItem(
-                      value: 6,
-                      child: Row(children: [
-                        SvgPicture.asset(
-                            "packages/hms_room_kit/lib/src/assets/icons/peer_remove.svg",
-                            width: 20,
-                            height: 20,
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.alertErrorDefault,
-                                BlendMode.srcIn)),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        HMSTitleText(
-                          text: "Remove Participant",
-                          textColor: HMSThemeColors.alertErrorDefault,
-                          fontSize: 14,
-                          lineHeight: 20,
-                          letterSpacing: 0.1,
-                        ),
-                      ]),
-                    ),
-                ])
+                      ),
+                      const SizedBox(width: 8),
+                      HMSTitleText(
+                        text: "Remove Participant",
+                        textColor: HMSThemeColors.alertErrorDefault,
+                        fontSize: 14,
+                        lineHeight: 20,
+                        letterSpacing: 0.1,
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          )
         : const SizedBox();
   }
 
@@ -400,303 +430,381 @@ class _ParticipantsBottomSheetState extends State<ParticipantsBottomSheet> {
               //   ),
               // ),
               ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: context
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: context
+                    .read<MeetingStore>()
+                    .participantsInMeetingMap
+                    .keys
+                    .length,
+                itemBuilder: (context, index) {
+                  String role = context
                       .read<MeetingStore>()
                       .participantsInMeetingMap
                       .keys
-                      .length,
-                  itemBuilder: (context, index) {
-                    String role = context
-                        .read<MeetingStore>()
-                        .participantsInMeetingMap
-                        .keys
-                        .elementAt(index);
-                    return Selector<MeetingStore,
-                            Tuple3<int, List<ParticipantsStore>?, String>>(
-                        selector: (_, meetingStore) => Tuple3(
-                            meetingStore
-                                    .participantsInMeetingMap[role]?.length ??
-                                0,
-                            meetingStore.participantsInMeetingMap[role],
-                            role),
-                        builder: (_, participantsPerRole, __) {
-                          return (participantsPerRole.item2?.isNotEmpty ??
-                                  false)
-                              ? Column(
-                                  children: [
-                                    ClipRRect(
+                      .elementAt(index);
+                  return Selector<MeetingStore,
+                      Tuple3<int, List<ParticipantsStore>?, String>>(
+                    selector: (_, meetingStore) => Tuple3(
+                      meetingStore.participantsInMeetingMap[role]?.length ?? 0,
+                      meetingStore.participantsInMeetingMap[role],
+                      role,
+                    ),
+                    builder: (_, participantsPerRole, __) {
+                      return (participantsPerRole.item2?.isNotEmpty ?? false)
+                          ? Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: ExpansionTile(
+                                    childrenPadding: EdgeInsets.zero,
+                                    tilePadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 0,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: HMSThemeColors.borderDefault,
+                                        width: 1,
+                                      ),
                                       borderRadius: BorderRadius.circular(8),
-                                      child: ExpansionTile(
-                                        childrenPadding: EdgeInsets.zero,
-                                        tilePadding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 0),
-                                        shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                color: HMSThemeColors
-                                                    .borderDefault,
-                                                width: 1),
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
-                                        collapsedShape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                color: HMSThemeColors
-                                                    .borderDefault,
-                                                width: 1),
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
-                                        collapsedIconColor: HMSThemeColors
-                                            .onSurfaceHighEmphasis,
-                                        iconColor: HMSThemeColors
-                                            .onSurfaceHighEmphasis,
-                                        title: HMSSubheadingText(
-                                          text:
-                                              "${context.read<MeetingStore>().participantsInMeetingMap.keys.elementAt(index)} (${((HMSRoomLayout.offStageRoles?.contains(role) ?? false) && isLargeRoom) ? context.read<MeetingStore>().peerListIterators[role]?.totalCount ?? 0 : participantsPerRole.item1}) ",
-                                          textColor: HMSThemeColors
-                                              .onSurfaceMediumEmphasis,
-                                          letterSpacing: 0.1,
-                                        ),
-                                        children: [
-                                          SizedBox(
-                                            height: participantsPerRole.item2 ==
-                                                    null
+                                    ),
+                                    collapsedShape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: HMSThemeColors.borderDefault,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    collapsedIconColor:
+                                        HMSThemeColors.onSurfaceHighEmphasis,
+                                    iconColor:
+                                        HMSThemeColors.onSurfaceHighEmphasis,
+                                    title: HMSSubheadingText(
+                                      text:
+                                          "${context.read<MeetingStore>().participantsInMeetingMap.keys.elementAt(index)} (${((HMSRoomLayout.offStageRoles?.contains(role) ?? false) && isLargeRoom) ? context.read<MeetingStore>().peerListIterators[role]?.totalCount ?? 0 : participantsPerRole.item1}) ",
+                                      textColor: HMSThemeColors
+                                          .onSurfaceMediumEmphasis,
+                                      letterSpacing: 0.1,
+                                    ),
+                                    children: [
+                                      SizedBox(
+                                        height:
+                                            participantsPerRole.item2 == null
                                                 ? 0
                                                 : (participantsPerRole.item1) *
                                                     (isHandRaisedRow(role)
                                                         ? 60
                                                         : 54),
-                                            child: Center(
-                                              child: ListView.builder(
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
-                                                  itemCount:
-                                                      participantsPerRole.item1,
-                                                  itemBuilder:
-                                                      (context, peerIndex) {
-                                                    ParticipantsStore
-                                                        currentPeer =
-                                                        participantsPerRole
-                                                            .item2![peerIndex];
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 8.0),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          peerIndex != 0
-                                                              ? const SizedBox()
-                                                              : Divider(
-                                                                  height: 5,
-                                                                  color: HMSThemeColors
-                                                                      .borderDefault,
-                                                                ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    16,
-                                                                    8,
-                                                                    16,
-                                                                    16),
-                                                            child:
-                                                                ListenableProvider
-                                                                    .value(
-                                                              value:
-                                                                  currentPeer,
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Selector<
-                                                                          ParticipantsStore,
-                                                                          String>(
-                                                                      selector: (_,
-                                                                              participantsStore) =>
-                                                                          participantsStore
-                                                                              .peer
-                                                                              .name,
-                                                                      builder: (_,
-                                                                          peerName,
-                                                                          __) {
-                                                                        return Container(
-                                                                          constraints:
-                                                                              BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
-                                                                          child: HMSTitleText(
-                                                                              text: peerName + ((participantsPerRole.item2![peerIndex].peer.isLocal) ? " (You)" : ""),
-                                                                              fontSize: 14,
-                                                                              lineHeight: 20,
-                                                                              letterSpacing: 0.1,
-                                                                              textColor: HMSThemeColors.onSurfaceHighEmphasis),
-                                                                        );
-                                                                      }),
-
-                                                                  ///This contains the network quality, hand raise icon and kebab menu
-                                                                  Row(
-                                                                    children: [
-                                                                      Selector<
-                                                                              ParticipantsStore,
-                                                                              bool>(
-                                                                          builder: (_,
-                                                                              isSIPPeer,
-                                                                              __) {
-                                                                            return isSIPPeer
-                                                                                ? Padding(
-                                                                                    padding: const EdgeInsets.only(right: 4.0),
-                                                                                    child: CircleAvatar(
-                                                                                        radius: 12,
-                                                                                        backgroundColor: HMSThemeColors.surfaceDefault,
-                                                                                        child: SvgPicture.asset(
-                                                                                          "packages/hms_room_kit/lib/src/assets/icons/sip_call.svg",
-                                                                                          height: 12,
-                                                                                          width: 12,
-                                                                                          colorFilter: ColorFilter.mode(HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
-                                                                                        )),
-                                                                                  )
-                                                                                : const SizedBox();
-                                                                          },
-                                                                          selector: (_, participantsStore) =>
-                                                                              participantsStore.peer.type ==
-                                                                              HMSPeerType.sip),
-                                                                      Selector<
-                                                                              ParticipantsStore,
-                                                                              Tuple2<int,
-                                                                                  bool>>(
-                                                                          selector: (_, participantsStore) => Tuple2(
-                                                                              participantsStore.peer.networkQuality?.quality ?? -1,
-                                                                              participantsStore.peer.type != HMSPeerType.sip),
-                                                                          builder: (_, participantData, __) {
-                                                                            return participantData.item1 != -1 && participantData.item1 < 3 && participantData.item2
-                                                                                ? Padding(
-                                                                                    padding: const EdgeInsets.only(right: 4.0),
-                                                                                    child: CircleAvatar(
-                                                                                      radius: 12,
-                                                                                      backgroundColor: HMSThemeColors.surfaceDefault,
-                                                                                      child: SvgPicture.asset(
-                                                                                        "packages/hms_room_kit/lib/src/assets/icons/network_${participantData.item1}.svg",
-                                                                                        height: 12,
-                                                                                        width: 12,
-                                                                                      ),
-                                                                                    ),
-                                                                                  )
-                                                                                : const SizedBox();
-                                                                          }),
-                                                                      Selector<
-                                                                              ParticipantsStore,
-                                                                              bool>(
-                                                                          selector: (_, participantsStore) => (participantsStore
-                                                                              .peer
-                                                                              .isHandRaised),
-                                                                          builder: (_,
-                                                                              isHandRaised,
-                                                                              __) {
-                                                                            return isHandRaised
-                                                                                ? Padding(
-                                                                                    padding: const EdgeInsets.only(right: 16.0),
-                                                                                    child: CircleAvatar(
-                                                                                      radius: 12,
-                                                                                      backgroundColor: HMSThemeColors.surfaceDefault,
-                                                                                      child: SvgPicture.asset(
-                                                                                        "packages/hms_room_kit/lib/src/assets/icons/hand_outline.svg",
-                                                                                        height: 12,
-                                                                                        width: 12,
-                                                                                        colorFilter: ColorFilter.mode(HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
-                                                                                      ),
-                                                                                    ),
-                                                                                  )
-                                                                                : const SizedBox();
-                                                                          }),
-                                                                      _kebabMenu(
-                                                                          currentPeer
-                                                                              .peer)
-                                                                    ],
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
-                                            ),
-                                          ),
-                                          if ((HMSRoomLayout.offStageRoles
-                                                      ?.contains(role) ??
-                                                  false) &&
-                                              ((context
-                                                          .read<MeetingStore>()
-                                                          .peerListIterators[
-                                                              role]
-                                                          ?.totalCount ??
-                                                      0) >
-                                                  10))
-                                            Column(
-                                              children: [
-                                                Divider(
-                                                  height: 5,
-                                                  color: HMSThemeColors
-                                                      .borderDefault,
+                                        child: Center(
+                                          child: ListView.builder(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount:
+                                                participantsPerRole.item1,
+                                            itemBuilder: (context, peerIndex) {
+                                              ParticipantsStore currentPeer =
+                                                  participantsPerRole
+                                                      .item2![peerIndex];
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 8.0,
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          16, 12, 16, 12),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      viewAll(role);
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Row(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    peerIndex != 0
+                                                        ? const SizedBox()
+                                                        : Divider(
+                                                            height: 5,
+                                                            color: HMSThemeColors
+                                                                .borderDefault,
+                                                          ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(
+                                                        16,
+                                                        8,
+                                                        16,
+                                                        16,
+                                                      ),
+                                                      child: ListenableProvider
+                                                          .value(
+                                                        value: currentPeer,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
-                                                            HMSSubheadingText(
-                                                                text:
-                                                                    "View All",
-                                                                textColor:
-                                                                    HMSThemeColors
-                                                                        .onSurfaceHighEmphasis),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left:
-                                                                          4.0),
-                                                              child: SvgPicture.asset(
-                                                                  "packages/hms_room_kit/lib/src/assets/icons/right_arrow.svg",
-                                                                  width: 24,
-                                                                  height: 24,
-                                                                  colorFilter: ColorFilter.mode(
-                                                                      HMSThemeColors
-                                                                          .onSurfaceHighEmphasis,
-                                                                      BlendMode
-                                                                          .srcIn)),
+                                                            Selector<
+                                                                ParticipantsStore,
+                                                                String>(
+                                                              selector: (
+                                                                _,
+                                                                participantsStore,
+                                                              ) =>
+                                                                  participantsStore
+                                                                      .peer
+                                                                      .name,
+                                                              builder: (_,
+                                                                  peerName,
+                                                                  __) {
+                                                                return Container(
+                                                                  constraints:
+                                                                      BoxConstraints(
+                                                                    maxWidth: MediaQuery
+                                                                            .of(
+                                                                          context,
+                                                                        ).size.width *
+                                                                        0.6,
+                                                                  ),
+                                                                  child:
+                                                                      HMSTitleText(
+                                                                    text: peerName +
+                                                                        ((participantsPerRole.item2![peerIndex].peer.isLocal)
+                                                                            ? " (You)"
+                                                                            : ""),
+                                                                    fontSize:
+                                                                        14,
+                                                                    lineHeight:
+                                                                        20,
+                                                                    letterSpacing:
+                                                                        0.1,
+                                                                    textColor:
+                                                                        HMSThemeColors
+                                                                            .onSurfaceHighEmphasis,
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+
+                                                            ///This contains the network quality, hand raise icon and kebab menu
+                                                            Row(
+                                                              children: [
+                                                                Selector<
+                                                                    ParticipantsStore,
+                                                                    bool>(
+                                                                  builder: (
+                                                                    _,
+                                                                    isSIPPeer,
+                                                                    __,
+                                                                  ) {
+                                                                    return isSIPPeer
+                                                                        ? Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(
+                                                                              right: 4.0,
+                                                                            ),
+                                                                            child:
+                                                                                CircleAvatar(
+                                                                              radius: 12,
+                                                                              backgroundColor: HMSThemeColors.surfaceDefault,
+                                                                              child: SvgPicture.asset(
+                                                                                "packages/hms_room_kit/lib/src/assets/icons/sip_call.svg",
+                                                                                height: 12,
+                                                                                width: 12,
+                                                                                colorFilter: ColorFilter.mode(
+                                                                                  HMSThemeColors.onSurfaceHighEmphasis,
+                                                                                  BlendMode.srcIn,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        : const SizedBox();
+                                                                  },
+                                                                  selector: (
+                                                                    _,
+                                                                    participantsStore,
+                                                                  ) =>
+                                                                      participantsStore
+                                                                          .peer
+                                                                          .type ==
+                                                                      HMSPeerType
+                                                                          .sip,
+                                                                ),
+                                                                Selector<
+                                                                    ParticipantsStore,
+                                                                    Tuple2<int,
+                                                                        bool>>(
+                                                                  selector: (
+                                                                    _,
+                                                                    participantsStore,
+                                                                  ) =>
+                                                                      Tuple2(
+                                                                    participantsStore
+                                                                            .peer
+                                                                            .networkQuality
+                                                                            ?.quality ??
+                                                                        -1,
+                                                                    participantsStore
+                                                                            .peer
+                                                                            .type !=
+                                                                        HMSPeerType
+                                                                            .sip,
+                                                                  ),
+                                                                  builder: (
+                                                                    _,
+                                                                    participantData,
+                                                                    __,
+                                                                  ) {
+                                                                    return participantData.item1 != -1 &&
+                                                                            participantData.item1 <
+                                                                                3 &&
+                                                                            participantData.item2
+                                                                        ? Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(
+                                                                              right: 4.0,
+                                                                            ),
+                                                                            child:
+                                                                                CircleAvatar(
+                                                                              radius: 12,
+                                                                              backgroundColor: HMSThemeColors.surfaceDefault,
+                                                                              child: SvgPicture.asset(
+                                                                                "packages/hms_room_kit/lib/src/assets/icons/network_${participantData.item1}.svg",
+                                                                                height: 12,
+                                                                                width: 12,
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        : const SizedBox();
+                                                                  },
+                                                                ),
+                                                                Selector<
+                                                                    ParticipantsStore,
+                                                                    bool>(
+                                                                  selector: (
+                                                                    _,
+                                                                    participantsStore,
+                                                                  ) =>
+                                                                      (participantsStore
+                                                                          .peer
+                                                                          .isHandRaised),
+                                                                  builder: (
+                                                                    _,
+                                                                    isHandRaised,
+                                                                    __,
+                                                                  ) {
+                                                                    return isHandRaised
+                                                                        ? Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(
+                                                                              right: 16.0,
+                                                                            ),
+                                                                            child:
+                                                                                CircleAvatar(
+                                                                              radius: 12,
+                                                                              backgroundColor: HMSThemeColors.surfaceDefault,
+                                                                              child: SvgPicture.asset(
+                                                                                "packages/hms_room_kit/lib/src/assets/icons/hand_outline.svg",
+                                                                                height: 12,
+                                                                                width: 12,
+                                                                                colorFilter: ColorFilter.mode(
+                                                                                  HMSThemeColors.onSurfaceHighEmphasis,
+                                                                                  BlendMode.srcIn,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        : const SizedBox();
+                                                                  },
+                                                                ),
+                                                                _kebabMenu(
+                                                                  currentPeer
+                                                                      .peer,
+                                                                ),
+                                                              ],
                                                             ),
                                                           ],
-                                                        )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      if ((HMSRoomLayout.offStageRoles
+                                                  ?.contains(role) ??
+                                              false) &&
+                                          ((context
+                                                      .read<MeetingStore>()
+                                                      .peerListIterators[role]
+                                                      ?.totalCount ??
+                                                  0) >
+                                              10))
+                                        Column(
+                                          children: [
+                                            Divider(
+                                              height: 5,
+                                              color:
+                                                  HMSThemeColors.borderDefault,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                16,
+                                                12,
+                                                16,
+                                                12,
+                                              ),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  viewAll(role);
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        HMSSubheadingText(
+                                                          text: "View All",
+                                                          textColor: HMSThemeColors
+                                                              .onSurfaceHighEmphasis,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 4.0,
+                                                          ),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            "packages/hms_room_kit/lib/src/assets/icons/right_arrow.svg",
+                                                            width: 24,
+                                                            height: 24,
+                                                            colorFilter:
+                                                                ColorFilter
+                                                                    .mode(
+                                                              HMSThemeColors
+                                                                  .onSurfaceHighEmphasis,
+                                                              BlendMode.srcIn,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    )
-                                  ],
-                                )
-                              : const SizedBox();
-                        });
-                  })
+                                          ],
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                              ],
+                            )
+                          : const SizedBox();
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),

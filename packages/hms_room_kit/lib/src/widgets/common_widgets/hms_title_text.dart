@@ -26,28 +26,31 @@ class HMSTitleText extends StatelessWidget {
   final TextOverflow? textOverflow;
   final int? maxLines;
 
-  const HMSTitleText(
-      {Key? key,
-      required this.text,
-      required this.textColor,
-      this.letterSpacing = 0.5,
-      this.lineHeight = 24,
-      this.fontSize = 16,
-      this.fontWeight = FontWeight.w600,
-      this.textOverflow = TextOverflow.ellipsis,
-      this.maxLines})
-      : super(key: key);
+  const HMSTitleText({
+    Key? key,
+    required this.text,
+    required this.textColor,
+    this.letterSpacing = 0.5,
+    this.lineHeight = 24,
+    this.fontSize = 16,
+    this.fontWeight = FontWeight.w600,
+    this.textOverflow = TextOverflow.ellipsis,
+    this.maxLines,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        overflow: textOverflow,
-        maxLines: maxLines,
-        style: HMSTextStyle.setTextStyle(
-            color: textColor,
-            height: lineHeight! / fontSize!,
-            fontSize: fontSize,
-            letterSpacing: letterSpacing,
-            fontWeight: fontWeight));
+    return Text(
+      text,
+      overflow: textOverflow,
+      maxLines: maxLines,
+      style: HMSTextStyle.setTextStyle(
+        color: textColor,
+        height: lineHeight! / fontSize!,
+        fontSize: fontSize,
+        letterSpacing: letterSpacing,
+        fontWeight: fontWeight,
+      ),
+    );
   }
 }

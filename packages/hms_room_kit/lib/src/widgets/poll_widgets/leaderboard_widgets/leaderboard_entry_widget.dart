@@ -17,12 +17,13 @@ class LeaderBoardEntryWidget extends StatelessWidget {
   final int totalScore;
   final Color? tileColor;
 
-  const LeaderBoardEntryWidget(
-      {super.key,
-      required this.entry,
-      required this.totalScore,
-      required this.pollStore,
-      this.tileColor});
+  const LeaderBoardEntryWidget({
+    super.key,
+    required this.entry,
+    required this.totalScore,
+    required this.pollStore,
+    this.tileColor,
+  });
 
   ///[_getPositionBadgeColor] returns the circleAvatar color based on the position
   ///of the peer in the rankings
@@ -80,13 +81,15 @@ class LeaderBoardEntryWidget extends StatelessWidget {
         ),
       ),
       title: HMSSubheadingText(
-          text: entry.peer?.userName ?? "Participant",
-          textColor: HMSThemeColors.onSurfaceHighEmphasis),
+        text: entry.peer?.userName ?? "Participant",
+        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+      ),
       subtitle: HMSSubtitleText(
-          text: entry.totalResponses == 0
-              ? "No response"
-              : "${entry.score}/$totalScore points",
-          textColor: HMSThemeColors.onSurfaceMediumEmphasis),
+        text: entry.totalResponses == 0
+            ? "No response"
+            : "${entry.score}/$totalScore points",
+        textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+      ),
       trailing: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,
         child: Row(
@@ -94,27 +97,20 @@ class LeaderBoardEntryWidget extends StatelessWidget {
           children: [
             ///If the position of peer is 1st we render the trophy
             if (entry.position == 1) const Text("🏆"),
-            if (entry.position == 1)
-              const SizedBox(
-                width: 12,
-              ),
+            if (entry.position == 1) const SizedBox(width: 12),
             SvgPicture.asset(
               "packages/hms_room_kit/lib/src/assets/icons/tick_circle.svg",
               semanticsLabel: "tick",
             ),
-            const SizedBox(
-              width: 4,
-            ),
+            const SizedBox(width: 4),
             HMSSubtitleText(
-                text:
-                    "${entry.correctResponses}/${pollStore.poll.questions?.length}",
-                textColor: HMSThemeColors.onSurfaceHighEmphasis),
+              text:
+                  "${entry.correctResponses}/${pollStore.poll.questions?.length}",
+              textColor: HMSThemeColors.onSurfaceHighEmphasis,
+            ),
 
             ///Below widgets are only rendered if the taken by the peer is significant
-            if (_showTime())
-              const SizedBox(
-                width: 12,
-              ),
+            if (_showTime()) const SizedBox(width: 12),
             if (_showTime())
               SvgPicture.asset(
                 "packages/hms_room_kit/lib/src/assets/icons/clock.svg",
@@ -122,14 +118,12 @@ class LeaderBoardEntryWidget extends StatelessWidget {
                 width: 12,
                 height: 12,
               ),
-            if (_showTime())
-              const SizedBox(
-                width: 4,
-              ),
+            if (_showTime()) const SizedBox(width: 4),
             if (_showTime())
               HMSSubtitleText(
-                  text: _getFormattedTime(),
-                  textColor: HMSThemeColors.onSurfaceHighEmphasis)
+                text: _getFormattedTime(),
+                textColor: HMSThemeColors.onSurfaceHighEmphasis,
+              ),
           ],
         ),
       ),

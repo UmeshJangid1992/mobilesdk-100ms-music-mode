@@ -11,7 +11,7 @@ class PreviewCubit extends Cubit<PreviewState> {
   String url;
 
   PreviewCubit(this.name, this.url)
-      : super(const PreviewState(isMicOff: false, isVideoOff: false)) {
+    : super(const PreviewState(isMicOff: false, isVideoOff: false)) {
     PreviewObserver(this);
   }
 

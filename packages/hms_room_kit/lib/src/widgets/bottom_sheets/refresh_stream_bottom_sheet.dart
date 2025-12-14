@@ -41,7 +41,9 @@ class _RefreshStreamBottomSheetState extends State<RefreshStreamBottomSheet> {
       decoration: BoxDecoration(
         color: HMSThemeColors.surfaceDim,
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0, left: 20, right: 20),
@@ -60,54 +62,56 @@ class _RefreshStreamBottomSheetState extends State<RefreshStreamBottomSheet> {
                         height: 20,
                         width: 20,
                         colorFilter: ColorFilter.mode(
-                            HMSThemeColors.alertErrorDefault, BlendMode.srcIn),
+                          HMSThemeColors.alertErrorDefault,
+                          BlendMode.srcIn,
+                        ),
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
+                      const SizedBox(width: 8),
                       HMSTitleText(
                         text: "Playback Error",
                         textColor: HMSThemeColors.alertErrorDefault,
                         letterSpacing: 0.15,
                         fontSize: 20,
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               HMSSubheadingText(
                 text:
                     "Something went wrong with the stream. Please tap on ‘Refresh Stream’ to retry.",
                 maxLines: 3,
                 textColor: HMSThemeColors.onSurfaceMediumEmphasis,
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               ElevatedButton(
-                  style: ButtonStyle(
-                      shadowColor:
-                          MaterialStateProperty.all(HMSThemeColors.surfaceDim),
-                      backgroundColor: MaterialStateProperty.all(
-                          HMSThemeColors.primaryDefault),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ))),
-                  onPressed: () {
-                    HMSHLSPlayerController.start();
-                  },
-                  child: SizedBox(
-                    height: 48,
-                    child: Center(
-                      child: HMSTitleText(
-                          text: "Refresh Stream",
-                          textColor: HMSThemeColors.baseWhite),
+                style: ButtonStyle(
+                  shadowColor: WidgetStateProperty.all(
+                    HMSThemeColors.surfaceDim,
+                  ),
+                  backgroundColor: WidgetStateProperty.all(
+                    HMSThemeColors.primaryDefault,
+                  ),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  ))
+                  ),
+                ),
+                onPressed: () {
+                  HMSHLSPlayerController.start();
+                },
+                child: SizedBox(
+                  height: 48,
+                  child: Center(
+                    child: HMSTitleText(
+                      text: "Refresh Stream",
+                      textColor: HMSThemeColors.baseWhite,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

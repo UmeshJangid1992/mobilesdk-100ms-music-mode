@@ -28,12 +28,12 @@ class HLSWaitingUI extends StatelessWidget {
               height: 56,
               width: 56,
               colorFilter: ColorFilter.mode(
-                  HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+                HMSThemeColors.onSurfaceHighEmphasis,
+                BlendMode.srcIn,
+              ),
             ),
           ),
-          const SizedBox(
-            height: 24,
-          ),
+          const SizedBox(height: 24),
           HMSTitleText(
             text: "Stream yet to start",
             textColor: HMSThemeColors.onSurfaceHighEmphasis,
@@ -41,15 +41,14 @@ class HLSWaitingUI extends StatelessWidget {
             lineHeight: 32,
             letterSpacing: 0.25,
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           HMSSubheadingText(
-              text: "Sit back and relax",
-              fontSize: 16,
-              lineHeight: 24,
-              letterSpacing: 0.5,
-              textColor: HMSThemeColors.onSurfaceMediumEmphasis)
+            text: "Sit back and relax",
+            fontSize: 16,
+            lineHeight: 24,
+            letterSpacing: 0.5,
+            textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+          ),
         ],
       ),
     );

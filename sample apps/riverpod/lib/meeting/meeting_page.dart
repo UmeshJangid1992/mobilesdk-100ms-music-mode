@@ -10,13 +10,13 @@ class MeetingPage extends ConsumerStatefulWidget {
   final String roomLink, name;
   final bool isAudioOn;
   final HMSSDKInteractor hmsSDKInteractor;
-  const MeetingPage(
-      {Key? key,
-      required this.name,
-      required this.roomLink,
-      required this.isAudioOn,
-      required this.hmsSDKInteractor})
-      : super(key: key);
+  const MeetingPage({
+    Key? key,
+    required this.name,
+    required this.roomLink,
+    required this.isAudioOn,
+    required this.hmsSDKInteractor,
+  }) : super(key: key);
 
   @override
   _MeetingPageState createState() => _MeetingPageState();
@@ -34,8 +34,9 @@ class _MeetingPageState extends ConsumerState<MeetingPage> {
     meetingStoreProvider = ChangeNotifierProvider<MeetingStore>((ref) {
       return MeetingStore(hmsSDKInteractor: widget.hmsSDKInteractor);
     });
-    bool ans =
-        await ref.read(meetingStoreProvider).join(widget.name, widget.roomLink);
+    bool ans = await ref
+        .read(meetingStoreProvider)
+        .join(widget.name, widget.roomLink);
     if (ans == false) {
       Navigator.of(context).pop();
     }
@@ -53,42 +54,45 @@ class _MeetingPageState extends ConsumerState<MeetingPage> {
             peerTracks: ref.watch(meetingStoreProvider).peerTracks,
           ),
           bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.black,
-              selectedItemColor: Colors.grey,
-              unselectedItemColor: Colors.grey,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(ref.watch(meetingStoreProvider).isMicOn
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.black,
+            selectedItemColor: Colors.grey,
+            unselectedItemColor: Colors.grey,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  ref.watch(meetingStoreProvider).isMicOn
                       ? Icons.mic
-                      : Icons.mic_off),
-                  label: 'Mic',
+                      : Icons.mic_off,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(ref.watch(meetingStoreProvider).isVideoOn
+                label: 'Mic',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  ref.watch(meetingStoreProvider).isVideoOn
                       ? Icons.videocam
-                      : Icons.videocam_off),
-                  label: 'Camera',
+                      : Icons.videocam_off,
                 ),
-                //For screenshare in iOS follow the steps here : https://www.100ms.live/docs/flutter/v2/features/Screen-Share
-                if (Platform.isAndroid)
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.screen_share,
-                        color: (ref.watch(meetingStoreProvider).isScreenShareOn)
-                            ? Colors.green
-                            : Colors.grey,
-                      ),
-                      label: "ScreenShare"),
-                const BottomNavigationBarItem(
+                label: 'Camera',
+              ),
+              //For screenshare in iOS follow the steps here : https://www.100ms.live/docs/flutter/v2/features/Screen-Share
+              if (Platform.isAndroid)
+                BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.cancel,
-                    color: Colors.red,
+                    Icons.screen_share,
+                    color: (ref.watch(meetingStoreProvider).isScreenShareOn)
+                        ? Colors.green
+                        : Colors.grey,
                   ),
-                  label: 'Leave',
+                  label: "ScreenShare",
                 ),
-              ],
-              onTap: _onItemTapped),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.cancel, color: Colors.red),
+                label: 'Leave',
+              ),
+            ],
+            onTap: _onItemTapped,
+          ),
         ),
       ),
     );

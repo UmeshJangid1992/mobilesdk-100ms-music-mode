@@ -26,8 +26,9 @@ class PreviewNetworkIndicator extends StatelessWidget {
             left: 8,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: HMSThemeColors.backgroundDim.withAlpha(64)),
+                borderRadius: BorderRadius.circular(8),
+                color: HMSThemeColors.backgroundDim.withAlpha(64),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Row(

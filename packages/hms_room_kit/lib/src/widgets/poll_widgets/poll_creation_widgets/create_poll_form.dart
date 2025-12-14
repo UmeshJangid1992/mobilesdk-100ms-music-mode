@@ -21,16 +21,17 @@ class CreatePollForm extends StatefulWidget {
   final HMSPollQuestionBuilder questionBuilder;
   final Function deleteQuestionCallback;
   final Function savePollCallback;
-  const CreatePollForm(
-      {super.key,
-      required this.questionNumber,
-      required this.totalQuestions,
-      required this.questionType,
-      required this.optionsTextController,
-      required this.questionController,
-      required this.questionBuilder,
-      required this.deleteQuestionCallback,
-      required this.savePollCallback});
+  const CreatePollForm({
+    super.key,
+    required this.questionNumber,
+    required this.totalQuestions,
+    required this.questionType,
+    required this.optionsTextController,
+    required this.questionController,
+    required this.questionBuilder,
+    required this.deleteQuestionCallback,
+    required this.savePollCallback,
+  });
 
   @override
   State<CreatePollForm> createState() => _CreatePollFormState();
@@ -53,7 +54,7 @@ class _CreatePollFormState extends State<CreatePollForm> {
     if (widget.optionsTextController.isEmpty) {
       _optionsTextController = [
         TextEditingController(),
-        TextEditingController()
+        TextEditingController(),
       ];
     } else {
       _optionsTextController = widget.optionsTextController;
@@ -127,65 +128,64 @@ class _CreatePollFormState extends State<CreatePollForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             HMSTitleText(
-                text:
-                    "QUESTION ${widget.questionNumber + 1} OF ${widget.totalQuestions}",
-                textColor: HMSThemeColors.onSurfaceLowEmphasis,
-                fontSize: 10,
-                letterSpacing: 1.5,
-                lineHeight: 16),
-            const SizedBox(
-              height: 8,
+              text:
+                  "QUESTION ${widget.questionNumber + 1} OF ${widget.totalQuestions}",
+              textColor: HMSThemeColors.onSurfaceLowEmphasis,
+              fontSize: 10,
+              letterSpacing: 1.5,
+              lineHeight: 16,
             ),
+            const SizedBox(height: 8),
             HMSSubheadingText(
               text: "Question Type",
               textColor: HMSThemeColors.onSurfaceHighEmphasis,
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Dropdown for poll type
             DropdownButtonHideUnderline(
-                child: HMSDropDown(
-                    dropDownItems: Utilities.getQuestionTypeForPollQuiz()
-                        .map((e) => DropdownMenuItem(
-                              value: e.item2,
-                              child: HMSTitleText(
-                                text: e.item1,
-                                textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ))
-                        .toList(),
-                    buttonStyleData: ButtonStyleData(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
+              child: HMSDropDown(
+                dropDownItems: Utilities.getQuestionTypeForPollQuiz()
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e.item2,
+                        child: HMSTitleText(
+                          text: e.item1,
+                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                          fontWeight: FontWeight.w400,
                         ),
-                        decoration: BoxDecoration(
-                          color: HMSThemeColors.surfaceBright,
-                          borderRadius: BorderRadius.circular(8),
-                        )),
-                    dropdownStyleData: DropdownStyleData(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: HMSThemeColors.surfaceBright,
-                        )),
-                    selectedValue: widget.questionType,
-                    updateSelectedValue: (value) {
-                      _updatePollType(value);
-                    })),
-            const SizedBox(
-              height: 8,
+                      ),
+                    )
+                    .toList(),
+                buttonStyleData: ButtonStyleData(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: HMSThemeColors.surfaceBright,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: HMSThemeColors.surfaceBright,
+                  ),
+                ),
+                selectedValue: widget.questionType,
+                updateSelectedValue: (value) {
+                  _updatePollType(value);
+                },
+              ),
             ),
+            const SizedBox(height: 8),
             HMSSubheadingText(
               text: "Question",
               textColor: HMSThemeColors.onSurfaceHighEmphasis,
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Textfield for setting the question
             SizedBox(
@@ -197,7 +197,8 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 textInputAction: TextInputAction.done,
                 textCapitalization: TextCapitalization.words,
                 style: HMSTextStyle.setTextStyle(
-                    color: HMSThemeColors.onSurfaceHighEmphasis),
+                  color: HMSThemeColors.onSurfaceHighEmphasis,
+                ),
                 controller: _questionController,
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
@@ -205,39 +206,36 @@ class _CreatePollFormState extends State<CreatePollForm> {
                   setState(() {});
                 },
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
-                    fillColor: HMSThemeColors.surfaceBright,
-                    filled: true,
-                    hintText: "e.g. Who will win the match?",
-                    hintStyle: HMSTextStyle.setTextStyle(
-                        color: HMSThemeColors.onSurfaceLowEmphasis,
-                        height: 1.5,
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                        fontWeight: FontWeight.w400),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                        borderSide:
-                            BorderSide(color: HMSThemeColors.primaryDefault)),
-                    border:
-                        const OutlineInputBorder(borderSide: BorderSide.none)),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  fillColor: HMSThemeColors.surfaceBright,
+                  filled: true,
+                  hintText: "e.g. Who will win the match?",
+                  hintStyle: HMSTextStyle.setTextStyle(
+                    color: HMSThemeColors.onSurfaceLowEmphasis,
+                    height: 1.5,
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                      color: HMSThemeColors.primaryDefault,
+                    ),
+                  ),
+                  border: const OutlineInputBorder(borderSide: BorderSide.none),
+                ),
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Divider
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-              ),
-              child: Divider(
-                height: 5,
-                color: HMSThemeColors.borderBright,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Divider(height: 5, color: HMSThemeColors.borderBright),
             ),
 
             HMSSubheadingText(
@@ -245,75 +243,86 @@ class _CreatePollFormState extends State<CreatePollForm> {
               textColor: HMSThemeColors.onSurfaceHighEmphasis,
             ),
 
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
 
             ///Here we set the options
             ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _optionsTextController.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 48,
-                          width: MediaQuery.of(context).size.width * 0.67,
-                          child: TextField(
-                            cursorColor: HMSThemeColors.onSurfaceHighEmphasis,
-                            onTapOutside: (event) =>
-                                FocusManager.instance.primaryFocus?.unfocus(),
-                            textInputAction: TextInputAction.done,
-                            textCapitalization: TextCapitalization.words,
-                            style: HMSTextStyle.setTextStyle(
-                                color: HMSThemeColors.onSurfaceHighEmphasis),
-                            controller: _optionsTextController[index],
-                            keyboardType: TextInputType.text,
-                            onChanged: (value) {
-                              _savePollOption(value.trim(), index);
-                            },
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 12),
-                                fillColor: HMSThemeColors.surfaceBright,
-                                filled: true,
-                                hintText: "Option ${index + 1}",
-                                hintStyle: HMSTextStyle.setTextStyle(
-                                    color: HMSThemeColors.onSurfaceLowEmphasis,
-                                    height: 1.5,
-                                    fontSize: 16,
-                                    letterSpacing: 0.5,
-                                    fontWeight: FontWeight.w400),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(8)),
-                                    borderSide: BorderSide(
-                                        color: HMSThemeColors.primaryDefault)),
-                                border: const OutlineInputBorder(
-                                    borderSide: BorderSide.none)),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _optionsTextController.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 48,
+                        width: MediaQuery.of(context).size.width * 0.67,
+                        child: TextField(
+                          cursorColor: HMSThemeColors.onSurfaceHighEmphasis,
+                          onTapOutside: (event) =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          textInputAction: TextInputAction.done,
+                          textCapitalization: TextCapitalization.words,
+                          style: HMSTextStyle.setTextStyle(
+                            color: HMSThemeColors.onSurfaceHighEmphasis,
+                          ),
+                          controller: _optionsTextController[index],
+                          keyboardType: TextInputType.text,
+                          onChanged: (value) {
+                            _savePollOption(value.trim(), index);
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                            fillColor: HMSThemeColors.surfaceBright,
+                            filled: true,
+                            hintText: "Option ${index + 1}",
+                            hintStyle: HMSTextStyle.setTextStyle(
+                              color: HMSThemeColors.onSurfaceLowEmphasis,
+                              height: 1.5,
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide: BorderSide(
+                                color: HMSThemeColors.primaryDefault,
+                              ),
+                            ),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                            ),
                           ),
                         ),
-                        if (_optionsTextController.length > 2)
-                          IconButton(
-                              onPressed: () {
-                                _optionsTextController.removeAt(index);
-                                setState(() {});
-                              },
-                              icon: SvgPicture.asset(
-                                  "packages/hms_room_kit/lib/src/assets/icons/delete_poll.svg",
-                                  width: 24,
-                                  height: 24,
-                                  colorFilter: ColorFilter.mode(
-                                      HMSThemeColors.onSurfaceLowEmphasis,
-                                      BlendMode.srcIn)))
-                      ],
-                    ),
-                  );
-                }),
+                      ),
+                      if (_optionsTextController.length > 2)
+                        IconButton(
+                          onPressed: () {
+                            _optionsTextController.removeAt(index);
+                            setState(() {});
+                          },
+                          icon: SvgPicture.asset(
+                            "packages/hms_room_kit/lib/src/assets/icons/delete_poll.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              HMSThemeColors.onSurfaceLowEmphasis,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
             if (_optionsTextController.length < 8)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -324,15 +333,15 @@ class _CreatePollFormState extends State<CreatePollForm> {
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                          "packages/hms_room_kit/lib/src/assets/icons/add_option.svg",
-                          width: 24,
-                          height: 24,
-                          colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceMediumEmphasis,
-                              BlendMode.srcIn)),
-                      const SizedBox(
-                        width: 16,
+                        "packages/hms_room_kit/lib/src/assets/icons/add_option.svg",
+                        width: 24,
+                        height: 24,
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceMediumEmphasis,
+                          BlendMode.srcIn,
+                        ),
                       ),
+                      const SizedBox(width: 16),
                       HMSSubheadingText(
                         text: "Add an option",
                         textColor: HMSThemeColors.onSurfaceMediumEmphasis,
@@ -343,13 +352,8 @@ class _CreatePollFormState extends State<CreatePollForm> {
               ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12.0,
-              ),
-              child: Divider(
-                height: 5,
-                color: HMSThemeColors.borderBright,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Divider(height: 5, color: HMSThemeColors.borderBright),
             ),
 
             ///Not supported now
@@ -421,28 +425,33 @@ class _CreatePollFormState extends State<CreatePollForm> {
                 //   width: 8,
                 // ),
                 ElevatedButton(
-                    style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor: (_questionController.text.isNotEmpty)
-                            ? MaterialStateProperty.all(
-                                HMSThemeColors.secondaryDefault)
-                            : MaterialStateProperty.all(
-                                HMSThemeColors.secondaryDim),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ))),
-                    onPressed: () {
-                      saveQuestion();
-                    },
-                    child: HMSTitleText(
-                        text: "Save",
-                        textColor: _isPollValid()
-                            ? HMSThemeColors.onSecondaryHighEmphasis
-                            : HMSThemeColors.onSecondaryLowEmphasis))
+                  style: ButtonStyle(
+                    elevation: WidgetStateProperty.all(0),
+                    backgroundColor: (_questionController.text.isNotEmpty)
+                        ? WidgetStateProperty.all(
+                            HMSThemeColors.secondaryDefault,
+                          )
+                        : WidgetStateProperty.all(
+                            HMSThemeColors.secondaryDim,
+                          ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    saveQuestion();
+                  },
+                  child: HMSTitleText(
+                    text: "Save",
+                    textColor: _isPollValid()
+                        ? HMSThemeColors.onSecondaryHighEmphasis
+                        : HMSThemeColors.onSecondaryLowEmphasis,
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

@@ -7,7 +7,7 @@ enum SessionStoreKey {
   chatState,
   chatPeerBlacklist,
   chatMessageBlacklist,
-  unknown
+  unknown,
 }
 
 extension SessionStoreKeyValues on SessionStoreKey {

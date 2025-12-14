@@ -27,39 +27,43 @@ class HMSListenableButton extends StatelessWidget {
   final TextEditingController textController;
   final bool isDisabled;
 
-  const HMSListenableButton(
-      {super.key,
-      required this.width,
-      this.shadowColor,
-      required this.onPressed,
-      required this.childWidget,
-      required this.textController,
-      this.isDisabled = false});
+  const HMSListenableButton({
+    super.key,
+    required this.width,
+    this.shadowColor,
+    required this.onPressed,
+    required this.childWidget,
+    required this.textController,
+    this.isDisabled = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
       child: ValueListenableBuilder<TextEditingValue>(
-          valueListenable: textController,
-          builder: (context, value, child) {
-            return ElevatedButton(
-                style: ButtonStyle(
-                    shadowColor: MaterialStateProperty.all(
-                        shadowColor ?? HMSThemeColors.surfaceDim),
-                    backgroundColor:
-                        (textController.text.trim().isEmpty || isDisabled)
-                            ? MaterialStateProperty.all(
-                                HMSThemeColors.primaryDisabled)
-                            : MaterialStateProperty.all(
-                                HMSThemeColors.primaryDefault),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ))),
-                onPressed: onPressed,
-                child: childWidget);
-          }),
+        valueListenable: textController,
+        builder: (context, value, child) {
+          return ElevatedButton(
+            style: ButtonStyle(
+              shadowColor: WidgetStateProperty.all(
+                shadowColor ?? HMSThemeColors.surfaceDim,
+              ),
+              backgroundColor:
+                  (textController.text.trim().isEmpty || isDisabled)
+                      ? WidgetStateProperty.all(HMSThemeColors.primaryDisabled)
+                      : WidgetStateProperty.all(HMSThemeColors.primaryDefault),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+            onPressed: onPressed,
+            child: childWidget,
+          );
+        },
+      ),
     );
   }
 }

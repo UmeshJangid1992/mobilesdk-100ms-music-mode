@@ -15,8 +15,11 @@ class ChatTextUtility extends StatefulWidget {
   final Function sendMessage;
   final bool isHLSChat;
 
-  const ChatTextUtility(
-      {super.key, required this.sendMessage, required this.isHLSChat});
+  const ChatTextUtility({
+    super.key,
+    required this.sendMessage,
+    required this.isHLSChat,
+  });
 
   @override
   State<ChatTextUtility> createState() => _ChatTextUtilityState();
@@ -65,8 +68,9 @@ class _ChatTextUtilityState extends State<ChatTextUtility>
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 8),
                   child: HMSSubheadingText(
-                      text: "Chat disabled.",
-                      textColor: HMSThemeColors.onSurfaceLowEmphasis),
+                    text: "Chat disabled.",
+                    textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                  ),
                 ),
               ),
             ),
@@ -88,7 +92,7 @@ class _ChatTextUtilityState extends State<ChatTextUtility>
               ],
             ),
           ),
-        if (widget.isHLSChat && showMenu) HLSHandRaiseMenu()
+        if (widget.isHLSChat && showMenu) HLSHandRaiseMenu(),
       ],
     );
   }

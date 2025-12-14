@@ -23,23 +23,24 @@ class NameAndNetwork extends StatelessWidget {
       left: 5,
       child: Container(
         decoration: BoxDecoration(
-            color: HMSThemeColors.backgroundDim.withOpacity(0.64),
-            borderRadius: BorderRadius.circular(8)),
+          color: HMSThemeColors.backgroundDim.withOpacity(0.64),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Center(
           child: Padding(
-            padding:
-                const EdgeInsets.only(left: 8.0, right: 4, top: 4, bottom: 4),
+            padding: const EdgeInsets.only(
+              left: 8.0,
+              right: 4,
+              top: 4,
+              bottom: 4,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                PeerName(
-                  maxWidth: maxWidth,
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
+                PeerName(maxWidth: maxWidth),
+                const SizedBox(width: 4),
                 const NetworkIconWidget(),
               ],
             ),

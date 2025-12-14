@@ -11,8 +11,11 @@ import 'package:hms_room_kit/src/meeting/meeting_store.dart';
 class RoleChangeRequestDialog extends StatefulWidget {
   final HMSRoleChangeRequest roleChangeRequest;
   final MeetingStore meetingStore;
-  const RoleChangeRequestDialog(
-      {super.key, required this.roleChangeRequest, required this.meetingStore});
+  const RoleChangeRequestDialog({
+    super.key,
+    required this.roleChangeRequest,
+    required this.meetingStore,
+  });
 
   @override
   RoleChangeRequestDialogState createState() => RoleChangeRequestDialogState();
@@ -31,12 +34,7 @@ class RoleChangeRequestDialogState extends State<RoleChangeRequestDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            message,
-            style: HMSTextStyle.setTextStyle(
-              color: iconColor,
-            ),
-          ),
+          Text(message, style: HMSTextStyle.setTextStyle(color: iconColor)),
         ],
       ),
       actions: [
@@ -45,19 +43,26 @@ class RoleChangeRequestDialogState extends State<RoleChangeRequestDialog> {
           children: [
             ElevatedButton(
               style: ButtonStyle(
-                  shadowColor: MaterialStateProperty.all(themeSurfaceColor),
-                  backgroundColor:
-                      MaterialStateProperty.all(themeBottomSheetColor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                shadowColor: WidgetStateProperty.all(themeSurfaceColor),
+                backgroundColor: WidgetStateProperty.all(
+                  themeBottomSheetColor,
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     side: BorderSide(width: 1, color: popupButtonBorderColor),
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 12),
-                child:
-                    HMSTitleText(text: 'Reject', textColor: themeDefaultColor),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 12,
+                ),
+                child: HMSTitleText(
+                  text: 'Reject',
+                  textColor: themeDefaultColor,
+                ),
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -65,16 +70,20 @@ class RoleChangeRequestDialogState extends State<RoleChangeRequestDialog> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  shadowColor: MaterialStateProperty.all(themeSurfaceColor),
-                  backgroundColor: MaterialStateProperty.all(errorColor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                shadowColor: WidgetStateProperty.all(themeSurfaceColor),
+                backgroundColor: WidgetStateProperty.all(errorColor),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     side: BorderSide(width: 1, color: errorColor),
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 12,
+                ),
                 child: HMSTitleText(
                   text: 'Accept',
                   textColor: themeDefaultColor,
@@ -86,7 +95,7 @@ class RoleChangeRequestDialogState extends State<RoleChangeRequestDialog> {
               },
             ),
           ],
-        )
+        ),
       ],
     );
   }

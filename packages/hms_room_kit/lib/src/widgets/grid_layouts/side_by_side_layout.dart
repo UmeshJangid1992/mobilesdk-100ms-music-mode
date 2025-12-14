@@ -15,11 +15,12 @@ class SideBySideLayout extends StatelessWidget {
   final int numberOfTiles;
   final int index;
   final List<PeerTrackNode> peerTracks;
-  const SideBySideLayout(
-      {super.key,
-      required this.numberOfTiles,
-      required this.index,
-      required this.peerTracks});
+  const SideBySideLayout({
+    super.key,
+    required this.numberOfTiles,
+    required this.index,
+    required this.peerTracks,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,24 +45,31 @@ class SideBySideLayout extends StatelessWidget {
     ///If we need to render 1 tile then we render the [ListenablePeerWidget]
     ///If we need to render 2 tiles then we render the two tiles in a row
     return tilesToBeRendered == 2
-        ? Row(children: [
-            Expanded(
-              child: ListenablePeerWidget(
-                  index: tileStartingIndex, peerTracks: peerTracks),
-            ),
-            const SizedBox(
-              width: 4,
-            ),
-            Expanded(
-              child: ListenablePeerWidget(
-                  index: tileStartingIndex + 1, peerTracks: peerTracks),
-            )
-          ])
+        ? Row(
+            children: [
+              Expanded(
+                child: ListenablePeerWidget(
+                  index: tileStartingIndex,
+                  peerTracks: peerTracks,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: ListenablePeerWidget(
+                  index: tileStartingIndex + 1,
+                  peerTracks: peerTracks,
+                ),
+              ),
+            ],
+          )
         : Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width / 4),
+              horizontal: MediaQuery.of(context).size.width / 4,
+            ),
             child: ListenablePeerWidget(
-                index: tileStartingIndex, peerTracks: peerTracks),
+              index: tileStartingIndex,
+              peerTracks: peerTracks,
+            ),
           );
   }
 }

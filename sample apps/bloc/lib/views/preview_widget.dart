@@ -17,8 +17,9 @@ class Preview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => PreviewCubit(userName, meetingUrl),
-        child: PreviewWidget(meetingUrl, userName));
+      create: (_) => PreviewCubit(userName, meetingUrl),
+      child: PreviewWidget(meetingUrl, userName),
+    );
   }
 }
 
@@ -27,7 +28,7 @@ class PreviewWidget extends StatelessWidget {
   final String userName;
 
   const PreviewWidget(this.meetingUrl, this.userName, {Key? key})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +45,7 @@ class PreviewWidget extends StatelessWidget {
                 return state.tracks.isEmpty
                     ? SizedBox(
                         height: itemHeight / 1.3,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        child: const Center(child: CircularProgressIndicator()),
                       )
                     : SizedBox(
                         height: itemHeight,
@@ -54,22 +53,27 @@ class PreviewWidget extends StatelessWidget {
                         child: Stack(
                           children: [
                             HMSVideoView(
-                                track: state.tracks[0], matchParent: true),
+                              track: state.tracks[0],
+                              matchParent: true,
+                            ),
                             Positioned(
                               bottom: 20.0,
                               left: itemWidth / 2 - 50.0,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue,
-                                    padding: const EdgeInsets.all(14)),
+                                  backgroundColor: Colors.blue,
+                                  padding: const EdgeInsets.all(14),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context).pushReplacement(
-                                      Room.route(
-                                          meetingUrl,
-                                          userName,
-                                          state.isVideoOff,
-                                          state.isMicOff,
-                                          false));
+                                    Room.route(
+                                      meetingUrl,
+                                      userName,
+                                      state.isVideoOff,
+                                      state.isMicOff,
+                                      false,
+                                    ),
+                                  );
                                 },
                                 child: const Text(
                                   "Join Now",
@@ -81,29 +85,31 @@ class PreviewWidget extends StatelessWidget {
                               bottom: 20.0,
                               right: 50.0,
                               child: IconButton(
-                                  onPressed: () {
-                                    context.read<PreviewCubit>().toggleAudio();
-                                  },
-                                  icon: Icon(
-                                    state.isMicOff ? Icons.mic_off : Icons.mic,
-                                    size: 30.0,
-                                    color: Colors.blue,
-                                  )),
+                                onPressed: () {
+                                  context.read<PreviewCubit>().toggleAudio();
+                                },
+                                icon: Icon(
+                                  state.isMicOff ? Icons.mic_off : Icons.mic,
+                                  size: 30.0,
+                                  color: Colors.blue,
+                                ),
+                              ),
                             ),
                             Positioned(
                               bottom: 20.0,
                               left: 50.0,
                               child: IconButton(
-                                  onPressed: () {
-                                    context.read<PreviewCubit>().toggleVideo();
-                                  },
-                                  icon: Icon(
-                                    state.isVideoOff
-                                        ? Icons.videocam_off
-                                        : Icons.videocam,
-                                    size: 30.0,
-                                    color: Colors.blueAccent,
-                                  )),
+                                onPressed: () {
+                                  context.read<PreviewCubit>().toggleVideo();
+                                },
+                                icon: Icon(
+                                  state.isVideoOff
+                                      ? Icons.videocam_off
+                                      : Icons.videocam,
+                                  size: 30.0,
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
                             ),
                           ],
                         ),

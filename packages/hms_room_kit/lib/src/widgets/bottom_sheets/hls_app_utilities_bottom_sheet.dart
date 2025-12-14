@@ -42,8 +42,12 @@ class _HLSMoreOptionsBottomSheetBottomSheetState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          const EdgeInsets.only(top: 16.0, left: 20, right: 20, bottom: 24),
+      padding: const EdgeInsets.only(
+        top: 16.0,
+        left: 20,
+        right: 20,
+        bottom: 24,
+      ),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -59,23 +63,20 @@ class _HLSMoreOptionsBottomSheetBottomSheetState
                           text: "Options",
                           textColor: HMSThemeColors.onSurfaceHighEmphasis,
                           letterSpacing: 0.15,
-                        )
+                        ),
                       ],
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [HMSCrossButton()],
-                    )
+                    ),
                   ],
                 ),
               ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16, bottom: 16),
-              child: Divider(
-                color: HMSThemeColors.borderDefault,
-                height: 5,
-              ),
+              child: Divider(color: HMSThemeColors.borderDefault, height: 5),
             ),
 
             ///Here we render the participants button and the change name button
@@ -85,89 +86,97 @@ class _HLSMoreOptionsBottomSheetBottomSheetState
               children: [
                 if (HMSRoomLayout.isParticipantsListEnabled)
                   MoreOptionItem(
-                      onTap: () async {
-                        Navigator.pop(context);
-                        var meetingStore = context.read<MeetingStore>();
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: HMSThemeColors.surfaceDim,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(16),
-                                topRight: Radius.circular(16)),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      var meetingStore = context.read<MeetingStore>();
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: HMSThemeColors.surfaceDim,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
                           ),
-                          context: context,
-                          builder: (ctx) => ChangeNotifierProvider.value(
-                              value: meetingStore,
-                              child: const OverlayParticipantsBottomSheet()),
-                        );
-                      },
-                      optionIcon: badge.Badge(
-                        badgeStyle: badge.BadgeStyle(
-                          badgeColor: HMSThemeColors.surfaceDefault,
                         ),
-                        badgeContent: HMSTitleText(
-                          text: Utilities.formatNumber(
-                              context.read<MeetingStore>().peersInRoom),
-                          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                          fontSize: 10,
-                          lineHeight: 16,
-                          letterSpacing: 1.5,
+                        context: context,
+                        builder: (ctx) => ChangeNotifierProvider.value(
+                          value: meetingStore,
+                          child: const OverlayParticipantsBottomSheet(),
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: context
-                                          .read<MeetingStore>()
-                                          .peersInRoom <
-                                      1000
-                                  ? 15
-                                  : context.read<MeetingStore>().peersInRoom <
-                                          10000
-                                      ? 20
-                                      : 30),
-                          child: SvgPicture.asset(
-                            "packages/hms_room_kit/lib/src/assets/icons/participants.svg",
-                            height: 20,
-                            width: 20,
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn),
+                      );
+                    },
+                    optionIcon: badge.Badge(
+                      badgeStyle: badge.BadgeStyle(
+                        badgeColor: HMSThemeColors.surfaceDefault,
+                      ),
+                      badgeContent: HMSTitleText(
+                        text: Utilities.formatNumber(
+                          context.read<MeetingStore>().peersInRoom,
+                        ),
+                        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                        fontSize: 10,
+                        lineHeight: 16,
+                        letterSpacing: 1.5,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.read<MeetingStore>().peersInRoom <
+                                  1000
+                              ? 15
+                              : context.read<MeetingStore>().peersInRoom < 10000
+                                  ? 20
+                                  : 30,
+                        ),
+                        child: SvgPicture.asset(
+                          "packages/hms_room_kit/lib/src/assets/icons/participants.svg",
+                          height: 20,
+                          width: 20,
+                          colorFilter: ColorFilter.mode(
+                            HMSThemeColors.onSurfaceHighEmphasis,
+                            BlendMode.srcIn,
                           ),
                         ),
                       ),
-                      optionText: "Participants"),
+                    ),
+                    optionText: "Participants",
+                  ),
                 if (Constant.prebuiltOptions?.userName == null)
                   MoreOptionItem(
-                      onTap: () async {
-                        var meetingStore = context.read<MeetingStore>();
-                        Navigator.pop(context);
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: HMSThemeColors.surfaceDim,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(16),
-                                topRight: Radius.circular(16)),
+                    onTap: () async {
+                      var meetingStore = context.read<MeetingStore>();
+                      Navigator.pop(context);
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: HMSThemeColors.surfaceDim,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
                           ),
-                          context: context,
-                          builder: (ctx) => ChangeNotifierProvider.value(
-                              value: meetingStore,
-                              child: Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom:
-                                          MediaQuery.of(ctx).viewInsets.bottom),
-                                  child: const ChangeNameBottomSheet())),
-                        );
-                      },
-                      optionIcon: SvgPicture.asset(
-                        "packages/hms_room_kit/lib/src/assets/icons/pencil.svg",
-                        height: 20,
-                        width: 20,
-                        colorFilter: ColorFilter.mode(
-                            HMSThemeColors.onSurfaceHighEmphasis,
-                            BlendMode.srcIn),
+                        ),
+                        context: context,
+                        builder: (ctx) => ChangeNotifierProvider.value(
+                          value: meetingStore,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(ctx).viewInsets.bottom,
+                            ),
+                            child: const ChangeNameBottomSheet(),
+                          ),
+                        ),
+                      );
+                    },
+                    optionIcon: SvgPicture.asset(
+                      "packages/hms_room_kit/lib/src/assets/icons/pencil.svg",
+                      height: 20,
+                      width: 20,
+                      colorFilter: ColorFilter.mode(
+                        HMSThemeColors.onSurfaceHighEmphasis,
+                        BlendMode.srcIn,
                       ),
-                      optionText: "Change Name"),
+                    ),
+                    optionText: "Change Name",
+                  ),
 
                 ///This renders the polls and quizzes option
                 if ((context
@@ -185,32 +194,36 @@ class _HLSMoreOptionsBottomSheetBottomSheetState
                             .pollWrite ??
                         false))
                   MoreOptionItem(
-                      onTap: () {
-                        var meetingStore = context.read<MeetingStore>();
-                        Navigator.pop(context);
-                        showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: HMSThemeColors.surfaceDim,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(16),
-                                topRight: Radius.circular(16)),
+                    onTap: () {
+                      var meetingStore = context.read<MeetingStore>();
+                      Navigator.pop(context);
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: HMSThemeColors.surfaceDim,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
                           ),
-                          context: context,
-                          builder: (ctx) => ChangeNotifierProvider.value(
-                              value: meetingStore,
-                              child: const PollAndQuizBottomSheet()),
-                        );
-                      },
-                      optionIcon: SvgPicture.asset(
-                        "packages/hms_room_kit/lib/src/assets/icons/polls.svg",
-                        height: 20,
-                        width: 20,
-                        colorFilter: ColorFilter.mode(
-                            HMSThemeColors.onSurfaceHighEmphasis,
-                            BlendMode.srcIn),
+                        ),
+                        context: context,
+                        builder: (ctx) => ChangeNotifierProvider.value(
+                          value: meetingStore,
+                          child: const PollAndQuizBottomSheet(),
+                        ),
+                      );
+                    },
+                    optionIcon: SvgPicture.asset(
+                      "packages/hms_room_kit/lib/src/assets/icons/polls.svg",
+                      height: 20,
+                      width: 20,
+                      colorFilter: ColorFilter.mode(
+                        HMSThemeColors.onSurfaceHighEmphasis,
+                        BlendMode.srcIn,
                       ),
-                      optionText: "Polls and Quizzes"),
+                    ),
+                    optionText: "Polls and Quizzes",
+                  ),
               ],
             ),
           ],

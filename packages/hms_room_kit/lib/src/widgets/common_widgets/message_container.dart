@@ -71,9 +71,10 @@ class MessageContainer extends StatelessWidget {
                     children: [
                       Container(
                         constraints: BoxConstraints(
-                            maxWidth: sender(message.hmsMessageRecipient) == ""
-                                ? width * 0.25
-                                : width * 0.5),
+                          maxWidth: sender(message.hmsMessageRecipient) == ""
+                              ? width * 0.25
+                              : width * 0.5,
+                        ),
                         child: HMSTitleText(
                           text: message.sender?.name ?? "Anonymous",
                           fontSize: 14,
@@ -82,14 +83,13 @@ class MessageContainer extends StatelessWidget {
                           textColor: HMSThemeColors.onSurfaceHighEmphasis,
                         ),
                       ),
-                      const SizedBox(
-                        width: 4,
-                      ),
+                      const SizedBox(width: 4),
                       Container(
                         constraints: BoxConstraints(maxWidth: width * 0.5),
                         child: HMSSubtitleText(
-                            text: sender(message.hmsMessageRecipient),
-                            textColor: HMSThemeColors.onSurfaceMediumEmphasis),
+                          text: sender(message.hmsMessageRecipient),
+                          textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+                        ),
                       ),
                     ],
                   ),
@@ -100,9 +100,7 @@ class MessageContainer extends StatelessWidget {
                         text: formatter.format(message.time),
                         textColor: HMSThemeColors.onSurfaceMediumEmphasis,
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
+                      const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
                           var meetingStore = context.read<MeetingStore>();
@@ -111,15 +109,15 @@ class MessageContainer extends StatelessWidget {
                             backgroundColor: HMSThemeColors.surfaceDim,
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16),
-                                  topRight: Radius.circular(16)),
+                                topLeft: Radius.circular(16),
+                                topRight: Radius.circular(16),
+                              ),
                             ),
                             context: context,
                             builder: (ctx) => ChangeNotifierProvider.value(
-                                value: meetingStore,
-                                child: ChatUtilitiesBottomSheet(
-                                  message: message,
-                                )),
+                              value: meetingStore,
+                              child: ChatUtilitiesBottomSheet(message: message),
+                            ),
                           );
                         },
                         child: SvgPicture.asset(
@@ -127,17 +125,16 @@ class MessageContainer extends StatelessWidget {
                           height: 20,
                           width: 20,
                           colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceMediumEmphasis,
-                              BlendMode.srcIn),
+                            HMSThemeColors.onSurfaceMediumEmphasis,
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               SelectableLinkify(
                 text: message.message.trim().toString(),
                 onOpen: (link) async {
@@ -148,17 +145,19 @@ class MessageContainer extends StatelessWidget {
                 },
                 options: const LinkifyOptions(humanize: false),
                 style: HMSTextStyle.setTextStyle(
-                    fontSize: 14.0,
-                    color: HMSThemeColors.onSurfaceHighEmphasis,
-                    height: 20 / 14,
-                    letterSpacing: 0.25,
-                    fontWeight: FontWeight.w400),
+                  fontSize: 14.0,
+                  color: HMSThemeColors.onSurfaceHighEmphasis,
+                  height: 20 / 14,
+                  letterSpacing: 0.25,
+                  fontWeight: FontWeight.w400,
+                ),
                 linkStyle: HMSTextStyle.setTextStyle(
-                    fontSize: 14.0,
-                    color: HMSThemeColors.primaryDefault,
-                    letterSpacing: 0.25,
-                    height: 20 / 14,
-                    fontWeight: FontWeight.w400),
+                  fontSize: 14.0,
+                  color: HMSThemeColors.primaryDefault,
+                  letterSpacing: 0.25,
+                  height: 20 / 14,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ],
           ),

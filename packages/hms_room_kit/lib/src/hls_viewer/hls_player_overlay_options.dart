@@ -24,13 +24,11 @@ class HLSPlayerOverlayOptions extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            HLSViewerHeader(
-              hasHLSStarted: hasHLSStarted,
-            ),
+            HLSViewerHeader(hasHLSStarted: hasHLSStarted),
 
             ///Renders the bottom navigation bar if the HLS has started
             ///Otherwise does not render the bottom navigation bar
-            hasHLSStarted ? HLSViewerBottomNavigationBar() : const SizedBox()
+            hasHLSStarted ? HLSViewerBottomNavigationBar() : const SizedBox(),
           ],
         ),
 
@@ -38,7 +36,7 @@ class HLSPlayerOverlayOptions extends StatelessWidget {
         Align(
           alignment: Alignment.center,
           child: hasHLSStarted ? HLSViewerMidSection() : const SizedBox(),
-        )
+        ),
       ],
     );
   }

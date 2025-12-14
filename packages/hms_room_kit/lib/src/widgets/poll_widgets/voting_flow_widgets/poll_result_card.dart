@@ -19,15 +19,16 @@ class PollResultCard extends StatelessWidget {
   final bool isPoll;
   final bool isPollEnded;
 
-  const PollResultCard(
-      {super.key,
-      required this.questionNumber,
-      required this.totalQuestions,
-      required this.question,
-      required this.totalVotes,
-      required this.isVoteCountHidden,
-      required this.isPoll,
-      required this.isPollEnded});
+  const PollResultCard({
+    super.key,
+    required this.questionNumber,
+    required this.totalQuestions,
+    required this.question,
+    required this.totalVotes,
+    required this.isVoteCountHidden,
+    required this.isPoll,
+    required this.isPollEnded,
+  });
 
   ///[_isSelectedOption] returns whether the option at given [index] is the selected option or not
   bool _isSelectedOption(int index) {
@@ -104,21 +105,23 @@ class PollResultCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 24),
       child: Container(
         decoration: BoxDecoration(
-            color: HMSThemeColors.surfaceDefault,
-            borderRadius: BorderRadius.circular(8),
+          color: HMSThemeColors.surfaceDefault,
+          borderRadius: BorderRadius.circular(8),
 
-            ///If the poll is ended and it's a quiz
-            ///and localpeer has answered the quiz
-            ///then we show the border based on whether the answer
-            ///is correct or not
-            border: isPollEnded
-                ? (isPoll || question.myResponses.isEmpty)
-                    ? const Border()
-                    : Border.all(
-                        color: _isMyOptionCorrect()
-                            ? HMSThemeColors.alertSuccess
-                            : HMSThemeColors.alertErrorDefault)
-                : null),
+          ///If the poll is ended and it's a quiz
+          ///and localpeer has answered the quiz
+          ///then we show the border based on whether the answer
+          ///is correct or not
+          border: isPollEnded
+              ? (isPoll || question.myResponses.isEmpty)
+                  ? const Border()
+                  : Border.all(
+                      color: _isMyOptionCorrect()
+                          ? HMSThemeColors.alertSuccess
+                          : HMSThemeColors.alertErrorDefault,
+                    )
+              : null,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -128,136 +131,138 @@ class PollResultCard extends StatelessWidget {
               Row(
                 children: [
                   HMSTitleText(
-                      text:
-                          "QUESTION ${questionNumber + 1} OF $totalQuestions: ",
-                      textColor: HMSThemeColors.onSurfaceLowEmphasis,
-                      fontSize: 10,
-                      letterSpacing: 1.5,
-                      lineHeight: 16),
+                    text: "QUESTION ${questionNumber + 1} OF $totalQuestions: ",
+                    textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                    fontSize: 10,
+                    letterSpacing: 1.5,
+                    lineHeight: 16,
+                  ),
                   HMSTitleText(
-                      fontSize: 10,
-                      letterSpacing: 1.5,
-                      lineHeight: 16,
-                      text: Utilities.getQuestionType(question.type),
-                      textColor: HMSThemeColors.onSurfaceLowEmphasis)
+                    fontSize: 10,
+                    letterSpacing: 1.5,
+                    lineHeight: 16,
+                    text: Utilities.getQuestionType(question.type),
+                    textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               HMSTitleText(
                 text: question.text,
                 textColor: HMSThemeColors.onSurfaceHighEmphasis,
                 maxLines: 3,
                 fontWeight: FontWeight.w400,
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: question.options.length,
-                  itemBuilder: (BuildContext context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ///If the poll is ended and the option is a correct answer we show a tick
-                              if (isPollEnded &&
-                                  _isCorrectAnswer(question.options[index]))
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: SvgPicture.asset(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: question.options.length,
+                itemBuilder: (BuildContext context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ///If the poll is ended and the option is a correct answer we show a tick
+                            if (isPollEnded &&
+                                _isCorrectAnswer(question.options[index]))
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: SvgPicture.asset(
+                                    "packages/hms_room_kit/lib/src/assets/icons/tick_circle.svg",
+                                    semanticsLabel: "tick",
+                                  ),
+                                ),
+                              ),
+                            Expanded(
+                              child: HMSSubheadingText(
+                                text: question.options[index].text ?? "",
+                                maxLines: 3,
+                                textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                              ),
+                            ),
+
+                            ///If it's not a poll and selected option show checkbox
+                            ///If its a poll then only show when vote count is hidden
+                            if ((!isPoll || isVoteCountHidden) &&
+                                _isSelectedOption(
+                                  question.options[index].index,
+                                ))
+                              isPoll
+                                  ? SvgPicture.asset(
                                       "packages/hms_room_kit/lib/src/assets/icons/tick_circle.svg",
                                       semanticsLabel: "tick",
+                                    )
+                                  : HMSSubheadingText(
+                                      text: "Your Answer",
+                                      textColor: HMSThemeColors
+                                          .onSurfaceMediumEmphasis,
+                                    ),
+                            if (!isVoteCountHidden && isPoll)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: HMSSubheadingText(
+                                  text:
+                                      "${question.options[index].voteCount.toString()} vote${question.options[index].voteCount > 1 ? "s" : ""}",
+                                  textColor:
+                                      HMSThemeColors.onSurfaceMediumEmphasis,
+                                ),
+                              ),
+                          ],
+                        ),
+                        if (!isVoteCountHidden && isPoll)
+                          const SizedBox(height: 8),
+                        if (!isVoteCountHidden && isPoll)
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            height: 8,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: (question.options[index].voteCount),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: HMSThemeColors.primaryDefault,
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                 ),
-                              Expanded(
-                                child: HMSSubheadingText(
-                                    text: question.options[index].text ?? "",
-                                    maxLines: 3,
-                                    textColor:
-                                        HMSThemeColors.onSurfaceHighEmphasis),
-                              ),
-
-                              ///If it's not a poll and selected option show checkbox
-                              ///If its a poll then only show when vote count is hidden
-                              if ((!isPoll || isVoteCountHidden) &&
-                                  _isSelectedOption(
-                                      question.options[index].index))
-                                isPoll
-                                    ? SvgPicture.asset(
-                                        "packages/hms_room_kit/lib/src/assets/icons/tick_circle.svg",
-                                        semanticsLabel: "tick",
-                                      )
-                                    : HMSSubheadingText(
-                                        text: "Your Answer",
-                                        textColor: HMSThemeColors
-                                            .onSurfaceMediumEmphasis),
-                              if (!isVoteCountHidden && isPoll)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: HMSSubheadingText(
-                                      text:
-                                          "${question.options[index].voteCount.toString()} vote${question.options[index].voteCount > 1 ? "s" : ""}",
-                                      textColor: HMSThemeColors
-                                          .onSurfaceMediumEmphasis),
-                                )
-                            ],
-                          ),
-                          if (!isVoteCountHidden && isPoll)
-                            const SizedBox(
-                              height: 8,
+                                Expanded(
+                                  flex: totalVotes -
+                                      question.options[index].voteCount,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: HMSThemeColors.surfaceBright,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          if (!isVoteCountHidden && isPoll)
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              height: 8,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: (question.options[index].voteCount),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: HMSThemeColors.primaryDefault,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      )),
-                                  Expanded(
-                                      flex: totalVotes -
-                                          question.options[index].voteCount,
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                        color: HMSThemeColors.surfaceBright,
-                                        borderRadius: BorderRadius.circular(8),
-                                      )))
-                                ],
-                              ),
-                            )
-                        ],
-                      ),
-                    );
-                  }),
+                          ),
+                      ],
+                    ),
+                  );
+                },
+              ),
               if (question.myResponses.isNotEmpty)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     HMSTitleText(
-                        text: isPoll ? "Voted" : "Answered",
-                        textColor: HMSThemeColors.onSurfaceLowEmphasis)
+                      text: isPoll ? "Voted" : "Answered",
+                      textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                    ),
                   ],
-                )
+                ),
             ],
           ),
         ),

@@ -20,6 +20,17 @@ class QRCodeScreen extends StatefulWidget {
 
 class _QRCodeScreenState extends State<QRCodeScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  String? scannerError;
+  MobileScannerController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = MobileScannerController(
+      detectionSpeed: DetectionSpeed.noDuplicates,
+      facing: CameraFacing.back,
+    );
+  }
 
   @override
   void reassemble() {
@@ -28,7 +39,16 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
 
   @override
   void dispose() {
+    _controller?.dispose();
     super.dispose();
+  }
+
+  void _onScannerError(MobileScannerException error, Object? object) {
+    log('Scanner error: ${error.errorCode} - ${error.errorDetails?.message}');
+    setState(() {
+      scannerError =
+          'QR Scanner unavailable. Please use "Join with Link Instead" button below.';
+    });
   }
 
   void _onQRViewCreated(BarcodeCapture barcodeCapture) async {
@@ -148,30 +168,78 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
               SizedBox(
                 height: 30,
               ),
+              if (scannerError != null)
+                Container(
+                  padding: EdgeInsets.all(16),
+                  margin: EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.1),
+                    border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.error_outline, color: Colors.red),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          scannerError!,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               Container(
                   height:
                       orientation == Orientation.portrait ? height * 0.75 : 500,
                   width: MediaQuery.of(context).size.width - 40,
                   child: MobileScanner(
-                      controller: MobileScannerController(
-                          detectionSpeed: DetectionSpeed.noDuplicates,
-                          facing: CameraFacing.back),
-                      onDetect: (capture) => _onQRViewCreated(capture))),
+                      controller: _controller,
+                      onDetect: (capture) => _onQRViewCreated(capture),
+                      errorBuilder: (context, error) {
+                        _onScannerError(error, null);
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.qr_code_scanner,
+                                  size: 64, color: Colors.grey),
+                              SizedBox(height: 16),
+                              Text(
+                                'QR Scanner Not Available',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 32),
+                                child: Text(
+                                  'Please use the button below to join with a link',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      })),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: SizedBox(
                   width: width * 0.95,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                        shadowColor:
-                            MaterialStateProperty.all(themeSurfaceColor),
+                        shadowColor: WidgetStateProperty.all(themeSurfaceColor),
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        side: MaterialStateProperty.all(
+                            WidgetStateProperty.all(Colors.transparent),
+                        side: WidgetStateProperty.all(
                             BorderSide(color: borderColor)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ))),
                     onPressed: () {

@@ -61,10 +61,13 @@ class _OverlayChatComponentState extends State<OverlayChatComponent> {
   ///This function scrolls to the end of the list
   void _scrollToEnd() {
     if (_scrollController.hasClients) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollController
-          .animateTo(_scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeInOut));
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+        ),
+      );
     }
   }
 
@@ -108,7 +111,8 @@ class _OverlayChatComponentState extends State<OverlayChatComponent> {
     } else if (rolesName.contains(currentlySelectedValue)) {
       List<HMSRole> selectedRoles = [];
       selectedRoles.add(
-          hmsRoles.firstWhere((role) => role.name == currentlySelectedValue));
+        hmsRoles.firstWhere((role) => role.name == currentlySelectedValue),
+      );
       meetingStore.sendGroupMessage(message, selectedRoles);
     } else if (currentlySelectedpeerId != null &&
         meetingStore.localPeer!.peerId != currentlySelectedpeerId) {
@@ -124,318 +128,311 @@ class _OverlayChatComponentState extends State<OverlayChatComponent> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Selector<MeetingStore, bool>(
-          selector: (_, meetingStore) => meetingStore.pinnedMessages.isNotEmpty,
-          builder: (_, isPinnedMessage, __) {
-            return SizedBox(
-              height: isPinnedMessage
-                  ? MediaQuery.of(context).size.height * 0.4
-                  : MediaQuery.of(context).size.height * 0.3,
-              child: Column(
-                children: [
-                  ///Chat Header
-                  Expanded(
-                    child: Selector<MeetingStore,
-                            Tuple2<List<HMSMessage>, int>>(
-                        selector: (_, meetingStore) => Tuple2(
-                            meetingStore.messages,
-                            meetingStore.messages.length),
-                        builder: (context, data, _) {
-                          _scrollToEnd();
-                          return ListView.builder(
-                              controller: _scrollController,
-                              shrinkWrap: true,
-                              itemCount: data.item1.length,
-                              itemBuilder: (_, index) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+        selector: (_, meetingStore) => meetingStore.pinnedMessages.isNotEmpty,
+        builder: (_, isPinnedMessage, __) {
+          return SizedBox(
+            height: isPinnedMessage
+                ? MediaQuery.of(context).size.height * 0.4
+                : MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+              children: [
+                ///Chat Header
+                Expanded(
+                  child: Selector<MeetingStore, Tuple2<List<HMSMessage>, int>>(
+                    selector: (_, meetingStore) => Tuple2(
+                      meetingStore.messages,
+                      meetingStore.messages.length,
+                    ),
+                    builder: (context, data, _) {
+                      _scrollToEnd();
+                      return ListView.builder(
+                        controller: _scrollController,
+                        shrinkWrap: true,
+                        itemCount: data.item1.length,
+                        itemBuilder: (_, index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.5),
-                                                child: HMSTitleText(
-                                                  text: data.item1[index].sender
-                                                          ?.name ??
-                                                      "Anonymous",
-                                                  textColor: Colors.white,
-                                                  fontSize: 14,
-                                                  lineHeight: 20,
-                                                  letterSpacing: 0.1,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 4,
-                                              ),
-                                              Container(
-                                                constraints: BoxConstraints(
-                                                    maxWidth:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.5),
-                                                child: HMSSubtitleText(
-                                                    text: messageTypeText(data
-                                                        .item1[index]
-                                                        .hmsMessageRecipient),
-                                                    textColor: HMSThemeColors
-                                                        .onSurfaceMediumEmphasis),
-                                              ),
-                                            ],
+                                    Row(
+                                      children: [
+                                        Container(
+                                          constraints: BoxConstraints(
+                                            maxWidth: MediaQuery.of(
+                                                  context,
+                                                ).size.width *
+                                                0.5,
                                           ),
-                                          const SizedBox(
-                                            height: 2,
+                                          child: HMSTitleText(
+                                            text: data.item1[index].sender
+                                                    ?.name ??
+                                                "Anonymous",
+                                            textColor: Colors.white,
+                                            fontSize: 14,
+                                            lineHeight: 20,
+                                            letterSpacing: 0.1,
                                           ),
-                                          SelectableLinkify(
-                                            text: data.item1[index].message,
-                                            onOpen: (link) async {
-                                              Uri url = Uri.parse(link.url);
-                                              if (await canLaunchUrl(url)) {
-                                                await launchUrl(url,
-                                                    mode: LaunchMode
-                                                        .externalApplication);
-                                              }
-                                            },
-                                            scrollPhysics:
-                                                const NeverScrollableScrollPhysics(),
-                                            options: const LinkifyOptions(
-                                                humanize: false),
-                                            style: HMSTextStyle.setTextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              height: 20 / 14,
-                                              letterSpacing: 0.25,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          constraints: BoxConstraints(
+                                            maxWidth: MediaQuery.of(
+                                                  context,
+                                                ).size.width *
+                                                0.5,
+                                          ),
+                                          child: HMSSubtitleText(
+                                            text: messageTypeText(
+                                              data.item1[index]
+                                                  .hmsMessageRecipient,
                                             ),
+                                            textColor: HMSThemeColors
+                                                .onSurfaceMediumEmphasis,
                                           ),
-                                          const SizedBox(
-                                            height: 8,
-                                          )
-                                        ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 2),
+                                    SelectableLinkify(
+                                      text: data.item1[index].message,
+                                      onOpen: (link) async {
+                                        Uri url = Uri.parse(link.url);
+                                        if (await canLaunchUrl(url)) {
+                                          await launchUrl(
+                                            url,
+                                            mode:
+                                                LaunchMode.externalApplication,
+                                          );
+                                        }
+                                      },
+                                      scrollPhysics:
+                                          const NeverScrollableScrollPhysics(),
+                                      options: const LinkifyOptions(
+                                        humanize: false,
+                                      ),
+                                      style: HMSTextStyle.setTextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        height: 20 / 14,
+                                        letterSpacing: 0.25,
                                       ),
                                     ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        var meetingStore =
-                                            context.read<MeetingStore>();
-                                        showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor:
-                                              HMSThemeColors.surfaceDim,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(16),
-                                                topRight: Radius.circular(16)),
-                                          ),
-                                          context: context,
-                                          builder: (ctx) =>
-                                              ChangeNotifierProvider.value(
-                                                  value: meetingStore,
-                                                  child:
-                                                      ChatUtilitiesBottomSheet(
-                                                    message: data.item1[index],
-                                                  )),
-                                        );
-                                      },
-                                      child: SvgPicture.asset(
-                                        "packages/hms_room_kit/lib/src/assets/icons/more.svg",
-                                        height: 20,
-                                        width: 20,
-                                        colorFilter: ColorFilter.mode(
-                                            HMSThemeColors
-                                                .onSurfaceMediumEmphasis,
-                                            BlendMode.srcIn),
-                                      ),
-                                    )
-                                  ],
-                                );
-                              });
-                        }),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-
-                  ///This renders the pinned message widget
-                  PinChatWidget(
-                    backgroundColor: HMSThemeColors.backgroundDim.withAlpha(64),
-                  ),
-                  Selector<MeetingStore, bool>(
-                      selector: (_, meetingStore) =>
-                          meetingStore.chatControls["enabled"],
-                      builder: (_, isChatEnabled, __) {
-                        return isChatEnabled
-                            ? Padding(
-                                padding:
-                                    const EdgeInsets.only(bottom: 8.0, top: 0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    if ((HMSRoomLayout.chatData
-                                                ?.isPrivateChatEnabled ??
-                                            false) ||
-                                        (HMSRoomLayout.chatData
-                                                ?.isPublicChatEnabled ??
-                                            false) ||
-                                        (HMSRoomLayout.chatData?.rolesWhitelist
-                                                .isNotEmpty ??
-                                            false))
-                                      ReceipientSelectorChip(
-                                        currentlySelectedValue:
-                                            currentlySelectedValue,
-                                        updateSelectedValue: _updateValueChoose,
-                                        chipColor: HMSThemeColors.backgroundDim
-                                            .withAlpha(64),
-                                      ),
-                                    const SizedBox(),
-                                    if (HMSRoomLayout.chatData?.realTimeControls
-                                            ?.canDisableChat ??
-                                        false)
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          PopupMenuButton(
-                                            padding: EdgeInsets.zero,
-                                            position: PopupMenuPosition.over,
-                                            color:
-                                                HMSThemeColors.surfaceDefault,
-                                            itemBuilder: (context) => [
-                                              PopupMenuItem(
-                                                  value: 1,
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(50)),
-                                                    child: Row(children: [
-                                                      SvgPicture.asset(
-                                                          "packages/hms_room_kit/lib/src/assets/icons/${context.read<MeetingStore>().chatControls["enabled"] ? "recording_paused" : "resume"}.svg",
-                                                          width: 20,
-                                                          height: 20,
-                                                          colorFilter:
-                                                              ColorFilter.mode(
-                                                                  HMSThemeColors
-                                                                      .onSurfaceHighEmphasis,
-                                                                  BlendMode
-                                                                      .srcIn)),
-                                                      const SizedBox(
-                                                        width: 8,
-                                                      ),
-                                                      HMSTitleText(
-                                                        text: context
-                                                                    .read<
-                                                                        MeetingStore>()
-                                                                    .chatControls[
-                                                                "enabled"]
-                                                            ? "Pause Chat"
-                                                            : "Resume Chat",
-                                                        textColor: HMSThemeColors
-                                                            .onSurfaceHighEmphasis,
-                                                        fontSize: 14,
-                                                        lineHeight: 20,
-                                                        letterSpacing: 0.1,
-                                                      ),
-                                                    ]),
-                                                  ))
-                                            ],
-                                            onSelected: (value) {
-                                              switch (value) {
-                                                case 1:
-                                                  context
-                                                      .read<MeetingStore>()
-                                                      .setSessionMetadataForKey(
-                                                          key: SessionStoreKeyValues
-                                                              .getNameFromMethod(
-                                                                  SessionStoreKey
-                                                                      .chatState),
-                                                          metadata: {
-                                                        "enabled": context
-                                                                    .read<
-                                                                        MeetingStore>()
-                                                                    .chatControls[
-                                                                "enabled"]
-                                                            ? false
-                                                            : true,
-                                                        "updatedBy": {
-                                                          "peerID": context
-                                                              .read<
-                                                                  MeetingStore>()
-                                                              .localPeer
-                                                              ?.peerId,
-                                                          "userID": context
-                                                              .read<
-                                                                  MeetingStore>()
-                                                              .localPeer
-                                                              ?.customerUserId,
-                                                          "userName": context
-                                                              .read<
-                                                                  MeetingStore>()
-                                                              .localPeer
-                                                              ?.name
-                                                        },
-                                                        "updatedAt": DateTime
-                                                                .now()
-                                                            .millisecondsSinceEpoch //unix timestamp in miliseconds
-                                                      });
-                                                  break;
-                                              }
-                                            },
-                                            child: Container(
-                                              height: 24,
-                                              width: 24,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(4)),
-                                                  color: HMSThemeColors
-                                                      .backgroundDim
-                                                      .withOpacity(0.64)),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: SvgPicture.asset(
-                                                  "packages/hms_room_kit/lib/src/assets/icons/more.svg",
-                                                  height: 16,
-                                                  width: 16,
-                                                  colorFilter: ColorFilter.mode(
-                                                      HMSThemeColors
-                                                          .onSurfaceLowEmphasis,
-                                                      BlendMode.srcIn),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
+                                    const SizedBox(height: 8),
                                   ],
                                 ),
-                              )
-                            : const SizedBox();
-                      }),
-                  if ((HMSRoomLayout.chatData?.isPrivateChatEnabled ?? false) ||
-                      (HMSRoomLayout.chatData?.isPublicChatEnabled ?? false) ||
-                      (HMSRoomLayout.chatData?.rolesWhitelist.isNotEmpty ??
-                          false))
-                    ChatTextField(
-                      sendMessage: _sendMessage,
-                      toastBackgroundColor:
-                          HMSThemeColors.backgroundDim.withAlpha(64),
-                    )
-                ],
-              ),
-            );
-          }),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  var meetingStore =
+                                      context.read<MeetingStore>();
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: HMSThemeColors.surfaceDim,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(16),
+                                        topRight: Radius.circular(16),
+                                      ),
+                                    ),
+                                    context: context,
+                                    builder: (ctx) =>
+                                        ChangeNotifierProvider.value(
+                                      value: meetingStore,
+                                      child: ChatUtilitiesBottomSheet(
+                                        message: data.item1[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: SvgPicture.asset(
+                                  "packages/hms_room_kit/lib/src/assets/icons/more.svg",
+                                  height: 20,
+                                  width: 20,
+                                  colorFilter: ColorFilter.mode(
+                                    HMSThemeColors.onSurfaceMediumEmphasis,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                ///This renders the pinned message widget
+                PinChatWidget(
+                  backgroundColor: HMSThemeColors.backgroundDim.withAlpha(64),
+                ),
+                Selector<MeetingStore, bool>(
+                  selector: (_, meetingStore) =>
+                      meetingStore.chatControls["enabled"],
+                  builder: (_, isChatEnabled, __) {
+                    return isChatEnabled
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0, top: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if ((HMSRoomLayout
+                                            .chatData?.isPrivateChatEnabled ??
+                                        false) ||
+                                    (HMSRoomLayout
+                                            .chatData?.isPublicChatEnabled ??
+                                        false) ||
+                                    (HMSRoomLayout.chatData?.rolesWhitelist
+                                            .isNotEmpty ??
+                                        false))
+                                  ReceipientSelectorChip(
+                                    currentlySelectedValue:
+                                        currentlySelectedValue,
+                                    updateSelectedValue: _updateValueChoose,
+                                    chipColor: HMSThemeColors.backgroundDim
+                                        .withAlpha(64),
+                                  ),
+                                const SizedBox(),
+                                if (HMSRoomLayout.chatData?.realTimeControls
+                                        ?.canDisableChat ??
+                                    false)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      PopupMenuButton(
+                                        padding: EdgeInsets.zero,
+                                        position: PopupMenuPosition.over,
+                                        color: HMSThemeColors.surfaceDefault,
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            value: 1,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    "packages/hms_room_kit/lib/src/assets/icons/${context.read<MeetingStore>().chatControls["enabled"] ? "recording_paused" : "resume"}.svg",
+                                                    width: 20,
+                                                    height: 20,
+                                                    colorFilter:
+                                                        ColorFilter.mode(
+                                                      HMSThemeColors
+                                                          .onSurfaceHighEmphasis,
+                                                      BlendMode.srcIn,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 8),
+                                                  HMSTitleText(
+                                                    text: context
+                                                                .read<
+                                                                    MeetingStore>()
+                                                                .chatControls[
+                                                            "enabled"]
+                                                        ? "Pause Chat"
+                                                        : "Resume Chat",
+                                                    textColor: HMSThemeColors
+                                                        .onSurfaceHighEmphasis,
+                                                    fontSize: 14,
+                                                    lineHeight: 20,
+                                                    letterSpacing: 0.1,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        onSelected: (value) {
+                                          switch (value) {
+                                            case 1:
+                                              context
+                                                  .read<MeetingStore>()
+                                                  .setSessionMetadataForKey(
+                                                key: SessionStoreKeyValues
+                                                    .getNameFromMethod(
+                                                  SessionStoreKey.chatState,
+                                                ),
+                                                metadata: {
+                                                  "enabled": context
+                                                          .read<MeetingStore>()
+                                                          .chatControls["enabled"]
+                                                      ? false
+                                                      : true,
+                                                  "updatedBy": {
+                                                    "peerID": context
+                                                        .read<MeetingStore>()
+                                                        .localPeer
+                                                        ?.peerId,
+                                                    "userID": context
+                                                        .read<MeetingStore>()
+                                                        .localPeer
+                                                        ?.customerUserId,
+                                                    "userName": context
+                                                        .read<MeetingStore>()
+                                                        .localPeer
+                                                        ?.name,
+                                                  },
+                                                  "updatedAt": DateTime.now()
+                                                      .millisecondsSinceEpoch, //unix timestamp in miliseconds
+                                                },
+                                              );
+                                              break;
+                                          }
+                                        },
+                                        child: Container(
+                                          height: 24,
+                                          width: 24,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(4),
+                                            ),
+                                            color: HMSThemeColors.backgroundDim
+                                                .withOpacity(0.64),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: SvgPicture.asset(
+                                              "packages/hms_room_kit/lib/src/assets/icons/more.svg",
+                                              height: 16,
+                                              width: 16,
+                                              colorFilter: ColorFilter.mode(
+                                                HMSThemeColors
+                                                    .onSurfaceLowEmphasis,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox();
+                  },
+                ),
+                if ((HMSRoomLayout.chatData?.isPrivateChatEnabled ?? false) ||
+                    (HMSRoomLayout.chatData?.isPublicChatEnabled ?? false) ||
+                    (HMSRoomLayout.chatData?.rolesWhitelist.isNotEmpty ??
+                        false))
+                  ChatTextField(
+                    sendMessage: _sendMessage,
+                    toastBackgroundColor:
+                        HMSThemeColors.backgroundDim.withAlpha(64),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

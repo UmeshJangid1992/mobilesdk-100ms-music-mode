@@ -28,48 +28,57 @@ class ScreenshareTile extends StatelessWidget {
           scaleType: ScaleType.SCALE_ASPECT_FIT,
         ),
         Positioned(
-            top: 5,
-            right: 5,
-            child: GestureDetector(
-              onTap: () {
-                context.read<WhiteboardScreenshareStore>().toggleFullScreen();
-              },
-              child: Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    color: HMSThemeColors.backgroundDim.withAlpha(64),
-                    borderRadius: BorderRadius.circular(8)),
-                child: Center(
-                  child: Selector<WhiteboardScreenshareStore, bool>(
-                      selector: (_, whiteboardScreenshareStore) =>
-                          whiteboardScreenshareStore.isFullScreen,
-                      builder: (_, isFullScreen, __) {
-                        return SvgPicture.asset(
-                          "packages/hms_room_kit/lib/src/assets/icons/${isFullScreen ? "minimize" : "maximize"}.svg",
-                          height: 16,
-                          width: 16,
-                          semanticsLabel: "maximize_label",
-                          colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceHighEmphasis,
-                              BlendMode.srcIn),
-                        );
-                      }),
+          top: 5,
+          right: 5,
+          child: GestureDetector(
+            onTap: () {
+              context.read<WhiteboardScreenshareStore>().toggleFullScreen();
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: HMSThemeColors.backgroundDim.withAlpha(64),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Selector<WhiteboardScreenshareStore, bool>(
+                  selector: (_, whiteboardScreenshareStore) =>
+                      whiteboardScreenshareStore.isFullScreen,
+                  builder: (_, isFullScreen, __) {
+                    return SvgPicture.asset(
+                      "packages/hms_room_kit/lib/src/assets/icons/${isFullScreen ? "minimize" : "maximize"}.svg",
+                      height: 16,
+                      width: 16,
+                      semanticsLabel: "maximize_label",
+                      colorFilter: ColorFilter.mode(
+                        HMSThemeColors.onSurfaceHighEmphasis,
+                        BlendMode.srcIn,
+                      ),
+                    );
+                  },
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
         Positioned(
           //Bottom left
           bottom: 5,
           left: 5,
           child: Container(
             decoration: BoxDecoration(
-                color: HMSThemeColors.backgroundDim.withOpacity(0.64),
-                borderRadius: BorderRadius.circular(8)),
+              color: HMSThemeColors.backgroundDim.withOpacity(0.64),
+              borderRadius: BorderRadius.circular(8),
+            ),
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 8.0, right: 4, top: 4, bottom: 4),
+                  left: 8.0,
+                  right: 4,
+                  top: 4,
+                  bottom: 4,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,17 +89,18 @@ class ScreenshareTile extends StatelessWidget {
                       height: 20,
                       width: 20,
                       colorFilter: ColorFilter.mode(
-                          HMSThemeColors.onSurfaceHighEmphasis,
-                          BlendMode.srcIn),
+                        HMSThemeColors.onSurfaceHighEmphasis,
+                        BlendMode.srcIn,
+                      ),
                     ),
-                    const SizedBox(
-                      width: 6,
-                    ),
+                    const SizedBox(width: 6),
                     LayoutBuilder(
-                        builder: (context, BoxConstraints constraints) {
-                      return ScreenshareTileName(
-                          maxWidth: constraints.maxWidth);
-                    })
+                      builder: (context, BoxConstraints constraints) {
+                        return ScreenshareTileName(
+                          maxWidth: constraints.maxWidth,
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

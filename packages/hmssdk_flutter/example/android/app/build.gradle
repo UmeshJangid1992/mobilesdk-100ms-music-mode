@@ -1,5 +1,11 @@
 import groovy.json.JsonSlurper
 
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 def sdkVersions = new JsonSlurper().parse file("../../../lib/assets/sdk-versions.json")
@@ -20,16 +26,24 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
-    compileSdkVersion 34
+    compileSdkVersion 36
+    ndkVersion "27.2.12479018"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            // Force all android-sdk dependencies to use the same version
+            force "live.100ms:android-sdk:${sdkVersions['android']}"
+        }
     }
 
     sourceSets {
@@ -38,10 +52,16 @@ android {
 
     defaultConfig {
         applicationId "live.hms.flutter"
-        minSdkVersion 21
-        targetSdkVersion 34
-        versionCode 529
-        versionName "1.5.229"
+        minSdkVersion 24
+        targetSdkVersion 36
+        versionCode 532
+        versionName "1.6.2"
+
+        ndk {
+            // Only support 64-bit architectures for 16KB page size support
+            // Excludes: armeabi-v7a (32-bit ARM), x86 (32-bit x86)
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
     }
 
     signingConfigs {
@@ -73,6 +93,18 @@ android {
     }
     android.buildTypes.release.ndk.debugSymbolLevel "FULL"
 
+    packaging {
+        jniLibs {
+            // Enable proper packaging for 16KB page size support
+            // useLegacyPackaging=false ensures uncompressed, page-aligned .so files
+            useLegacyPackaging = false
+        }
+        resources {
+            // Exclude 32-bit architectures to ensure 16KB compatibility
+            excludes += ['lib/armeabi-v7a/**', 'lib/x86/**']
+        }
+    }
+
     namespace 'live.hms.flutter'
 }
 
@@ -82,8 +114,10 @@ flutter {
 
 dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-crashlytics:18.6.2'
-    implementation "live.100ms:hms-noise-cancellation-android:${sdkVersions['android']}"
+    implementation("live.100ms:hms-noise-cancellation-android:${sdkVersions['android']}") {
+        // Exclude transitive android-sdk dependency since we already get it from hmssdk_flutter plugin
+        exclude group: 'live.100ms', module: 'android-sdk'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

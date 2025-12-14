@@ -7,9 +7,10 @@ class RTCStats {
   HMSRemoteVideoStats? hmsRemoteVideoStats;
   HMSLocalAudioStats? hmsLocalAudioStats;
 
-  RTCStats(
-      {this.hmsRemoteVideoStats,
-      this.hmsRemoteAudioStats,
-      this.hmsLocalAudioStats,
-      this.hmsLocalVideoStats});
+  RTCStats({
+    this.hmsRemoteVideoStats,
+    this.hmsRemoteAudioStats,
+    this.hmsLocalAudioStats,
+    this.hmsLocalVideoStats,
+  });
 }

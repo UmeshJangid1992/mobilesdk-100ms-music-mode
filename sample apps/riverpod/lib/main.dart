@@ -21,10 +21,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '100ms riverpod',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
-          colorScheme: ColorScheme.dark(
-            primary: Colors.blue.shade700,
-          )),
+        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.dark(primary: Colors.blue.shade700),
+      ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
     );
@@ -58,106 +57,114 @@ Future<bool> getPermissions() async {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController nameTextController = TextEditingController(text: "");
-  TextEditingController roomCodeController =
-      TextEditingController(text: "zhr-seow-tuj");
+  TextEditingController roomCodeController = TextEditingController(
+    text: "zhr-seow-tuj",
+  );
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "100ms Riverpod Example",
-              style: TextStyle(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "100ms Riverpod Example",
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: 300.0,
-              child: TextField(
-                controller: roomCodeController,
-                autofocus: true,
-                keyboardType: TextInputType.url,
-                decoration: InputDecoration(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 300.0,
+                child: TextField(
+                  controller: roomCodeController,
+                  autofocus: true,
+                  keyboardType: TextInputType.url,
+                  decoration: InputDecoration(
                     hintText: 'Enter Room URL',
                     suffixIcon: IconButton(
                       onPressed: roomCodeController.clear,
                       icon: const Icon(Icons.clear),
                     ),
                     border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)))),
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            SizedBox(
-              width: 300.0,
-              child: TextField(
-                controller: nameTextController,
-                autofocus: true,
-                keyboardType: TextInputType.url,
-                decoration: InputDecoration(
+              const SizedBox(height: 30.0),
+              SizedBox(
+                width: 300.0,
+                child: TextField(
+                  controller: nameTextController,
+                  autofocus: true,
+                  keyboardType: TextInputType.url,
+                  decoration: InputDecoration(
                     hintText: 'Enter Name',
                     suffixIcon: IconButton(
                       onPressed: nameTextController.clear,
                       icon: const Icon(Icons.clear),
                     ),
                     border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)))),
-              ),
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            SizedBox(
-              width: 300.0,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                ))),
-                onPressed: () async {
-                  if (roomCodeController.text.isNotEmpty &&
-                      nameTextController.text.isNotEmpty) {
-                    bool res = await getPermissions();
-                    if (res) {
-                      var hmssdk = HMSSDK();
-                      await hmssdk.build();
-                      var hmssdkInteractor = HMSSDKInteractor(hmsSDK: hmssdk);
-                      var previewStore =
-                          PreviewStore(hmssdkInteractor: hmssdkInteractor);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PreviewScreen(
-                                  name: nameTextController.text,
-                                  roomLink: roomCodeController.text,
-                                  previewStore: previewStore,
-                                )),
-                      );
-                    }
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(4.0),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(16))),
-                  child: const Text('Join Meeting',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
+                  ),
                 ),
               ),
-            )
-          ],
-        )),
+              const SizedBox(height: 30.0),
+              SizedBox(
+                width: 300.0,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (roomCodeController.text.isNotEmpty &&
+                        nameTextController.text.isNotEmpty) {
+                      bool res = await getPermissions();
+                      if (res) {
+                        var hmssdk = HMSSDK();
+                        await hmssdk.build();
+                        var hmssdkInteractor = HMSSDKInteractor(hmsSDK: hmssdk);
+                        var previewStore = PreviewStore(
+                          hmssdkInteractor: hmssdkInteractor,
+                        );
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PreviewScreen(
+                              name: nameTextController.text,
+                              roomLink: roomCodeController.text,
+                              previewStore: previewStore,
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
+                    child: const Text(
+                      'Join Meeting',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

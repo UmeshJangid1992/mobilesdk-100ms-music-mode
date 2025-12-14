@@ -18,15 +18,17 @@ class PeerName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        constraints: BoxConstraints(maxWidth: maxWidth - 80),
-        child: Selector<PeerTrackNode, Tuple2<String, bool>>(
-            selector: (_, peerTrackNode) =>
-                Tuple2(peerTrackNode.peer.name, peerTrackNode.peer.isLocal),
-            builder: (_, data, __) {
-              return HMSSubheadingText(
-                text: "${data.item1.trim()}${data.item2 ? " (You)" : ""}",
-                textColor: HMSThemeColors.onSurfaceHighEmphasis,
-              );
-            }));
+      constraints: BoxConstraints(maxWidth: maxWidth - 80),
+      child: Selector<PeerTrackNode, Tuple2<String, bool>>(
+        selector: (_, peerTrackNode) =>
+            Tuple2(peerTrackNode.peer.name, peerTrackNode.peer.isLocal),
+        builder: (_, data, __) {
+          return HMSSubheadingText(
+            text: "${data.item1.trim()}${data.item2 ? " (You)" : ""}",
+            textColor: HMSThemeColors.onSurfaceHighEmphasis,
+          );
+        },
+      ),
+    );
   }
 }

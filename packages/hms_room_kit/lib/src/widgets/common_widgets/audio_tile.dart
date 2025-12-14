@@ -24,57 +24,58 @@ class AudioTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, BoxConstraints constraints) {
-      return Container(
-        key: key,
-        height: itemHeight + 110,
-        width: itemWidth,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: themeBottomSheetColor,
-        ),
-        child: Semantics(
-          label: "${context.read<PeerTrackNode>().peer.name}_audio",
-          child: Stack(
-            children: [
-              const Center(child: AudioLevelAvatar()),
-              Positioned(
-                //Bottom left
-                bottom: 5,
-                left: 5,
-                child: Container(
-                  decoration: BoxDecoration(
+    return LayoutBuilder(
+      builder: (context, BoxConstraints constraints) {
+        return Container(
+          key: key,
+          height: itemHeight + 110,
+          width: itemWidth,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: themeBottomSheetColor,
+          ),
+          child: Semantics(
+            label: "${context.read<PeerTrackNode>().peer.name}_audio",
+            child: Stack(
+              children: [
+                const Center(child: AudioLevelAvatar()),
+                Positioned(
+                  //Bottom left
+                  bottom: 5,
+                  left: 5,
+                  child: Container(
+                    decoration: BoxDecoration(
                       color: HMSThemeColors.backgroundDim.withOpacity(0.64),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          PeerName(
-                            maxWidth: constraints.maxWidth,
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          const NetworkIconWidget(),
-                        ],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            PeerName(maxWidth: constraints.maxWidth),
+                            const SizedBox(width: 4),
+                            const NetworkIconWidget(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const HandRaise(), //bottom left
-              const BRBTag(), //top right
-              const AudioMuteStatus(),
-              RTCStatsView(isLocal: context.read<PeerTrackNode>().peer.isLocal),
-              const MoreOption(), //bottom center
-            ],
+                const HandRaise(), //bottom left
+                const BRBTag(), //top right
+                const AudioMuteStatus(),
+                RTCStatsView(
+                  isLocal: context.read<PeerTrackNode>().peer.isLocal,
+                ),
+                const MoreOption(), //bottom center
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

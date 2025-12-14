@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: '100ms Audio Room Guide'),
     );
   }
@@ -38,7 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void navigate() {
     Navigator.push(
-        context, CupertinoPageRoute(builder: (_) => const MeetingPage()));
+      context,
+      CupertinoPageRoute(builder: (_) => const MeetingPage()),
+    );
   }
 
   static Future<bool> getPermissions() async {
@@ -64,14 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: ElevatedButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                ))),
+                ),
+              ),
+            ),
             onPressed: () async => {
               res = await getPermissions(),
-              if (res) {navigate()}
+              if (res) {navigate()},
             },
             child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
@@ -117,14 +119,16 @@ class _MeetingPageState extends State<MeetingPage>
     initHMSSDK();
   }
 
-//To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
+  //To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
   void initHMSSDK() async {
     _hmsSDK = HMSSDK();
     await _hmsSDK.build();
     _hmsSDK.addUpdateListener(listener: this);
     var authToken = await _hmsSDK.getAuthTokenByRoomCode(roomCode: roomCode);
     if ((authToken is String?) && authToken != null) {
-      _hmsSDK.join(config: HMSConfig(authToken: authToken, userName: userName));
+      _hmsSDK.join(
+        config: HMSConfig(authToken: authToken, userName: userName),
+      );
     } else {
       log("Error in getting auth token");
     }
@@ -148,26 +152,28 @@ class _MeetingPageState extends State<MeetingPage>
       case HMSPeerUpdate.peerJoined:
         switch (peer.role.name) {
           case "speaker":
-            int index = _speakers
-                .indexWhere((node) => node.uid == "${peer.peerId}speaker");
+            int index = _speakers.indexWhere(
+              (node) => node.uid == "${peer.peerId}speaker",
+            );
             if (index != -1) {
               _speakers[index].peer = peer;
             } else {
-              _speakers.add(PeerTrackNode(
-                uid: "${peer.peerId}speaker",
-                peer: peer,
-              ));
+              _speakers.add(
+                PeerTrackNode(uid: "${peer.peerId}speaker", peer: peer),
+              );
             }
             setState(() {});
             break;
           case "listener":
-            int index = _listeners
-                .indexWhere((node) => node.uid == "${peer.peerId}listener");
+            int index = _listeners.indexWhere(
+              (node) => node.uid == "${peer.peerId}listener",
+            );
             if (index != -1) {
               _listeners[index].peer = peer;
             } else {
               _listeners.add(
-                  PeerTrackNode(uid: "${peer.peerId}listener", peer: peer));
+                PeerTrackNode(uid: "${peer.peerId}listener", peer: peer),
+              );
             }
             setState(() {});
             break;
@@ -179,16 +185,18 @@ class _MeetingPageState extends State<MeetingPage>
       case HMSPeerUpdate.peerLeft:
         switch (peer.role.name) {
           case "speaker":
-            int index = _speakers
-                .indexWhere((node) => node.uid == "${peer.peerId}speaker");
+            int index = _speakers.indexWhere(
+              (node) => node.uid == "${peer.peerId}speaker",
+            );
             if (index != -1) {
               _speakers.removeAt(index);
             }
             setState(() {});
             break;
           case "listener":
-            int index = _listeners
-                .indexWhere((node) => node.uid == "${peer.peerId}listener");
+            int index = _listeners.indexWhere(
+              (node) => node.uid == "${peer.peerId}listener",
+            );
             if (index != -1) {
               _listeners.removeAt(index);
             }
@@ -203,15 +211,15 @@ class _MeetingPageState extends State<MeetingPage>
         if (peer.role.name == "speaker") {
           //This means previously the user must be a listener earlier in our case
           //So we remove the peer from listener and add it to speaker list
-          int index = _listeners
-              .indexWhere((node) => node.uid == "${peer.peerId}listener");
+          int index = _listeners.indexWhere(
+            (node) => node.uid == "${peer.peerId}listener",
+          );
           if (index != -1) {
             _listeners.removeAt(index);
           }
-          _speakers.add(PeerTrackNode(
-            uid: "${peer.peerId}speaker",
-            peer: peer,
-          ));
+          _speakers.add(
+            PeerTrackNode(uid: "${peer.peerId}speaker", peer: peer),
+          );
           if (peer.isLocal) {
             _isMicrophoneMuted = peer.audioTrack?.isMute ?? true;
           }
@@ -219,31 +227,33 @@ class _MeetingPageState extends State<MeetingPage>
         } else if (peer.role.name == "listener") {
           //This means previously the user must be a speaker earlier in our case
           //So we remove the peer from speaker and add it to listener list
-          int index = _speakers
-              .indexWhere((node) => node.uid == "${peer.peerId}speaker");
+          int index = _speakers.indexWhere(
+            (node) => node.uid == "${peer.peerId}speaker",
+          );
           if (index != -1) {
             _speakers.removeAt(index);
           }
-          _listeners.add(PeerTrackNode(
-            uid: "${peer.peerId}listener",
-            peer: peer,
-          ));
+          _listeners.add(
+            PeerTrackNode(uid: "${peer.peerId}listener", peer: peer),
+          );
           setState(() {});
         }
         break;
       case HMSPeerUpdate.metadataChanged:
         switch (peer.role.name) {
           case "speaker":
-            int index = _speakers
-                .indexWhere((node) => node.uid == "${peer.peerId}speaker");
+            int index = _speakers.indexWhere(
+              (node) => node.uid == "${peer.peerId}speaker",
+            );
             if (index != -1) {
               _speakers[index].peer = peer;
             }
             setState(() {});
             break;
           case "listener":
-            int index = _listeners
-                .indexWhere((node) => node.uid == "${peer.peerId}listener");
+            int index = _listeners.indexWhere(
+              (node) => node.uid == "${peer.peerId}listener",
+            );
             if (index != -1) {
               _listeners[index].peer = peer;
             }
@@ -257,16 +267,18 @@ class _MeetingPageState extends State<MeetingPage>
       case HMSPeerUpdate.nameChanged:
         switch (peer.role.name) {
           case "speaker":
-            int index = _speakers
-                .indexWhere((node) => node.uid == "${peer.peerId}speaker");
+            int index = _speakers.indexWhere(
+              (node) => node.uid == "${peer.peerId}speaker",
+            );
             if (index != -1) {
               _speakers[index].peer = peer;
             }
             setState(() {});
             break;
           case "listener":
-            int index = _listeners
-                .indexWhere((node) => node.uid == "${peer.peerId}listener");
+            int index = _listeners.indexWhere(
+              (node) => node.uid == "${peer.peerId}listener",
+            );
             if (index != -1) {
               _listeners[index].peer = peer;
             }
@@ -290,19 +302,26 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {
     switch (peer.role.name) {
       case "speaker":
-        int index =
-            _speakers.indexWhere((node) => node.uid == "${peer.peerId}speaker");
+        int index = _speakers.indexWhere(
+          (node) => node.uid == "${peer.peerId}speaker",
+        );
         if (index != -1) {
           _speakers[index].audioTrack = track;
         } else {
-          _speakers.add(PeerTrackNode(
-              uid: "${peer.peerId}speaker", peer: peer, audioTrack: track));
+          _speakers.add(
+            PeerTrackNode(
+              uid: "${peer.peerId}speaker",
+              peer: peer,
+              audioTrack: track,
+            ),
+          );
         }
         if (peer.isLocal) {
           _isMicrophoneMuted = track.isMute;
@@ -310,13 +329,19 @@ class _MeetingPageState extends State<MeetingPage>
         setState(() {});
         break;
       case "listener":
-        int index = _listeners
-            .indexWhere((node) => node.uid == "${peer.peerId}listener");
+        int index = _listeners.indexWhere(
+          (node) => node.uid == "${peer.peerId}listener",
+        );
         if (index != -1) {
           _listeners[index].audioTrack = track;
         } else {
-          _listeners.add(PeerTrackNode(
-              uid: "${peer.peerId}listener", peer: peer, audioTrack: track));
+          _listeners.add(
+            PeerTrackNode(
+              uid: "${peer.peerId}listener",
+              peer: peer,
+              audioTrack: track,
+            ),
+          );
         }
         setState(() {});
         break;
@@ -334,26 +359,28 @@ class _MeetingPageState extends State<MeetingPage>
         _localPeer = peer;
         switch (peer.role.name) {
           case "speaker":
-            int index = _speakers
-                .indexWhere((node) => node.uid == "${peer.peerId}speaker");
+            int index = _speakers.indexWhere(
+              (node) => node.uid == "${peer.peerId}speaker",
+            );
             if (index != -1) {
               _speakers[index].peer = peer;
             } else {
-              _speakers.add(PeerTrackNode(
-                uid: "${peer.peerId}speaker",
-                peer: peer,
-              ));
+              _speakers.add(
+                PeerTrackNode(uid: "${peer.peerId}speaker", peer: peer),
+              );
             }
             setState(() {});
             break;
           case "listener":
-            int index = _listeners
-                .indexWhere((node) => node.uid == "${peer.peerId}listener");
+            int index = _listeners.indexWhere(
+              (node) => node.uid == "${peer.peerId}listener",
+            );
             if (index != -1) {
               _listeners[index].peer = peer;
             } else {
               _listeners.add(
-                  PeerTrackNode(uid: "${peer.peerId}listener", peer: peer));
+                PeerTrackNode(uid: "${peer.peerId}listener", peer: peer),
+              );
             }
             setState(() {});
             break;
@@ -366,15 +393,17 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // Checkout the docs about handling onAudioDeviceChanged updates here: https://www.100ms.live/docs/flutter/v2/how--to-guides/listen-to-room-updates/update-listeners
   }
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {
     // Checkout the docs for handling the unmute request here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/track/remote-mute-unmute
   }
 
@@ -399,8 +428,9 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {
     // Checkout the docs for handling the peer removal here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/peer/remove-peer
   }
 
@@ -415,9 +445,10 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 
@@ -435,10 +466,11 @@ class _MeetingPageState extends State<MeetingPage>
   /// Action result listener methods
 
   @override
-  void onException(
-      {required HMSActionResultListenerMethod methodType,
-      Map<String, dynamic>? arguments,
-      required HMSException hmsException}) {
+  void onException({
+    required HMSActionResultListenerMethod methodType,
+    Map<String, dynamic>? arguments,
+    required HMSException hmsException,
+  }) {
     switch (methodType) {
       case HMSActionResultListenerMethod.leave:
         log("Not able to leave error occured");
@@ -449,9 +481,10 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onSuccess(
-      {required HMSActionResultListenerMethod methodType,
-      Map<String, dynamic>? arguments}) {
+  void onSuccess({
+    required HMSActionResultListenerMethod methodType,
+    Map<String, dynamic>? arguments,
+  }) {
     switch (methodType) {
       case HMSActionResultListenerMethod.leave:
         _hmsSDK.removeUpdateListener(listener: this);
@@ -470,11 +503,12 @@ class _MeetingPageState extends State<MeetingPage>
     Colors.blue.shade600,
     Colors.purple,
     Colors.lightGreen,
-    Colors.redAccent
+    Colors.redAccent,
   ];
 
   final RegExp _REGEX_EMOJI = RegExp(
-      r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])');
+    r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])',
+  );
 
   String _getAvatarTitle(String name) {
     if (name.contains(_REGEX_EMOJI)) {
@@ -519,36 +553,34 @@ class _MeetingPageState extends State<MeetingPage>
         return true;
       },
       child: SafeArea(
-          child: Scaffold(
-        body: Container(
-          color: Colors.grey.shade900,
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  /**
+        child: Scaffold(
+          body: Container(
+            color: Colors.grey.shade900,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    /**
                    * We have a custom scroll view to display listeners and speakers
                    * we have divided them in two sections namely listeners and speakers
                    * On the top we show all the speakers, then we have a listener
                    * section where we show all the listeners in the room.
                    */
-                  child: CustomScrollView(
-                    slivers: [
-                      const SliverToBoxAdapter(
-                        child: Text(
-                          "Speakers",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                    child: CustomScrollView(
+                      slivers: [
+                        const SliverToBoxAdapter(
+                          child: Text(
+                            "Speakers",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 20,
-                        ),
-                      ),
-                      //This is the list of all the speakers
-                      /**
+                        const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                        //This is the list of all the speakers
+                        /**
                        * UI is something like this:    
                        *    
                        *         CircleAvatar Widget
@@ -558,7 +590,7 @@ class _MeetingPageState extends State<MeetingPage>
                        * We have 4 speakers in a row defined by crossAxisCount
                        * in gridDelegate
                        */
-                      SliverGrid.builder(
+                        SliverGrid.builder(
                           itemCount: _speakers.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
@@ -568,54 +600,53 @@ class _MeetingPageState extends State<MeetingPage>
                                   CircleAvatar(
                                     radius: 25,
                                     backgroundColor: _getBackgroundColour(
-                                        _speakers[index].peer.name),
+                                      _speakers[index].peer.name,
+                                    ),
                                     child: Text(
                                       _getAvatarTitle(
-                                          _speakers[index].peer.name),
+                                        _speakers[index].peer.name,
+                                      ),
                                       style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
+                                  const SizedBox(height: 5),
                                   Text(
                                     _speakers[index].peer.name,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  )
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
                           },
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4, mainAxisSpacing: 5)),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 20,
+                                crossAxisCount: 4,
+                                mainAxisSpacing: 5,
+                              ),
                         ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: Text(
-                          "Listener",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                        const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                        const SliverToBoxAdapter(
+                          child: Text(
+                            "Listener",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 20,
-                        ),
-                      ),
-                      //This is the list of all the speakers
-                      /**
+                        const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                        //This is the list of all the speakers
+                        /**
                        * UI is something like this:    
                        *    
                        *         CircleAvatar Widget
@@ -625,7 +656,7 @@ class _MeetingPageState extends State<MeetingPage>
                        * We have 5 listeners in a row defined by crossAxisCount
                        * in gridDelegate
                        */
-                      SliverGrid.builder(
+                        SliverGrid.builder(
                           itemCount: _listeners.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
@@ -636,52 +667,58 @@ class _MeetingPageState extends State<MeetingPage>
                                     child: CircleAvatar(
                                       radius: 20,
                                       backgroundColor: _getBackgroundColour(
-                                          _listeners[index].peer.name),
+                                        _listeners[index].peer.name,
+                                      ),
                                       child: Text(
                                         _getAvatarTitle(
-                                            _listeners[index].peer.name),
+                                          _listeners[index].peer.name,
+                                        ),
                                         style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
+                                  const SizedBox(height: 5),
                                   Text(
                                     _listeners[index].peer.name,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  )
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
                           },
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 5, crossAxisCount: 5)),
-                    ],
+                                mainAxisSpacing: 5,
+                                crossAxisCount: 5,
+                              ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              //This section takes care of the leave button and the microphone mute/unmute option
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    OutlinedButton(
+                //This section takes care of the leave button and the microphone mute/unmute option
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      OutlinedButton(
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.grey.shade300,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
                         onPressed: () {
                           _hmsSDK.leave(hmsActionResultListener: this);
@@ -690,17 +727,20 @@ class _MeetingPageState extends State<MeetingPage>
                         child: const Text(
                           '✌️ Leave quietly',
                           style: TextStyle(color: Colors.redAccent),
-                        )),
-                    const Spacer(),
-                    //We only show the mic icon if a peer has permission to publish audio
-                    if (_localPeer?.role.publishSettings?.allowed
-                            .contains("audio") ??
-                        false)
-                      OutlinedButton(
+                        ),
+                      ),
+                      const Spacer(),
+                      //We only show the mic icon if a peer has permission to publish audio
+                      if (_localPeer?.role.publishSettings?.allowed.contains(
+                            "audio",
+                          ) ??
+                          false)
+                        OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.grey.shade300,
-                              padding: EdgeInsets.zero,
-                              shape: const CircleBorder()),
+                            backgroundColor: Colors.grey.shade300,
+                            padding: EdgeInsets.zero,
+                            shape: const CircleBorder(),
+                          ),
                           onPressed: () {
                             _hmsSDK.toggleMicMuteState();
                             setState(() {
@@ -709,16 +749,19 @@ class _MeetingPageState extends State<MeetingPage>
                           },
                           child: Icon(
                             _isMicrophoneMuted ? Icons.mic_off : Icons.mic,
-                            color:
-                                _isMicrophoneMuted ? Colors.red : Colors.green,
-                          )),
-                  ],
+                            color: _isMicrophoneMuted
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 }
@@ -728,11 +771,12 @@ class PeerTrackNode {
   HMSPeer peer;
   bool isRaiseHand;
   HMSTrack? audioTrack;
-  PeerTrackNode(
-      {required this.uid,
-      required this.peer,
-      this.audioTrack,
-      this.isRaiseHand = false});
+  PeerTrackNode({
+    required this.uid,
+    required this.peer,
+    this.audioTrack,
+    this.isRaiseHand = false,
+  });
 
   @override
   String toString() {

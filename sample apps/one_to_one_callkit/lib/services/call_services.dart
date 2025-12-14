@@ -24,8 +24,10 @@ class CallServices {
   ///[parseStringToMap] method is used to parse the string to map
   static Map<String, dynamic> parseStringToMap(String data) {
     // Remove unnecessary characters and split into key-value pairs
-    List<String> keyValuePairs =
-        data.replaceAll('{', '').replaceAll('}', '').split(', ');
+    List<String> keyValuePairs = data
+        .replaceAll('{', '')
+        .replaceAll('}', '')
+        .split(', ');
 
     // Create a map to store key-value pairs
     Map<String, dynamic> jsonMap = {};
@@ -50,7 +52,10 @@ class CallServices {
 
   ///[getCallkitParams] method is used to get the callkit params
   static CallKitParams getCallkitParams(
-      UserDataModel user, String roomCode, CallType type) {
+    UserDataModel user,
+    String roomCode,
+    CallType type,
+  ) {
     var callId = uuid.v4();
     _currentUuid = callId;
     return CallKitParams(
@@ -72,16 +77,17 @@ class CallServices {
       extra: {'room_code': roomCode},
       // headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
       android: AndroidParams(
-          isCustomNotification: true,
-          isShowLogo: false,
-          ringtonePath: 'system_ringtone_default',
-          backgroundColor: '#0955fa',
-          backgroundUrl: user.imgUrl,
-          actionColor: '#4CAF50',
-          textColor: '#ffffff',
-          incomingCallNotificationChannelName: "Incoming Call",
-          missedCallNotificationChannelName: "Missed Call",
-          isShowCallID: false),
+        isCustomNotification: true,
+        isShowLogo: false,
+        ringtonePath: 'system_ringtone_default',
+        backgroundColor: '#0955fa',
+        backgroundUrl: user.imgUrl,
+        actionColor: '#4CAF50',
+        textColor: '#ffffff',
+        incomingCallNotificationChannelName: "Incoming Call",
+        missedCallNotificationChannelName: "Missed Call",
+        isShowCallID: false,
+      ),
       ios: const IOSParams(
         iconName: 'CallKitLogo',
         handleType: 'generic',
@@ -111,7 +117,10 @@ class CallServices {
   ///This method is called when the user initiates the call
   ///i.e. from the caller side
   static startCall(
-      UserDataModel user, CallType callType, String roomCode) async {
+    UserDataModel user,
+    CallType callType,
+    String roomCode,
+  ) async {
     var currentCalls = await getCurrentCall();
     if (currentCalls != null) {
       await FlutterCallkitIncoming.endAllCalls();
@@ -132,19 +141,22 @@ class CallServices {
 
     ///[startCall] method is used to start the call
     await FlutterCallkitIncoming.startCall(
-        getCallkitParams(user, roomCode, callType));
+      getCallkitParams(user, roomCode, callType),
+    );
     NavigationService.instance.popUntil('/');
     log("Callkit: Joining Room $roomCode");
 
     ///[pushNamedIfNotCurrent] method is used to navigate to the preview page
-    NavigationService.instance
-        .pushNamedIfNotCurrent(AppRoute.previewPage, args: {
-      "is_video_call": callType == CallType.video ? true : false,
-      "user_img_url": user.imgUrl,
-      "user_name": user.userName,
-      "room_code": roomCode,
-      "on_leave": endCall
-    });
+    NavigationService.instance.pushNamedIfNotCurrent(
+      AppRoute.previewPage,
+      args: {
+        "is_video_call": callType == CallType.video ? true : false,
+        "user_img_url": user.imgUrl,
+        "user_name": user.userName,
+        "room_code": roomCode,
+        "on_leave": endCall,
+      },
+    );
   }
 
   ///[endCall] method is used to end the call
@@ -190,14 +202,16 @@ class CallServices {
             log("Callkit: $event");
             var data = event.body;
             String roomCode = data["extra"]["room_code"];
-            NavigationService.instance
-                .pushNamedIfNotCurrent(AppRoute.previewPage, args: {
-              "is_video_call": data["type"] == 1,
-              "user_img_url": data["avatar"],
-              "user_name": data["nameCaller"],
-              "room_code": roomCode,
-              "on_leave": endCall
-            });
+            NavigationService.instance.pushNamedIfNotCurrent(
+              AppRoute.previewPage,
+              args: {
+                "is_video_call": data["type"] == 1,
+                "user_img_url": data["avatar"],
+                "user_name": data["nameCaller"],
+                "room_code": roomCode,
+                "on_leave": endCall,
+              },
+            );
 
             ///[FlutterCallkitIncoming.setCallConnected] is used to set the call connected
             if (_currentUuid != null) {

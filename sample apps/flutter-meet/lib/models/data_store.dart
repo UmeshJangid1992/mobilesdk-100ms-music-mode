@@ -77,10 +77,11 @@ class UserDataStore extends ChangeNotifier
   }
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {
     switch (trackUpdate) {
       case HMSTrackUpdate.trackAdded:
         if (track.kind == HMSTrackKind.kHMSTrackKindAudio) {
@@ -159,31 +160,37 @@ class UserDataStore extends ChangeNotifier
   void onReconnecting() {}
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {}
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {}
 
   @override
   void onRoleChangeRequest({required HMSRoleChangeRequest roleChangeRequest}) {}
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {}
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {}
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {}
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {}
 
   @override
   void onSessionStoreAvailable({HMSSessionStore? hmsSessionStore}) {
     hmsSessionStore?.setSessionMetadataForKey(
-        key: "pinnedMessage", data: "Hey there");
+      key: "pinnedMessage",
+      data: "Hey there",
+    );
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     if (addedPeers.isNotEmpty) {
       if (!addedPeers[0].isLocal) {
         remotePeer = addedPeers[0];
@@ -195,10 +202,11 @@ class UserDataStore extends ChangeNotifier
   }
 
   @override
-  void onException(
-      {required HMSActionResultListenerMethod methodType,
-      Map<String, dynamic>? arguments,
-      required HMSException hmsException}) {
+  void onException({
+    required HMSActionResultListenerMethod methodType,
+    Map<String, dynamic>? arguments,
+    required HMSException hmsException,
+  }) {
     switch (methodType) {
       case HMSActionResultListenerMethod.leave:
         log("Leave room error ${hmsException.message}");
@@ -267,9 +275,10 @@ class UserDataStore extends ChangeNotifier
   }
 
   @override
-  void onSuccess(
-      {required HMSActionResultListenerMethod methodType,
-      Map<String, dynamic>? arguments}) {
+  void onSuccess({
+    required HMSActionResultListenerMethod methodType,
+    Map<String, dynamic>? arguments,
+  }) {
     switch (methodType) {
       case HMSActionResultListenerMethod.leave:
         isRoomEnded = true;

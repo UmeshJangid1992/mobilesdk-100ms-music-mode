@@ -23,29 +23,34 @@ import 'package:hms_room_kit/src/widgets/common_widgets/hms_title_text.dart';
 class PreviewHeader extends StatelessWidget {
   final PreviewStore previewStore;
   final double width;
-  const PreviewHeader(
-      {super.key, required this.previewStore, required this.width});
+  const PreviewHeader({
+    super.key,
+    required this.previewStore,
+    required this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       decoration: BoxDecoration(
-          gradient: previewStore.isVideoOn
-              ? LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: const [0.45, 1],
-                  colors: [
-                    HMSThemeColors.backgroundDim.withOpacity(1),
-                    HMSThemeColors.backgroundDim.withOpacity(0)
-                  ],
-                )
-              : null),
+        gradient: previewStore.isVideoOn
+            ? LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.45, 1],
+                colors: [
+                  HMSThemeColors.backgroundDim.withOpacity(1),
+                  HMSThemeColors.backgroundDim.withOpacity(0),
+                ],
+              )
+            : null,
+      ),
       child: Padding(
         padding: EdgeInsets.only(
-          top: (!(previewStore.peer?.role.publishSettings!.allowed
-                      .contains("video") ??
+          top: (!(previewStore.peer?.role.publishSettings!.allowed.contains(
+                    "video",
+                  ) ??
                   false)
               ? MediaQuery.of(context).size.height * 0.4
               : Platform.isIOS
@@ -68,40 +73,33 @@ class PreviewHeader extends StatelessWidget {
                         HMSRoomLayout.roleLayoutData!.logo!.url!,
                         errorBuilder: (context, exception, _) {
                           log('Error is $exception');
-                          return const SizedBox(
-                            width: 30,
-                            height: 30,
-                          );
+                          return const SizedBox(width: 30, height: 30);
                         },
                         height: 30,
                         width: 30,
                       ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             HMSTitleText(
-                text: HMSRoomLayout.roleLayoutData?.screens?.preview
-                        ?.previewHeader?.title ??
-                    "Get Started",
-                fontSize: 24,
-                lineHeight: 32,
-                textColor: HMSThemeColors.onSurfaceHighEmphasis),
-            const SizedBox(
-              height: 4,
+              text: HMSRoomLayout
+                      .roleLayoutData?.screens?.preview?.previewHeader?.title ??
+                  "Get Started",
+              fontSize: 24,
+              lineHeight: 32,
+              textColor: HMSThemeColors.onSurfaceHighEmphasis,
             ),
+            const SizedBox(height: 4),
             HMSSubheadingText(
-                text: HMSRoomLayout.roleLayoutData?.screens?.preview
-                        ?.previewHeader?.subTitle ??
-                    "Setup your audio and video before joining",
-                textColor: HMSThemeColors.onSurfaceMediumEmphasis),
+              text: HMSRoomLayout.roleLayoutData?.screens?.preview
+                      ?.previewHeader?.subTitle ??
+                  "Setup your audio and video before joining",
+              textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+            ),
 
             ///Here we use SizedBox to keep the UI consistent
             ///until we have received peer list or the room-state is
             ///not enabled
-            const SizedBox(
-              height: 16,
-            ),
-            PreviewParticipantChip(previewStore: previewStore, width: width)
+            const SizedBox(height: 16),
+            PreviewParticipantChip(previewStore: previewStore, width: width),
           ],
         ),
       ),

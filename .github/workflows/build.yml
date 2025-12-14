@@ -26,44 +26,279 @@ on:
       - "**.txt"
 
 jobs:
-  check_build:
+  check_android_build:
+    name: Build Android App
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
         with:
           distribution: zulu
-          java-version: 17.x
-      - uses: subosito/flutter-action@v2
+          java-version: "17"
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK 36 and NDK
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager --install "platforms;android-36" || echo "Platform android-36 not available, continuing..."
+          sdkmanager --install "ndk;27.2.12479018" || echo "NDK 27.2.12479018 not available, using latest..."
+          sdkmanager --list_installed
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.13.9
+          flutter-version: "3.35.7"
           cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            packages/hmssdk_flutter/.dart_tool
+            packages/hms_room_kit/.dart_tool
+            packages/hmssdk_flutter/example/.dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
       - name: Get Flutter dependencies in Core SDK
         run: flutter pub get
         working-directory: packages/hmssdk_flutter
-      - name: Dart Format
-        run: dart format .
-      - name: Dart Fix
-        run: cd packages/hmssdk_flutter; dart fix --apply
+
       - name: Flutter Analyze in HMSSDK
-        uses: invertase/github-action-dart-analyzer@v1
+        uses: invertase/github-action-dart-analyzer@v3
         with:
           working-directory: packages/hmssdk_flutter
-      - name: Commit and Push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 🤖 Automated Format and Fix
-          commit_user_name: 🤖 100ms Flutter Bot
-      - name: Build Android App Bundle
+        continue-on-error: false
+
+      - name: Setup Firebase config
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
         run: |
-          echo $FIREBASE_CONFIG > packages/hmssdk_flutter/example/android/app/google-services.json
-          cd packages/hmssdk_flutter/example
-          flutter build appbundle --debug -t lib/main.dart
-        shell: bash
+          if [ -z "$FIREBASE_CONFIG" ]; then
+            echo "⚠️ FIREBASE_CONFIG secret is empty, using dummy config"
+            echo '{"project_info":{"project_id":"dummy"}}' > packages/hmssdk_flutter/example/android/app/google-services.json
+          else
+            echo "$FIREBASE_CONFIG" > packages/hmssdk_flutter/example/android/app/google-services.json
+          fi
+          echo "✅ Firebase config file created"
+
+      - name: Get hms_room_kit dependencies
+        run: flutter pub get
+        working-directory: packages/hms_room_kit
+
+      - name: Get Flutter dependencies in Example App
+        run: flutter pub get
+        working-directory: packages/hmssdk_flutter/example
+
+      - name: Verify dependencies
+        run: |
+          echo "📦 Verifying dependency resolution..."
+          flutter pub deps
+        working-directory: packages/hmssdk_flutter/example
+
+      - name: Build Android App Bundle
+        run: |
+          echo "🔨 Starting Android App Bundle build..."
+          flutter build appbundle --debug -t lib/main.dart --verbose
+        working-directory: packages/hmssdk_flutter/example
+        env:
+          ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
+
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-app-bundle
+          path: packages/hmssdk_flutter/example/build/app/outputs/bundle/debug/*.aab
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Build Summary
+        if: always()
+        run: |
+          echo "## 🎯 Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          if [ -f packages/hmssdk_flutter/example/build/app/outputs/bundle/debug/*.aab ]; then
+            echo "| Android App Bundle | ✅ Built Successfully |" >> $GITHUB_STEP_SUMMARY
+            echo "| Build Type | Debug |" >> $GITHUB_STEP_SUMMARY
+            echo "| Target SDK | 36 (16KB page size support) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Architectures | arm64-v8a, x86_64 |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Android App Bundle | ❌ Build Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- Flutter Version: 3.35.7" >> $GITHUB_STEP_SUMMARY
+          echo "- Java Version: 17" >> $GITHUB_STEP_SUMMARY
+          echo "- Compile SDK: 36" >> $GITHUB_STEP_SUMMARY
+          echo "- NDK Version: 27.2.12479018" >> $GITHUB_STEP_SUMMARY
+
+  check_ios_build:
+    name: Build iOS App
+    if: github.event.pull_request.draft == false
+    runs-on: macos-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.35.7"
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            packages/hmssdk_flutter/.dart_tool
+            packages/hms_room_kit/.dart_tool
+            packages/hmssdk_flutter/example/.dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: |
+            packages/hmssdk_flutter/example/ios/Pods
+            ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Get Flutter dependencies in Core SDK
+        run: flutter pub get
+        working-directory: packages/hmssdk_flutter
+
+      - name: Flutter Analyze in HMSSDK
+        uses: invertase/github-action-dart-analyzer@v3
+        with:
+          working-directory: packages/hmssdk_flutter
+        continue-on-error: false
+
+      - name: Setup Firebase config
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_IOS_CONFIG }}
+        run: |
+          if [ -z "$FIREBASE_CONFIG" ]; then
+            echo "⚠️ FIREBASE_IOS_CONFIG secret is empty, using dummy plist config"
+            cat > packages/hmssdk_flutter/example/ios/Runner/GoogleService-Info.plist << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CLIENT_ID</key>
+            <string>dummy-client-id</string>
+            <key>REVERSED_CLIENT_ID</key>
+            <string>com.googleusercontent.apps.dummy</string>
+            <key>API_KEY</key>
+            <string>dummy-api-key</string>
+            <key>GCM_SENDER_ID</key>
+            <string>123456789</string>
+            <key>PLIST_VERSION</key>
+            <string>1</string>
+            <key>BUNDLE_ID</key>
+            <string>live.hms.flutter</string>
+            <key>PROJECT_ID</key>
+            <string>dummy-project</string>
+            <key>STORAGE_BUCKET</key>
+            <string>dummy-project.appspot.com</string>
+            <key>IS_ADS_ENABLED</key>
+            <false/>
+            <key>IS_ANALYTICS_ENABLED</key>
+            <false/>
+            <key>IS_APPINVITE_ENABLED</key>
+            <false/>
+            <key>IS_GCM_ENABLED</key>
+            <true/>
+            <key>IS_SIGNIN_ENABLED</key>
+            <true/>
+            <key>GOOGLE_APP_ID</key>
+            <string>1:123456789:ios:dummy</string>
+          </dict>
+          </plist>
+          EOF
+          else
+            echo "$FIREBASE_CONFIG" > packages/hmssdk_flutter/example/ios/Runner/GoogleService-Info.plist
+          fi
+          echo "✅ Firebase config file created"
+
+      - name: Get hms_room_kit dependencies
+        run: flutter pub get
+        working-directory: packages/hms_room_kit
+
+      - name: Get Flutter dependencies in Example App
+        run: flutter pub get
+        working-directory: packages/hmssdk_flutter/example
+
+      - name: Install CocoaPods dependencies
+        run: |
+          echo "📦 Installing CocoaPods dependencies..."
+          cd packages/hmssdk_flutter/example/ios
+          pod install --repo-update
+        env:
+          COCOAPODS_DISABLE_STATS: true
+
+      - name: Verify dependencies
+        run: |
+          echo "📦 Verifying dependency resolution..."
+          flutter pub deps
+        working-directory: packages/hmssdk_flutter/example
+
+      - name: Build iOS App (Debug)
+        id: ios_build
+        run: |
+          echo "🔨 Starting iOS App build..."
+          flutter build ios --debug --no-codesign -t lib/main.dart --verbose
+        working-directory: packages/hmssdk_flutter/example
+        continue-on-error: true
+
+      - name: Build Summary
+        if: always()
+        run: |
+          echo "## 🎯 iOS Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.ios_build.outcome }}" == "success" ]; then
+            echo "| iOS App Build | ✅ Built Successfully |" >> $GITHUB_STEP_SUMMARY
+            echo "| Build Type | Debug |" >> $GITHUB_STEP_SUMMARY
+            echo "| Deployment Target | iOS 16.0+ |" >> $GITHUB_STEP_SUMMARY
+            echo "| Architecture | arm64 |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| iOS App Build | ❌ Build Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- Flutter Version: 3.35.7" >> $GITHUB_STEP_SUMMARY
+          echo "- iOS Deployment Target: 16.0" >> $GITHUB_STEP_SUMMARY
+          echo "- Xcode Version: $(xcodebuild -version | head -1)" >> $GITHUB_STEP_SUMMARY
+          echo "- CocoaPods Version: $(pod --version)" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check iOS Build Status
+        if: steps.ios_build.outcome != 'success'
+        run: |
+          echo "❌ iOS build failed"
+          exit 1

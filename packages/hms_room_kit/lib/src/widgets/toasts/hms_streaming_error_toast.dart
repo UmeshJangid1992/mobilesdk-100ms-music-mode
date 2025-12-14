@@ -18,12 +18,13 @@ class HMSStreamingErrorToast extends StatelessWidget {
   final MeetingStore meetingStore;
   final Color? toastColor;
   final double? toastPosition;
-  const HMSStreamingErrorToast(
-      {super.key,
-      required this.streamingError,
-      required this.meetingStore,
-      this.toastColor,
-      this.toastPosition});
+  const HMSStreamingErrorToast({
+    super.key,
+    required this.streamingError,
+    required this.meetingStore,
+    this.toastColor,
+    this.toastPosition,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,9 @@ class HMSStreamingErrorToast extends StatelessWidget {
         height: 24,
         width: 24,
         colorFilter: ColorFilter.mode(
-            HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+          HMSThemeColors.onSurfaceHighEmphasis,
+          BlendMode.srcIn,
+        ),
       ),
       subtitle: HMSSubheadingText(
         text: "Streaming failed to start",

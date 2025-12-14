@@ -35,11 +35,12 @@ class MeetingStore extends ChangeNotifier
 
   bool isScreenShareOn = false;
 
-// Function calls*******************************************
+  // Function calls*******************************************
 
   Future<bool> join(String user, String roomUrl) async {
-    var token =
-        await _hmsSDKInteractor.getAuthTokenFromRoomCode(roomCode: roomUrl);
+    var token = await _hmsSDKInteractor.getAuthTokenFromRoomCode(
+      roomCode: roomUrl,
+    );
     if (token == null) return false;
     HMSConfig config = HMSConfig(authToken: token, userName: user);
 
@@ -106,15 +107,17 @@ class MeetingStore extends ChangeNotifier
     peers.insert(index, peer);
   }
 
-  void changeRole(
-      {required HMSPeer peer,
-      required HMSRole roleName,
-      bool forceChange = false}) {
+  void changeRole({
+    required HMSPeer peer,
+    required HMSRole roleName,
+    bool forceChange = false,
+  }) {
     _hmsSDKInteractor.changeRole(
-        toRole: roleName,
-        forPeer: peer,
-        force: forceChange,
-        hmsActionResultListener: this);
+      toRole: roleName,
+      forPeer: peer,
+      force: forceChange,
+      hmsActionResultListener: this,
+    );
   }
 
   void changeTrackState(HMSTrack track, bool mute) {
@@ -126,10 +129,12 @@ class MeetingStore extends ChangeNotifier
       case HMSPeerUpdate.peerJoined:
         if (peer.role.name.contains("hls-") == false) {
           int index = peerTracks.indexWhere(
-              (element) => element.uid == peer.peerId + "mainVideo");
+            (element) => element.uid == peer.peerId + "mainVideo",
+          );
           if (index == -1) {
-            peerTracks
-                .add(PeerTrackNode(peer: peer, uid: peer.peerId + "mainVideo"));
+            peerTracks.add(
+              PeerTrackNode(peer: peer, uid: peer.peerId + "mainVideo"),
+            );
           }
           notifyListeners();
         }
@@ -138,7 +143,8 @@ class MeetingStore extends ChangeNotifier
 
       case HMSPeerUpdate.peerLeft:
         peerTracks.removeWhere(
-            (leftPeer) => leftPeer.uid == peer.peerId + "mainVideo");
+          (leftPeer) => leftPeer.uid == peer.peerId + "mainVideo",
+        );
         removePeer(peer);
         notifyListeners();
         break;
@@ -146,11 +152,13 @@ class MeetingStore extends ChangeNotifier
       case HMSPeerUpdate.roleUpdated:
         if (peer.isLocal) localPeer = peer;
 
-        int index = peerTracks
-            .indexWhere((element) => element.uid == peer.peerId + "mainVideo");
+        int index = peerTracks.indexWhere(
+          (element) => element.uid == peer.peerId + "mainVideo",
+        );
         if (index == -1) {
-          peerTracks
-              .add(PeerTrackNode(peer: peer, uid: peer.peerId + "mainVideo"));
+          peerTracks.add(
+            PeerTrackNode(peer: peer, uid: peer.peerId + "mainVideo"),
+          );
         }
 
         updatePeerAt(peer);
@@ -158,8 +166,9 @@ class MeetingStore extends ChangeNotifier
         break;
 
       case HMSPeerUpdate.metadataChanged:
-        int index = peerTracks
-            .indexWhere((element) => element.uid == peer.peerId + "mainVideo");
+        int index = peerTracks.indexWhere(
+          (element) => element.uid == peer.peerId + "mainVideo",
+        );
         if (index != -1) {
           PeerTrackNode peerTrackNode = peerTracks[index];
           peerTrackNode.peer = peer;
@@ -171,7 +180,8 @@ class MeetingStore extends ChangeNotifier
       case HMSPeerUpdate.nameChanged:
         if (peer.isLocal) {
           int localPeerIndex = peerTracks.indexWhere(
-              (element) => element.uid == localPeer!.peerId + "mainVideo");
+            (element) => element.uid == localPeer!.peerId + "mainVideo",
+          );
           if (localPeerIndex != -1) {
             PeerTrackNode peerTrackNode = peerTracks[localPeerIndex];
             peerTrackNode.peer = peer;
@@ -180,7 +190,8 @@ class MeetingStore extends ChangeNotifier
           }
         } else {
           int remotePeerIndex = peerTracks.indexWhere(
-              (element) => element.uid == peer.peerId + "mainVideo");
+            (element) => element.uid == peer.peerId + "mainVideo",
+          );
           if (remotePeerIndex != -1) {
             PeerTrackNode peerTrackNode = peerTracks[remotePeerIndex];
             peerTrackNode.peer = peer;
@@ -200,23 +211,26 @@ class MeetingStore extends ChangeNotifier
     }
   }
 
-// Listeners implementation*******************************************
+  // Listeners implementation*******************************************
 
   @override
   void onJoin({required HMSRoom room}) async {
     hmsRoom = room;
     for (HMSPeer each in room.peers!) {
       if (each.isLocal) {
-        int index = peerTracks
-            .indexWhere((element) => element.uid == each.peerId + "mainVideo");
+        int index = peerTracks.indexWhere(
+          (element) => element.uid == each.peerId + "mainVideo",
+        );
         if (index == -1) {
-          peerTracks
-              .add(PeerTrackNode(peer: each, uid: each.peerId + "mainVideo"));
+          peerTracks.add(
+            PeerTrackNode(peer: each, uid: each.peerId + "mainVideo"),
+          );
         }
         localPeer = each;
         addPeer(localPeer!);
-        index = peerTracks
-            .indexWhere((element) => element.uid == each.peerId + "mainVideo");
+        index = peerTracks.indexWhere(
+          (element) => element.uid == each.peerId + "mainVideo",
+        );
         if (each.videoTrack != null) {
           if (each.videoTrack!.kind == HMSTrackKind.kHMSTrackKindVideo) {
             peerTracks[index].track = each.videoTrack!;
@@ -240,17 +254,20 @@ class MeetingStore extends ChangeNotifier
   }
 
   @override
-  void onPeerUpdate(
-      {required HMSPeer peer, required HMSPeerUpdate update}) async {
+  void onPeerUpdate({
+    required HMSPeer peer,
+    required HMSPeerUpdate update,
+  }) async {
     // Checkout the docs for peer updates here: https://www.100ms.live/docs/flutter/v2/how--to-guides/listen-to-room-updates/update-listeners
     peerOperation(peer, update);
   }
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {
     if (peer.isLocal) {
       if (track.kind == HMSTrackKind.kHMSTrackKindAudio &&
           track.source == "REGULAR") {
@@ -264,43 +281,55 @@ class MeetingStore extends ChangeNotifier
     }
 
     if (track.kind == HMSTrackKind.kHMSTrackKindAudio) {
-      int index = peerTracks
-          .indexWhere((element) => element.uid == peer.peerId + "mainVideo");
+      int index = peerTracks.indexWhere(
+        (element) => element.uid == peer.peerId + "mainVideo",
+      );
       if (index != -1) {
         PeerTrackNode peerTrackNode = peerTracks[index];
         peerTrackNode.audioTrack = track as HMSAudioTrack;
         peerTrackNode.notify();
       } else {
-        peerTracks.add(PeerTrackNode(
+        peerTracks.add(
+          PeerTrackNode(
             peer: peer,
             uid: peer.peerId + "mainVideo",
-            audioTrack: track as HMSAudioTrack));
+            audioTrack: track as HMSAudioTrack,
+          ),
+        );
       }
       return;
     }
 
     if (track.source == "REGULAR") {
-      int index = peerTracks
-          .indexWhere((element) => element.uid == peer.peerId + "mainVideo");
+      int index = peerTracks.indexWhere(
+        (element) => element.uid == peer.peerId + "mainVideo",
+      );
       if (index != -1) {
         PeerTrackNode peerTrackNode = peerTracks[index];
         peerTrackNode.track = track as HMSVideoTrack;
         peerTrackNode.notify();
       } else {
-        peerTracks.add(PeerTrackNode(
+        peerTracks.add(
+          PeerTrackNode(
             peer: peer,
             uid: peer.peerId + "mainVideo",
-            track: track as HMSVideoTrack));
+            track: track as HMSVideoTrack,
+          ),
+        );
       }
     } else {
       if (trackUpdate == HMSTrackUpdate.trackAdded) {
-        peerTracks.add(PeerTrackNode(
+        peerTracks.add(
+          PeerTrackNode(
             peer: peer,
             uid: peer.peerId + track.trackId,
-            track: track as HMSVideoTrack));
+            track: track as HMSVideoTrack,
+          ),
+        );
       } else {
         int index = peerTracks.indexWhere(
-            (element) => element.uid == peer.peerId + track.trackId);
+          (element) => element.uid == peer.peerId + track.trackId,
+        );
         if (index != -1) {
           peerTracks.removeAt(index);
         }
@@ -349,31 +378,35 @@ class MeetingStore extends ChangeNotifier
   int trackChange = -1;
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {
     // Checkout the docs for handling the unmute request here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/track/remote-mute-unmute
   }
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {
     // Checkout the docs for handling the peer removal here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/peer/remove-peer
     peerTracks.clear();
     notifyListeners();
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // Checkout the docs about handling onAudioDeviceChanged updates here: https://www.100ms.live/docs/flutter/v2/how--to-guides/listen-to-room-updates/update-listeners
   }
 
   @override
-  void onSuccess(
-      {HMSActionResultListenerMethod methodType =
-          HMSActionResultListenerMethod.unknown,
-      Map<String, dynamic>? arguments}) {
+  void onSuccess({
+    HMSActionResultListenerMethod methodType =
+        HMSActionResultListenerMethod.unknown,
+    Map<String, dynamic>? arguments,
+  }) {
     switch (methodType) {
       case HMSActionResultListenerMethod.leave:
         peerTracks.clear();
@@ -401,18 +434,20 @@ class MeetingStore extends ChangeNotifier
   }
 
   @override
-  void onException(
-      {HMSActionResultListenerMethod methodType =
-          HMSActionResultListenerMethod.unknown,
-      Map<String, dynamic>? arguments,
-      required HMSException hmsException}) {
+  void onException({
+    HMSActionResultListenerMethod methodType =
+        HMSActionResultListenerMethod.unknown,
+    Map<String, dynamic>? arguments,
+    required HMSException hmsException,
+  }) {
     this.hmsException = hmsException;
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {}
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {}
 
   @override
   void onSessionStoreAvailable({HMSSessionStore? hmsSessionStore}) {

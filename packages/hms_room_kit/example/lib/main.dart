@@ -14,17 +14,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(),
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
-          bottomSheetTheme: BottomSheetThemeData(
-              backgroundColor: themeBottomSheetColor, elevation: 5),
-          brightness: Brightness.dark,
-          primaryColor: const Color.fromARGB(255, 13, 107, 184),
-          scaffoldBackgroundColor: Colors.black),
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: themeBottomSheetColor,
+          elevation: 5,
+        ),
+        brightness: Brightness.dark,
+        primaryColor: const Color.fromARGB(255, 13, 107, 184),
+        scaffoldBackgroundColor: Colors.black,
+      ),
     );
   }
 }
@@ -45,46 +46,46 @@ class _MyHomePageState extends State<MyHomePage> {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-          body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SvgPicture.asset(
-                'assets/welcome.svg',
-                width: width * 0.95,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: Text('Experience the power of 100ms',
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SvgPicture.asset('assets/welcome.svg', width: width * 0.95),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Text(
+                    'Experience the power of 100ms',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
-                        letterSpacing: 0.25,
-                        color: themeDefaultColor,
-                        height: 1.17,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w600)),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 27),
-                child: Text('Try out the HMS Prebuilt SDK',
+                      letterSpacing: 0.25,
+                      color: themeDefaultColor,
+                      height: 1.17,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 27),
+                  child: Text(
+                    'Try out the HMS Prebuilt SDK',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
-                        letterSpacing: 0.5,
-                        color: themeSubHeadingColor,
-                        height: 1.5,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400)),
-              ),
-            ],
+                      letterSpacing: 0.5,
+                      color: themeSubHeadingColor,
+                      height: 1.5,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

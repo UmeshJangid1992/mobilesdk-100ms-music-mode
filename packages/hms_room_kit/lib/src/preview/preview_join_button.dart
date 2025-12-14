@@ -15,15 +15,19 @@ class PreviewJoinButton extends StatelessWidget {
   final PreviewStore previewStore;
   final bool isEmpty;
 
-  const PreviewJoinButton(
-      {super.key, required this.previewStore, required this.isEmpty});
+  const PreviewJoinButton({
+    super.key,
+    required this.previewStore,
+    required this.isEmpty,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 48,
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
 
       ///If the join button type is `join and go live` and the HLS streaming is not started
       ///we show the go live button
@@ -46,14 +50,13 @@ class PreviewJoinButton extends StatelessWidget {
                   height: 24,
                   width: 24,
                   colorFilter: ColorFilter.mode(
-                      isEmpty
-                          ? HMSThemeColors.onPrimaryLowEmphasis
-                          : HMSThemeColors.onPrimaryHighEmphasis,
-                      BlendMode.srcIn),
+                    isEmpty
+                        ? HMSThemeColors.onPrimaryLowEmphasis
+                        : HMSThemeColors.onPrimaryHighEmphasis,
+                    BlendMode.srcIn,
+                  ),
                 ),
-                const SizedBox(
-                  width: 8,
-                ),
+                const SizedBox(width: 8),
                 HMSTitleText(
                   text: HMSRoomLayout.roleLayoutData?.screens?.preview?.joinForm
                           ?.goLiveBtnLabel ??
@@ -61,7 +64,7 @@ class PreviewJoinButton extends StatelessWidget {
                   textColor: isEmpty
                       ? HMSThemeColors.onPrimaryLowEmphasis
                       : HMSThemeColors.onPrimaryHighEmphasis,
-                )
+                ),
               ],
             )
           : Center(

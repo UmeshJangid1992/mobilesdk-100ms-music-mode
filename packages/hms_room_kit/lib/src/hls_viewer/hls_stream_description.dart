@@ -24,9 +24,11 @@ class HLSStreamDescription extends StatelessWidget {
   final bool showDescription;
   final Function toggleDescription;
 
-  HLSStreamDescription(
-      {Key? key, this.showDescription = false, required this.toggleDescription})
-      : super(key: key);
+  HLSStreamDescription({
+    Key? key,
+    this.showDescription = false,
+    required this.toggleDescription,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,10 +61,7 @@ class HLSStreamDescription extends StatelessWidget {
             if (showDescription)
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: Divider(
-                  color: HMSThemeColors.borderBright,
-                  height: 2,
-                ),
+                child: Divider(color: HMSThemeColors.borderBright, height: 2),
               ),
             Row(
               children: [
@@ -82,17 +81,12 @@ class HLSStreamDescription extends StatelessWidget {
                             HMSRoomLayout.roleLayoutData!.logo!.url!,
                             errorBuilder: (context, exception, _) {
                               log('Error is $exception');
-                              return const SizedBox(
-                                width: 32,
-                                height: 32,
-                              );
+                              return const SizedBox(width: 32, height: 32);
                             },
                             height: 32,
                             width: 32,
                           ),
-                SizedBox(
-                  width: 12,
-                ),
+                SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,26 +124,30 @@ class HLSStreamDescription extends StatelessWidget {
                         children: [
                           ///This renders the number of peers watching the stream
                           Selector<MeetingStore, int>(
-                              selector: (_, meetingStore) =>
-                                  meetingStore.peersInRoom,
-                              builder: (_, data, __) {
-                                return HMSSubtitleText(
-                                    text: Utilities.formatNumber(data) +
-                                        " watching",
-                                    letterSpacing: 0.4,
-                                    textColor:
-                                        HMSThemeColors.onSurfaceMediumEmphasis);
-                              }),
+                            selector: (_, meetingStore) =>
+                                meetingStore.peersInRoom,
+                            builder: (_, data, __) {
+                              return HMSSubtitleText(
+                                text:
+                                    Utilities.formatNumber(data) + " watching",
+                                letterSpacing: 0.4,
+                                textColor:
+                                    HMSThemeColors.onSurfaceMediumEmphasis,
+                              );
+                            },
+                          ),
 
                           if (context.read<MeetingStore>().hasHlsStarted)
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: SvgPicture.asset(
                                 "packages/hms_room_kit/lib/src/assets/icons/red_dot.svg",
                                 colorFilter: ColorFilter.mode(
-                                    HMSThemeColors.onSurfaceHighEmphasis,
-                                    BlendMode.srcIn),
+                                  HMSThemeColors.onSurfaceHighEmphasis,
+                                  BlendMode.srcIn,
+                                ),
                               ),
                             ),
 
@@ -197,18 +195,17 @@ class HLSStreamDescription extends StatelessWidget {
                                   ),
                                 )
                               : Selector<
-                                      MeetingStore,
-                                      Tuple3<
-                                          HMSRecordingState,
-                                          HMSRecordingState,
-                                          HMSRecordingState>>(
+                                  MeetingStore,
+                                  Tuple3<HMSRecordingState, HMSRecordingState,
+                                      HMSRecordingState>>(
                                   selector: (_, meetingStore) => Tuple3(
-                                      meetingStore.recordingType["browser"] ??
-                                          HMSRecordingState.none,
-                                      meetingStore.recordingType["server"] ??
-                                          HMSRecordingState.none,
-                                      meetingStore.recordingType["hls"] ??
-                                          HMSRecordingState.none),
+                                    meetingStore.recordingType["browser"] ??
+                                        HMSRecordingState.none,
+                                    meetingStore.recordingType["server"] ??
+                                        HMSRecordingState.none,
+                                    meetingStore.recordingType["hls"] ??
+                                        HMSRecordingState.none,
+                                  ),
                                   builder: (_, data, __) {
                                     return (data.item1 ==
                                                 HMSRecordingState.started ||
@@ -227,13 +224,15 @@ class HLSStreamDescription extends StatelessWidget {
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
+                                                  horizontal: 8.0,
+                                                ),
                                                 child: SvgPicture.asset(
                                                   "packages/hms_room_kit/lib/src/assets/icons/red_dot.svg",
                                                   colorFilter: ColorFilter.mode(
-                                                      HMSThemeColors
-                                                          .onSurfaceHighEmphasis,
-                                                      BlendMode.srcIn),
+                                                    HMSThemeColors
+                                                        .onSurfaceHighEmphasis,
+                                                    BlendMode.srcIn,
+                                                  ),
                                                 ),
                                               ),
                                               HMSSubtitleText(
@@ -245,12 +244,13 @@ class HLSStreamDescription extends StatelessWidget {
                                             ],
                                           )
                                         : const SizedBox();
-                                  }),
+                                  },
+                                ),
                         ],
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
 
@@ -259,10 +259,7 @@ class HLSStreamDescription extends StatelessWidget {
             if (!showDescription)
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: Divider(
-                  color: HMSThemeColors.borderBright,
-                  height: 2,
-                ),
+                child: Divider(color: HMSThemeColors.borderBright, height: 2),
               ),
             if (showDescription &&
                 (HMSRoomLayout.roleLayoutData?.screens?.conferencing
@@ -276,7 +273,8 @@ class HLSStreamDescription extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Container(
                     constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.38),
+                      maxHeight: MediaQuery.of(context).size.height * 0.38,
+                    ),
                     child: SelectableLinkify(
                       text: HMSRoomLayout
                               .roleLayoutData
@@ -295,22 +293,25 @@ class HLSStreamDescription extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                       linkStyle: HMSTextStyle.setTextStyle(
-                          fontSize: 14.0,
-                          color: HMSThemeColors.primaryBright,
-                          letterSpacing: 0.25,
-                          height: 20 / 14,
-                          fontWeight: FontWeight.w400),
+                        fontSize: 14.0,
+                        color: HMSThemeColors.primaryBright,
+                        letterSpacing: 0.25,
+                        height: 20 / 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                       onOpen: (link) async {
                         Uri url = Uri.parse(link.url);
                         if (await canLaunchUrl(url)) {
-                          await launchUrl(url,
-                              mode: LaunchMode.externalApplication);
+                          await launchUrl(
+                            url,
+                            mode: LaunchMode.externalApplication,
+                          );
                         }
                       },
                     ),
                   ),
                 ),
-              )
+              ),
           ],
         ),
       ),

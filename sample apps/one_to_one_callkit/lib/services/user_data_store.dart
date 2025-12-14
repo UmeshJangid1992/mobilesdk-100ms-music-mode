@@ -25,26 +25,29 @@ class UserDataStore extends ChangeNotifier {
   ///It adds the user to [users] list except
   ///the current user
   void getUsers() {
-    userRef?.get().then((value) => value.docs.forEach((doc) {
-          var element = doc.data() as Map?;
-          if (element != null) {
-            if (element["email"] != null &&
-                element["user_name"] != null &&
-                element["fcm_token"] != null) {
-              if (element["email"] != currentUser?.email) {
-                int index =
-                    users.indexWhere((user) => user.email == element["email"]);
-                if (index == -1) {
-                  users.add(UserDataModel.fromMap(element));
-                } else {
-                  users[index] = UserDataModel.fromMap(element);
-                  notifyListeners();
-                }
+    userRef?.get().then(
+      (value) => value.docs.forEach((doc) {
+        var element = doc.data() as Map?;
+        if (element != null) {
+          if (element["email"] != null &&
+              element["user_name"] != null &&
+              element["fcm_token"] != null) {
+            if (element["email"] != currentUser?.email) {
+              int index = users.indexWhere(
+                (user) => user.email == element["email"],
+              );
+              if (index == -1) {
+                users.add(UserDataModel.fromMap(element));
+              } else {
+                users[index] = UserDataModel.fromMap(element);
                 notifyListeners();
               }
+              notifyListeners();
             }
           }
-        }));
+        }
+      }),
+    );
   }
 
   ///[setCurrentUser] sets the current user
@@ -59,8 +62,9 @@ class UserDataStore extends ChangeNotifier {
       if (message.data["body"] != null) {
         var body = CallServices.parseStringToMap(message.data["body"]);
         var roomCode = message.data["roomInfo"];
-        CallType callType =
-            message.data["callType"] == "1" ? CallType.video : CallType.audio;
+        CallType callType = message.data["callType"] == "1"
+            ? CallType.video
+            : CallType.audio;
         log("Callkit $body");
         log("Callkit: Received Foreground Notification $roomCode");
         CallServices.receiveCall(

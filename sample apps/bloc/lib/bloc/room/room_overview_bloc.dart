@@ -14,12 +14,19 @@ class RoomOverviewBloc extends Bloc<RoomOverviewEvent, RoomOverviewState> {
   String url;
   late RoomObserver roomObserver;
 
-  RoomOverviewBloc(this.isVideoMute, this.isAudioMute, this.name, this.url,
-      this.isScreenShareActive)
-      : super(RoomOverviewState(
-            isAudioMute: isAudioMute,
-            isVideoMute: isVideoMute,
-            isScreenShareActive: isScreenShareActive)) {
+  RoomOverviewBloc(
+    this.isVideoMute,
+    this.isAudioMute,
+    this.name,
+    this.url,
+    this.isScreenShareActive,
+  ) : super(
+        RoomOverviewState(
+          isAudioMute: isAudioMute,
+          isVideoMute: isVideoMute,
+          isScreenShareActive: isScreenShareActive,
+        ),
+      ) {
     roomObserver = RoomObserver(this);
     on<RoomOverviewSubscriptionRequested>(_onSubscription);
     on<RoomOverviewLocalPeerAudioToggled>(_onLocalAudioToggled);
@@ -32,28 +39,34 @@ class RoomOverviewBloc extends Bloc<RoomOverviewEvent, RoomOverviewState> {
     on<RoomOverviewSetOffScreen>(_setOffScreen);
   }
 
-  Future<void> _onSubscription(RoomOverviewSubscriptionRequested event,
-      Emitter<RoomOverviewState> emit) async {
+  Future<void> _onSubscription(
+    RoomOverviewSubscriptionRequested event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     await emit.forEach<List<PeerTrackNode>>(
       roomObserver.getTracks(),
       onData: (tracks) {
         return state.copyWith(
-            status: RoomOverviewStatus.success, peerTrackNodes: tracks);
+          status: RoomOverviewStatus.success,
+          peerTrackNodes: tracks,
+        );
       },
-      onError: (_, __) => state.copyWith(
-        status: RoomOverviewStatus.failure,
-      ),
+      onError: (_, __) => state.copyWith(status: RoomOverviewStatus.failure),
     );
   }
 
-  Future<void> _onLocalVideoToggled(RoomOverviewLocalPeerVideoToggled event,
-      Emitter<RoomOverviewState> emit) async {
+  Future<void> _onLocalVideoToggled(
+    RoomOverviewLocalPeerVideoToggled event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     hmsSdk.switchVideo(isOn: !state.isVideoMute);
     emit(state.copyWith(isVideoMute: !state.isVideoMute));
   }
 
-  void _onScreenShareToggled(RoomOverviewLocalPeerScreenshareToggled event,
-      Emitter<RoomOverviewState> emit) async {
+  void _onScreenShareToggled(
+    RoomOverviewLocalPeerScreenshareToggled event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     if (!state.isScreenShareActive) {
       hmsSdk.startScreenShare();
     } else {
@@ -62,14 +75,18 @@ class RoomOverviewBloc extends Bloc<RoomOverviewEvent, RoomOverviewState> {
     emit(state.copyWith(isScreenShareActive: !state.isScreenShareActive));
   }
 
-  Future<void> _onLocalAudioToggled(RoomOverviewLocalPeerAudioToggled event,
-      Emitter<RoomOverviewState> emit) async {
+  Future<void> _onLocalAudioToggled(
+    RoomOverviewLocalPeerAudioToggled event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     hmsSdk.switchAudio(isOn: !state.isAudioMute);
     emit(state.copyWith(isAudioMute: !state.isAudioMute));
   }
 
   Future<void> _onJoinSuccess(
-      RoomOverviewOnJoinSuccess event, Emitter<RoomOverviewState> emit) async {
+    RoomOverviewOnJoinSuccess event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     if (state.isAudioMute) {
       hmsSdk.switchAudio(isOn: state.isAudioMute);
     }
@@ -80,23 +97,31 @@ class RoomOverviewBloc extends Bloc<RoomOverviewEvent, RoomOverviewState> {
   }
 
   Future<void> _onPeerLeave(
-      RoomOverviewOnPeerLeave event, Emitter<RoomOverviewState> emit) async {
+    RoomOverviewOnPeerLeave event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     await roomObserver.deletePeer(event.hmsPeer.peerId);
   }
 
   Future<void> _onPeerJoin(
-      RoomOverviewOnPeerJoin event, Emitter<RoomOverviewState> emit) async {
+    RoomOverviewOnPeerJoin event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     await roomObserver.addPeer(event.hmsVideoTrack, event.hmsPeer);
   }
 
   Future<void> _leaveRequested(
-      RoomOverviewLeaveRequested event, Emitter<RoomOverviewState> emit) async {
+    RoomOverviewLeaveRequested event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     await roomObserver.leaveMeeting();
     emit(state.copyWith(leaveMeeting: true));
   }
 
   Future<void> _setOffScreen(
-      RoomOverviewSetOffScreen event, Emitter<RoomOverviewState> emit) async {
+    RoomOverviewSetOffScreen event,
+    Emitter<RoomOverviewState> emit,
+  ) async {
     await roomObserver.setOffScreen(event.index, event.setOffScreen);
   }
 }

@@ -66,8 +66,12 @@ class _StatsForNerdsState extends State<StatsForNerds> {
       actionsPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       backgroundColor: themeBottomSheetColor,
       insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      contentPadding:
-          const EdgeInsets.only(top: 20, bottom: 15, left: 24, right: 24),
+      contentPadding: const EdgeInsets.only(
+        top: 20,
+        bottom: 15,
+        left: 24,
+        right: 24,
+      ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -77,19 +81,18 @@ class _StatsForNerdsState extends State<StatsForNerds> {
             letterSpacing: 0.15,
             textColor: themeDefaultColor,
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           Row(
             children: [
               Switch(
-                  value: isStatsEnable,
-                  onChanged: (value) {
-                    setState(() {
-                      isStatsEnable = value;
-                    });
-                    context.read<MeetingStore>().changeStatsVisible();
-                  }),
+                value: isStatsEnable,
+                onChanged: (value) {
+                  setState(() {
+                    isStatsEnable = value;
+                  });
+                  context.read<MeetingStore>().changeStatsVisible();
+                },
+              ),
               HMSSubtitleText(
                 text: "Show Stats on Tiles",
                 fontSize: 15,
@@ -98,9 +101,7 @@ class _StatsForNerdsState extends State<StatsForNerds> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           HMSSubtitleText(
             text: "Stats For",
             fontSize: 15,
@@ -122,39 +123,42 @@ class _StatsForNerdsState extends State<StatsForNerds> {
                   color: themeSurfaceColor,
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(
-                      color: borderColor,
-                      style: BorderStyle.solid,
-                      width: 0.80),
+                    color: borderColor,
+                    style: BorderStyle.solid,
+                    width: 0.80,
+                  ),
                 ),
                 child: DropdownButtonHideUnderline(
-                    child: HMSDropDown(
-                        dropDownItems: <DropdownMenuItem>[
+                  child: HMSDropDown(
+                    dropDownItems: <DropdownMenuItem>[
                       ...widget.peerTrackNode
-                          .map((peerNode) => DropdownMenuItem(
-                                value: peerNode,
-                                child: HMSTitleText(
-                                  text: peerNode.peer.name,
-                                  textColor: themeDefaultColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ))
+                          .map(
+                            (peerNode) => DropdownMenuItem(
+                              value: peerNode,
+                              child: HMSTitleText(
+                                text: peerNode.peer.name,
+                                textColor: themeDefaultColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          )
                           .toList(),
                     ],
-                        dropdownHint: HMSTitleText(
-                          text: "Select Peer",
-                          textColor: themeDefaultColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        iconStyleData: IconStyleData(
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          iconEnabledColor: themeDefaultColor,
-                        ),
-                        selectedValue: valueChoose,
-                        updateSelectedValue: _updateDropDownValue)),
+                    dropdownHint: HMSTitleText(
+                      text: "Select Peer",
+                      textColor: themeDefaultColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    iconStyleData: IconStyleData(
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      iconEnabledColor: themeDefaultColor,
+                    ),
+                    selectedValue: valueChoose,
+                    updateSelectedValue: _updateDropDownValue,
+                  ),
+                ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               if (valueChoose != null)
                 Container(
                   padding: const EdgeInsets.only(left: 10, right: 5),
@@ -162,13 +166,14 @@ class _StatsForNerdsState extends State<StatsForNerds> {
                     color: themeSurfaceColor,
                     borderRadius: BorderRadius.circular(10.0),
                     border: Border.all(
-                        color: borderColor,
-                        style: BorderStyle.solid,
-                        width: 0.80),
+                      color: borderColor,
+                      style: BorderStyle.solid,
+                      width: 0.80,
+                    ),
                   ),
                   child: DropdownButtonHideUnderline(
-                      child: HMSDropDown(
-                          dropDownItems: <DropdownMenuItem>[
+                    child: HMSDropDown(
+                      dropDownItems: <DropdownMenuItem>[
                         if (valueChoose!.stats?.hmsLocalAudioStats != null ||
                             valueChoose!.stats?.hmsRemoteAudioStats != null)
                           DropdownMenuItem(
@@ -201,54 +206,61 @@ class _StatsForNerdsState extends State<StatsForNerds> {
                                 ),
                               ),
                             )
-                            .toList()
+                            .toList(),
                       ],
-                          iconStyleData: IconStyleData(
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            iconEnabledColor: themeDefaultColor,
-                          ),
-                          selectedValue: statsType,
-                          updateSelectedValue: _updateStatsTypeDropDownvalue)),
+                      iconStyleData: IconStyleData(
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        iconEnabledColor: themeDefaultColor,
+                      ),
+                      selectedValue: statsType,
+                      updateSelectedValue: _updateStatsTypeDropDownvalue,
+                    ),
+                  ),
                 ),
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           if (valueChoose != null && statsType != null)
             ListenableProvider.value(
-                value: valueChoose,
-                child: StatsUI(peerNode: valueChoose!, statsType: statsType!))
+              value: valueChoose,
+              child: StatsUI(peerNode: valueChoose!, statsType: statsType!),
+            ),
         ],
       ),
       actions: [
         Center(
           child: ElevatedButton(
-              style: ButtonStyle(
-                  shadowColor: MaterialStateProperty.all(themeSurfaceColor),
-                  backgroundColor:
-                      MaterialStateProperty.all(themeBottomSheetColor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                    side: const BorderSide(
-                        width: 1, color: Color.fromRGBO(107, 125, 153, 1)),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ))),
-              onPressed: () {
-                context.read<MeetingStore>().removeStatsListener();
-                Navigator.pop(context, false);
-              },
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                child: Text('Close',
-                    style: HMSTextStyle.setTextStyle(
-                        color: themeDefaultColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.50)),
-              )),
-        )
+            style: ButtonStyle(
+              shadowColor: WidgetStateProperty.all(themeSurfaceColor),
+              backgroundColor: WidgetStateProperty.all(themeBottomSheetColor),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  side: const BorderSide(
+                    width: 1,
+                    color: Color.fromRGBO(107, 125, 153, 1),
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+            onPressed: () {
+              context.read<MeetingStore>().removeStatsListener();
+              Navigator.pop(context, false);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              child: Text(
+                'Close',
+                style: HMSTextStyle.setTextStyle(
+                  color: themeDefaultColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.50,
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -264,436 +276,487 @@ class StatsUI extends StatelessWidget {
   Widget build(BuildContext context) {
     if (statsType.toLowerCase().contains("audio") && peerNode.peer.isLocal) {
       return Selector<PeerTrackNode, HMSLocalAudioStats?>(
-          selector: (_, peerTrackNode) =>
-              peerTrackNode.stats?.hmsLocalAudioStats,
-          builder: (_, hmsLocalAudioStats, __) {
-            return Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bitrate",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
-                      ),
-                      Text("${hmsLocalAudioStats?.bitrate.toStringAsFixed(2)}")
-                    ],
-                  ),
+        selector: (_, peerTrackNode) => peerTrackNode.stats?.hmsLocalAudioStats,
+        builder: (_, hmsLocalAudioStats, __) {
+          return Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bytes Sent",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bitrate",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsLocalAudioStats?.bytesSent.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text("${hmsLocalAudioStats?.bitrate.toStringAsFixed(2)}"),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Round Trip",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bytes Sent",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsLocalAudioStats?.roundTripTime.toStringAsFixed(2)}")
-                    ],
-                  ),
-                )
-              ],
-            );
-          });
+                    ),
+                    Text("${hmsLocalAudioStats?.bytesSent.toStringAsFixed(2)}"),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Round Trip",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
+                      ),
+                    ),
+                    Text(
+                      "${hmsLocalAudioStats?.roundTripTime.toStringAsFixed(2)}",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      );
     }
     if (statsType.toLowerCase().contains("audio") && !peerNode.peer.isLocal) {
       return Selector<PeerTrackNode, HMSRemoteAudioStats?>(
-          selector: (_, peerTrackNode) =>
-              peerTrackNode.stats?.hmsRemoteAudioStats,
-          builder: (_, hmsRemoteAudioStats, __) {
-            return Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bitrate",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
-                      ),
-                      Text("${hmsRemoteAudioStats?.bitrate.toStringAsFixed(2)}")
-                    ],
-                  ),
+        selector: (_, peerTrackNode) =>
+            peerTrackNode.stats?.hmsRemoteAudioStats,
+        builder: (_, hmsRemoteAudioStats, __) {
+          return Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bytes Received",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bitrate",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsRemoteAudioStats?.bytesReceived.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text("${hmsRemoteAudioStats?.bitrate.toStringAsFixed(2)}"),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Jitter",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
-                      ),
-                      Text("${hmsRemoteAudioStats?.jitter.toStringAsFixed(2)}")
-                    ],
-                  ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Packet Lost",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bytes Received",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsRemoteAudioStats?.packetsLost.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text(
+                      "${hmsRemoteAudioStats?.bytesReceived.toStringAsFixed(2)}",
+                    ),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Packet Received",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Jitter",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsRemoteAudioStats?.packetsReceived.toStringAsFixed(2)}")
-                    ],
-                  ),
-                )
-              ],
-            );
-          });
+                    ),
+                    Text("${hmsRemoteAudioStats?.jitter.toStringAsFixed(2)}"),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Packet Lost",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
+                      ),
+                    ),
+                    Text(
+                      "${hmsRemoteAudioStats?.packetsLost.toStringAsFixed(2)}",
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Packet Received",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
+                      ),
+                    ),
+                    Text(
+                      "${hmsRemoteAudioStats?.packetsReceived.toStringAsFixed(2)}",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      );
     }
     if (statsType.toLowerCase().contains("video") && peerNode.peer.isLocal) {
       return Selector<PeerTrackNode, HMSLocalVideoStats?>(
-          selector: (_, peerTrackNode) => peerTrackNode
-              .stats?.hmsLocalVideoStats
-              ?.firstWhere((element) => statsType.toLowerCase().contains(
-                  HMSSimulcastLayerValue.getValueFromHMSSimulcastLayer(
-                      element.hmsLayer))),
-          builder: (_, hmsLocalVideoStats, __) {
-            return Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bitrate",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
-                      ),
-                      Text("${hmsLocalVideoStats?.bitrate.toStringAsFixed(2)}")
-                    ],
-                  ),
+        selector: (_, peerTrackNode) =>
+            peerTrackNode.stats?.hmsLocalVideoStats?.firstWhere(
+          (element) => statsType.toLowerCase().contains(
+                HMSSimulcastLayerValue.getValueFromHMSSimulcastLayer(
+                  element.hmsLayer,
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bytes Sent",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
-                      ),
-                      Text(
-                          "${hmsLocalVideoStats?.bytesSent.toStringAsFixed(2)}")
-                    ],
-                  ),
+              ),
+        ),
+        builder: (_, hmsLocalVideoStats, __) {
+          return Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Frame Rate",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bitrate",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsLocalVideoStats?.frameRate.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text("${hmsLocalVideoStats?.bitrate.toStringAsFixed(2)}"),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Round Trip",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
-                      ),
-                      Text(
-                          "${hmsLocalVideoStats?.roundTripTime.toStringAsFixed(2)}")
-                    ],
-                  ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Quality Limitation",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bytes Sent",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsLocalVideoStats?.hmsQualityLimitationReasons?.reason.name.toLowerCase()}")
-                    ],
-                  ),
-                )
-              ],
-            );
-          });
+                    ),
+                    Text("${hmsLocalVideoStats?.bytesSent.toStringAsFixed(2)}"),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Frame Rate",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
+                      ),
+                    ),
+                    Text("${hmsLocalVideoStats?.frameRate.toStringAsFixed(2)}"),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Round Trip",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
+                      ),
+                    ),
+                    Text(
+                      "${hmsLocalVideoStats?.roundTripTime.toStringAsFixed(2)}",
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Quality Limitation",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
+                      ),
+                    ),
+                    Text(
+                      "${hmsLocalVideoStats?.hmsQualityLimitationReasons?.reason.name.toLowerCase()}",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      );
     }
     if (statsType.toLowerCase().contains("video") && !peerNode.peer.isLocal) {
       return Selector<PeerTrackNode, HMSRemoteVideoStats?>(
-          selector: (_, peerTrackNode) =>
-              peerTrackNode.stats?.hmsRemoteVideoStats,
-          builder: (_, hmsRemoteVideoStats, __) {
-            return Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bitrate",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
-                      ),
-                      Text("${hmsRemoteVideoStats?.bitrate.toStringAsFixed(2)}")
-                    ],
-                  ),
+        selector: (_, peerTrackNode) =>
+            peerTrackNode.stats?.hmsRemoteVideoStats,
+        builder: (_, hmsRemoteVideoStats, __) {
+          return Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Bytes Received",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bitrate",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsRemoteVideoStats?.bytesReceived.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text("${hmsRemoteVideoStats?.bitrate.toStringAsFixed(2)}"),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Jitter",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Bytes Received",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text("${hmsRemoteVideoStats?.jitter.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text(
+                      "${hmsRemoteVideoStats?.bytesReceived.toStringAsFixed(2)}",
+                    ),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "FPS",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Jitter",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsRemoteVideoStats?.frameRate.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text("${hmsRemoteVideoStats?.jitter.toStringAsFixed(2)}"),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Packet Lost",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "FPS",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsRemoteVideoStats?.packetsLost.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text(
+                      "${hmsRemoteVideoStats?.frameRate.toStringAsFixed(2)}",
+                    ),
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Packet Received",
-                        style: HMSTextStyle.setTextStyle(
-                            color: themeDefaultColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.50),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Packet Lost",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
                       ),
-                      Text(
-                          "${hmsRemoteVideoStats?.packetsReceived.toStringAsFixed(2)}")
-                    ],
-                  ),
+                    ),
+                    Text(
+                      "${hmsRemoteVideoStats?.packetsLost.toStringAsFixed(2)}",
+                    ),
+                  ],
                 ),
-              ],
-            );
-          });
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Packet Received",
+                      style: HMSTextStyle.setTextStyle(
+                        color: themeDefaultColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.50,
+                      ),
+                    ),
+                    Text(
+                      "${hmsRemoteVideoStats?.packetsReceived.toStringAsFixed(2)}",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     return const Text("Stats not available");

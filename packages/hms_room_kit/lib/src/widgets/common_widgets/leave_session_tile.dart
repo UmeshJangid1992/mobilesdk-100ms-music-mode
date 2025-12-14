@@ -13,22 +13,23 @@ class LeaveSessionTile extends StatelessWidget {
   final Function? onTap;
   final Color? tileColor;
 
-  const LeaveSessionTile(
-      {super.key,
-      this.leading,
-      this.title,
-      this.subTitle,
-      this.titleColor,
-      this.subTitleColor,
-      this.onTap,
-      this.tileColor,
-      this.tilePadding});
+  const LeaveSessionTile({
+    super.key,
+    this.leading,
+    this.title,
+    this.subTitle,
+    this.titleColor,
+    this.subTitleColor,
+    this.onTap,
+    this.tileColor,
+    this.tilePadding,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        if (onTap != null) {onTap!()}
+        if (onTap != null) {onTap!()},
       },
       child: Container(
         height: 116,
@@ -40,9 +41,7 @@ class LeaveSessionTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               leading ?? const SizedBox(),
-              const SizedBox(
-                width: 14,
-              ),
+              const SizedBox(width: 14),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -53,20 +52,19 @@ class LeaveSessionTile extends StatelessWidget {
                     fontSize: 20,
                     letterSpacing: 0.15,
                   ),
-                  const SizedBox(
-                    height: 4,
-                  ),
+                  const SizedBox(height: 4),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.78,
                     child: HMSSubheadingText(
-                        text: subTitle ??
-                            "Others will continue after you leave. You can join the session again.",
-                        maxLines: 2,
-                        textColor: subTitleColor ??
-                            HMSThemeColors.onSurfaceMediumEmphasis),
-                  )
+                      text: subTitle ??
+                          "Others will continue after you leave. You can join the session again.",
+                      maxLines: 2,
+                      textColor: subTitleColor ??
+                          HMSThemeColors.onSurfaceMediumEmphasis,
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

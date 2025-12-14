@@ -20,8 +20,11 @@ import 'package:hms_room_kit/src/widgets/grid_layouts/listenable_peer_widget.dar
 class ThreeTileLayout extends StatelessWidget {
   final int startIndex;
   final List<PeerTrackNode> peerTracks;
-  const ThreeTileLayout(
-      {super.key, required this.peerTracks, required this.startIndex});
+  const ThreeTileLayout({
+    super.key,
+    required this.peerTracks,
+    required this.startIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +35,24 @@ class ThreeTileLayout extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child:
-              ListenablePeerWidget(index: startIndex, peerTracks: peerTracks),
+          child: ListenablePeerWidget(
+            index: startIndex,
+            peerTracks: peerTracks,
+          ),
         ),
-        const SizedBox(
-          height: 2,
-        ),
-        Expanded(
-            child: ListenablePeerWidget(
-                index: startIndex + 1, peerTracks: peerTracks)),
-        const SizedBox(
-          height: 2,
-        ),
+        const SizedBox(height: 2),
         Expanded(
           child: ListenablePeerWidget(
-              index: startIndex + 2, peerTracks: peerTracks),
+            index: startIndex + 1,
+            peerTracks: peerTracks,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Expanded(
+          child: ListenablePeerWidget(
+            index: startIndex + 2,
+            peerTracks: peerTracks,
+          ),
         ),
       ],
     );

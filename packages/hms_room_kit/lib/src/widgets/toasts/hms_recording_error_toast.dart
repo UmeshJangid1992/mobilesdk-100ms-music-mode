@@ -19,12 +19,13 @@ class HMSRecordingErrorToast extends StatelessWidget {
   final MeetingStore meetingStore;
   final Color? toastColor;
   final double? toastPosition;
-  const HMSRecordingErrorToast(
-      {super.key,
-      required this.recordingError,
-      required this.meetingStore,
-      this.toastColor,
-      this.toastPosition});
+  const HMSRecordingErrorToast({
+    super.key,
+    required this.recordingError,
+    required this.meetingStore,
+    this.toastColor,
+    this.toastPosition,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,9 @@ class HMSRecordingErrorToast extends StatelessWidget {
         height: 24,
         width: 24,
         colorFilter: ColorFilter.mode(
-            HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+          HMSThemeColors.onSurfaceHighEmphasis,
+          BlendMode.srcIn,
+        ),
       ),
       subtitle: HMSSubheadingText(
         text: "Recording failed to start",

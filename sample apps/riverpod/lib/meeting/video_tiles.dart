@@ -16,17 +16,20 @@ class VideoTiles extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: peerTracks.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 2,
-            mainAxisExtent: MediaQuery.of(context).size.width / 2),
+          crossAxisCount: 2,
+          crossAxisSpacing: 2,
+          mainAxisExtent: MediaQuery.of(context).size.width / 2,
+        ),
         itemBuilder: (context, index) {
-          final peerTrackProvider =
-              ChangeNotifierProvider<PeerTrackNode>((ref) {
+          final peerTrackProvider = ChangeNotifierProvider<PeerTrackNode>((
+            ref,
+          ) {
             return peerTracks[index];
           });
           return Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
             elevation: 5,
             child: Consumer(
               builder: (context, ref, child) {
@@ -47,43 +50,49 @@ class VideoTiles extends StatelessWidget {
                           child: Text(
                             peer.name,
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   );
                 } else {
                   return Container(
-                      alignment: Alignment.center,
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: CircleAvatar(
-                                backgroundColor: Colors.green,
-                                radius: 36,
-                                child: Text(
-                                  peer.name[0],
-                                  style: const TextStyle(
-                                      fontSize: 36, color: Colors.white),
-                                )),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(
-                                peer.name,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                    alignment: Alignment.center,
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.green,
+                            radius: 36,
+                            child: Text(
+                              peer.name[0],
+                              style: const TextStyle(
+                                fontSize: 36,
+                                color: Colors.white,
                               ),
                             ),
-                          )
-                        ],
-                      ));
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              peer.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
             ),

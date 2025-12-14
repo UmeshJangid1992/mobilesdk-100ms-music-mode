@@ -13,11 +13,12 @@ class TrackChangeRequestDialog extends StatefulWidget {
   final HMSTrackChangeRequest trackChangeRequest;
   final MeetingStore meetingStore;
   final bool isAudioModeOn;
-  const TrackChangeRequestDialog(
-      {super.key,
-      required this.trackChangeRequest,
-      required this.meetingStore,
-      this.isAudioModeOn = false});
+  const TrackChangeRequestDialog({
+    super.key,
+    required this.trackChangeRequest,
+    required this.meetingStore,
+    this.isAudioModeOn = false,
+  });
 
   @override
   TrackChangeRequestDialogState createState() =>
@@ -37,12 +38,7 @@ class TrackChangeRequestDialogState extends State<TrackChangeRequestDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            message,
-            style: HMSTextStyle.setTextStyle(
-              color: iconColor,
-            ),
-          ),
+          Text(message, style: HMSTextStyle.setTextStyle(color: iconColor)),
         ],
       ),
       actions: [
@@ -51,19 +47,26 @@ class TrackChangeRequestDialogState extends State<TrackChangeRequestDialog> {
           children: [
             ElevatedButton(
               style: ButtonStyle(
-                  shadowColor: MaterialStateProperty.all(themeSurfaceColor),
-                  backgroundColor:
-                      MaterialStateProperty.all(themeBottomSheetColor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                shadowColor: WidgetStateProperty.all(themeSurfaceColor),
+                backgroundColor: WidgetStateProperty.all(
+                  themeBottomSheetColor,
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     side: BorderSide(width: 1, color: popupButtonBorderColor),
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 12),
-                child:
-                    HMSTitleText(text: 'Reject', textColor: themeDefaultColor),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 12,
+                ),
+                child: HMSTitleText(
+                  text: 'Reject',
+                  textColor: themeDefaultColor,
+                ),
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -71,16 +74,20 @@ class TrackChangeRequestDialogState extends State<TrackChangeRequestDialog> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  shadowColor: MaterialStateProperty.all(themeSurfaceColor),
-                  backgroundColor: MaterialStateProperty.all(errorColor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                shadowColor: WidgetStateProperty.all(themeSurfaceColor),
+                backgroundColor: WidgetStateProperty.all(errorColor),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     side: BorderSide(width: 1, color: errorColor),
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 12,
+                ),
                 child: HMSTitleText(
                   text: 'Accept',
                   textColor: themeDefaultColor,
@@ -90,15 +97,16 @@ class TrackChangeRequestDialogState extends State<TrackChangeRequestDialog> {
                 if (widget.trackChangeRequest.track.kind ==
                         HMSTrackKind.kHMSTrackKindVideo &&
                     widget.isAudioModeOn) {
-                  widget.meetingStore
-                      .setMode(MeetingMode.activeSpeakerWithInset);
+                  widget.meetingStore.setMode(
+                    MeetingMode.activeSpeakerWithInset,
+                  );
                 }
                 widget.meetingStore.changeTracks(widget.trackChangeRequest);
                 Navigator.pop(context);
               },
             ),
           ],
-        )
+        ),
       ],
     );
   }

@@ -30,8 +30,9 @@ class _InsetCollapsedViewState extends State<InsetCollapsedView> {
       height: 36,
       width: 126,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: HMSThemeColors.surfaceDefault),
+        borderRadius: BorderRadius.circular(8),
+        color: HMSThemeColors.surfaceDefault,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
@@ -48,32 +49,32 @@ class _InsetCollapsedViewState extends State<InsetCollapsedView> {
                         .contains("audio") ??
                     false)
                   Selector<MeetingStore, bool>(
-                      selector: (_, meetingStore) => meetingStore.isMicOn,
-                      builder: (_, isMicOn, __) {
-                        return HMSEmbeddedButton(
-                          height: 20,
-                          width: 20,
-                          onTap: () => {},
-                          isActive: false,
-                          borderRadius: 4,
-                          offColor: HMSThemeColors.surfaceBright,
-                          disabledBorderColor: HMSThemeColors.surfaceBright,
-                          child: SvgPicture.asset(
-                            isMicOn
-                                ? "packages/hms_room_kit/lib/src/assets/icons/mic_state_on.svg"
-                                : "packages/hms_room_kit/lib/src/assets/icons/mic_state_off.svg",
-                            height: 16,
-                            width: 16,
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn),
-                            semanticsLabel: "audio_mute_button",
+                    selector: (_, meetingStore) => meetingStore.isMicOn,
+                    builder: (_, isMicOn, __) {
+                      return HMSEmbeddedButton(
+                        height: 20,
+                        width: 20,
+                        onTap: () => {},
+                        isActive: false,
+                        borderRadius: 4,
+                        offColor: HMSThemeColors.surfaceBright,
+                        disabledBorderColor: HMSThemeColors.surfaceBright,
+                        child: SvgPicture.asset(
+                          isMicOn
+                              ? "packages/hms_room_kit/lib/src/assets/icons/mic_state_on.svg"
+                              : "packages/hms_room_kit/lib/src/assets/icons/mic_state_off.svg",
+                          height: 16,
+                          width: 16,
+                          colorFilter: ColorFilter.mode(
+                            HMSThemeColors.onSurfaceHighEmphasis,
+                            BlendMode.srcIn,
                           ),
-                        );
-                      }),
-                const SizedBox(
-                  width: 8,
-                ),
+                          semanticsLabel: "audio_mute_button",
+                        ),
+                      );
+                    },
+                  ),
+                const SizedBox(width: 8),
                 if (Provider.of<MeetingStore>(context)
                         .localPeer
                         ?.role
@@ -82,35 +83,36 @@ class _InsetCollapsedViewState extends State<InsetCollapsedView> {
                         .contains("video") ??
                     false)
                   Selector<MeetingStore, bool>(
-                      selector: (_, meetingStore) => meetingStore.isVideoOn,
-                      builder: (_, isMicOn, __) {
-                        return HMSEmbeddedButton(
-                          height: 20,
-                          width: 20,
-                          onTap: () => {},
-                          isActive: false,
-                          borderRadius: 4,
-                          offColor: HMSThemeColors.surfaceBright,
-                          disabledBorderColor: HMSThemeColors.surfaceBright,
-                          child: SvgPicture.asset(
-                            isMicOn
-                                ? "packages/hms_room_kit/lib/src/assets/icons/cam_state_on.svg"
-                                : "packages/hms_room_kit/lib/src/assets/icons/cam_state_off.svg",
-                            height: 16,
-                            width: 16,
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn),
-                            semanticsLabel: "video_mute_button",
+                    selector: (_, meetingStore) => meetingStore.isVideoOn,
+                    builder: (_, isMicOn, __) {
+                      return HMSEmbeddedButton(
+                        height: 20,
+                        width: 20,
+                        onTap: () => {},
+                        isActive: false,
+                        borderRadius: 4,
+                        offColor: HMSThemeColors.surfaceBright,
+                        disabledBorderColor: HMSThemeColors.surfaceBright,
+                        child: SvgPicture.asset(
+                          isMicOn
+                              ? "packages/hms_room_kit/lib/src/assets/icons/cam_state_on.svg"
+                              : "packages/hms_room_kit/lib/src/assets/icons/cam_state_off.svg",
+                          height: 16,
+                          width: 16,
+                          colorFilter: ColorFilter.mode(
+                            HMSThemeColors.onSurfaceHighEmphasis,
+                            BlendMode.srcIn,
                           ),
-                        );
-                      }),
-                const SizedBox(
-                  width: 8,
-                ),
+                          semanticsLabel: "video_mute_button",
+                        ),
+                      );
+                    },
+                  ),
+                const SizedBox(width: 8),
                 HMSSubheadingText(
-                    text: "You",
-                    textColor: HMSThemeColors.onSurfaceHighEmphasis),
+                  text: "You",
+                  textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                ),
               ],
             ),
             Row(
@@ -126,12 +128,14 @@ class _InsetCollapsedViewState extends State<InsetCollapsedView> {
                     height: 20,
                     width: 20,
                     colorFilter: ColorFilter.mode(
-                        HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+                      HMSThemeColors.onSurfaceHighEmphasis,
+                      BlendMode.srcIn,
+                    ),
                     semanticsLabel: "maximize_button",
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

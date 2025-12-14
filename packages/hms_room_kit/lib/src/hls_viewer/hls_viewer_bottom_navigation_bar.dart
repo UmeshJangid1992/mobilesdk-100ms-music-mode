@@ -30,10 +30,12 @@ class HLSViewerBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.black.withAlpha(0), Colors.black.withAlpha(64)])),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.black.withAlpha(0), Colors.black.withAlpha(64)],
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.only(left: 12, right: 12),
         child: Column(
@@ -42,155 +44,166 @@ class HLSViewerBottomNavigationBar extends StatelessWidget {
             ///This renders the captions only in case of android since iOS provides caption out of the box
             if (Platform.isAndroid)
               Selector<HLSPlayerStore, String?>(
-                  selector: (_, hlsPlayerStore) => hlsPlayerStore.caption,
-                  builder: (_, caption, __) {
-                    return caption != null
-                        ? Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: 4.0, left: 4, right: 4),
-                            child: Center(
-                              child: HMSSubheadingText(
-                                text: caption,
-                                textColor: HMSThemeColors.baseWhite,
-                                fontWeight: FontWeight.w600,
-                                maxLines: 5,
-                              ),
+                selector: (_, hlsPlayerStore) => hlsPlayerStore.caption,
+                builder: (_, caption, __) {
+                  return caption != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 4.0,
+                            left: 4,
+                            right: 4,
+                          ),
+                          child: Center(
+                            child: HMSSubheadingText(
+                              text: caption,
+                              textColor: HMSThemeColors.baseWhite,
+                              fontWeight: FontWeight.w600,
+                              maxLines: 5,
                             ),
-                          )
-                        : SizedBox();
-                  }),
+                          ),
+                        )
+                      : SizedBox();
+                },
+              ),
 
             ///Bottom Navigation Bar
             ///We render the stream controls here
             ///We only render the bottom navigation bar when the stream controls are visible
             Selector<HLSPlayerStore, bool>(
-                selector: (_, hlsPlayerStore) =>
-                    hlsPlayerStore.areStreamControlsVisible,
-                builder: (_, areStreamControlsVisible, __) {
-                  return areStreamControlsVisible
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ///This renders the go live/live button
-                            Selector<HLSPlayerStore, bool>(
-                                selector: (_, hlsPlayerStore) =>
-                                    hlsPlayerStore.isLive,
-                                builder: (_, isLive, __) {
-                                  return Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () => {
-                                          if (!isLive)
-                                            {
-                                              HMSHLSPlayerController
-                                                  .seekToLivePosition()
-                                            }
-                                        },
-                                        child: isLive
-                                            ? Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 8.0),
-                                                    child: SvgPicture.asset(
-                                                      "packages/hms_room_kit/lib/src/assets/icons/red_dot.svg",
-                                                      height: 8,
-                                                      width: 8,
-                                                    ),
-                                                  ),
-                                                  HMSTitleText(
-                                                      text: "LIVE",
-                                                      textColor: HMSThemeColors
-                                                          .onSurfaceHighEmphasis)
-                                                ],
-                                              )
-                                            : Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 8.0),
-                                                    child: SvgPicture.asset(
-                                                      "packages/hms_room_kit/lib/src/assets/icons/red_dot.svg",
-                                                      height: 8,
-                                                      width: 8,
-                                                      colorFilter: ColorFilter.mode(
-                                                          HMSThemeColors
-                                                              .onSurfaceLowEmphasis,
-                                                          BlendMode.srcIn),
-                                                    ),
-                                                  ),
-                                                  HMSTitleText(
-                                                      text: "GO LIVE",
-                                                      textColor: HMSThemeColors
-                                                          .onSurfaceMediumEmphasis),
-                                                  Selector<HLSPlayerStore,
-                                                          Duration>(
-                                                      selector:
-                                                          (_, hlsPlayerStore) =>
-                                                              hlsPlayerStore
-                                                                  .timeFromLive,
-                                                      builder: (_, timeFromLive,
-                                                          __) {
-                                                        return Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 8.0),
-                                                          child: HMSTitleText(
-                                                            text: _setTimeFromLive(
-                                                                timeFromLive),
-                                                            textColor:
-                                                                HMSThemeColors
-                                                                    .baseWhite,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        );
-                                                      })
-                                                ],
-                                              ),
-                                      )
-                                    ],
-                                  );
-                                }),
-
-                            ///This renders the minimize/maximize button
-                            ///to toggle the full screen mode
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+              selector: (_, hlsPlayerStore) =>
+                  hlsPlayerStore.areStreamControlsVisible,
+              builder: (_, areStreamControlsVisible, __) {
+                return areStreamControlsVisible
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ///This renders the go live/live button
+                          Selector<HLSPlayerStore, bool>(
+                            selector: (_, hlsPlayerStore) =>
+                                hlsPlayerStore.isLive,
+                            builder: (_, isLive, __) {
+                              return Row(
                                 children: [
-                                  Selector<HLSPlayerStore, bool>(
-                                      selector: (_, hlsPlayerStore) =>
-                                          hlsPlayerStore.isFullScreen,
-                                      builder: (_, isFullScreen, __) {
-                                        return InkWell(
-                                          onTap: () => context
-                                              .read<HLSPlayerStore>()
-                                              .toggleFullScreen(),
-                                          child: SvgPicture.asset(
-                                              "packages/hms_room_kit/lib/src/assets/icons/${isFullScreen ? "minimize" : "maximize"}.svg"),
-                                        );
-                                      })
-                                ])
-                          ],
-                        )
-                      : const SizedBox();
-                }),
+                                  GestureDetector(
+                                    onTap: () => {
+                                      if (!isLive)
+                                        {
+                                          HMSHLSPlayerController
+                                              .seekToLivePosition(),
+                                        },
+                                    },
+                                    child: isLive
+                                        ? Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 8.0,
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  "packages/hms_room_kit/lib/src/assets/icons/red_dot.svg",
+                                                  height: 8,
+                                                  width: 8,
+                                                ),
+                                              ),
+                                              HMSTitleText(
+                                                text: "LIVE",
+                                                textColor: HMSThemeColors
+                                                    .onSurfaceHighEmphasis,
+                                              ),
+                                            ],
+                                          )
+                                        : Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 8.0,
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  "packages/hms_room_kit/lib/src/assets/icons/red_dot.svg",
+                                                  height: 8,
+                                                  width: 8,
+                                                  colorFilter: ColorFilter.mode(
+                                                    HMSThemeColors
+                                                        .onSurfaceLowEmphasis,
+                                                    BlendMode.srcIn,
+                                                  ),
+                                                ),
+                                              ),
+                                              HMSTitleText(
+                                                text: "GO LIVE",
+                                                textColor: HMSThemeColors
+                                                    .onSurfaceMediumEmphasis,
+                                              ),
+                                              Selector<HLSPlayerStore,
+                                                  Duration>(
+                                                selector: (_, hlsPlayerStore) =>
+                                                    hlsPlayerStore.timeFromLive,
+                                                builder: (_, timeFromLive, __) {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 8.0,
+                                                    ),
+                                                    child: HMSTitleText(
+                                                      text: _setTimeFromLive(
+                                                        timeFromLive,
+                                                      ),
+                                                      textColor: HMSThemeColors
+                                                          .baseWhite,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+
+                          ///This renders the minimize/maximize button
+                          ///to toggle the full screen mode
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Selector<HLSPlayerStore, bool>(
+                                selector: (_, hlsPlayerStore) =>
+                                    hlsPlayerStore.isFullScreen,
+                                builder: (_, isFullScreen, __) {
+                                  return InkWell(
+                                    onTap: () => context
+                                        .read<HLSPlayerStore>()
+                                        .toggleFullScreen(),
+                                    child: SvgPicture.asset(
+                                      "packages/hms_room_kit/lib/src/assets/icons/${isFullScreen ? "minimize" : "maximize"}.svg",
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : const SizedBox();
+              },
+            ),
 
             ///This renders the seekbar
             Selector<HLSPlayerStore, bool>(
-                selector: (_, hlsPlayerStore) =>
-                    hlsPlayerStore.areStreamControlsVisible,
-                builder: (_, areStreamControlsVisible, __) {
-                  return areStreamControlsVisible
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 8, bottom: 4),
-                          child: HLSPlayerSeekbar(),
-                        )
-                      : const SizedBox();
-                })
+              selector: (_, hlsPlayerStore) =>
+                  hlsPlayerStore.areStreamControlsVisible,
+              builder: (_, areStreamControlsVisible, __) {
+                return areStreamControlsVisible
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 4),
+                        child: HLSPlayerSeekbar(),
+                      )
+                    : const SizedBox();
+              },
+            ),
           ],
         ),
       ),

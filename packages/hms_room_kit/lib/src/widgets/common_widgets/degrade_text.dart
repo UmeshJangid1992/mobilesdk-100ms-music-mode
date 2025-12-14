@@ -11,25 +11,27 @@ class DegradeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Selector<PeerTrackNode, bool>(
-        selector: (_, peerTrackNode) =>
-            peerTrackNode.track?.isDegraded ?? false,
-        builder: (_, isDegraded, __) {
-          return Container(
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.3),
-            child: Text(
-              isDegraded ? " (Degraded)" : "",
-              maxLines: 1,
-              softWrap: true,
-              overflow: TextOverflow.ellipsis,
-              style: HMSTextStyle.setTextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: HMSThemeColors.onSurfaceLowEmphasis,
-                  fontSize: 14,
-                  letterSpacing: 0.25,
-                  height: 20 / 14),
+      selector: (_, peerTrackNode) => peerTrackNode.track?.isDegraded ?? false,
+      builder: (_, isDegraded, __) {
+        return Container(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.3,
+          ),
+          child: Text(
+            isDegraded ? " (Degraded)" : "",
+            maxLines: 1,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            style: HMSTextStyle.setTextStyle(
+              fontWeight: FontWeight.w400,
+              color: HMSThemeColors.onSurfaceLowEmphasis,
+              fontSize: 14,
+              letterSpacing: 0.25,
+              height: 20 / 14,
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

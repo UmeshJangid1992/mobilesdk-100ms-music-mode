@@ -57,10 +57,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           title: Text(
             'Page Title',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Outfit',
-                  color: Colors.white,
-                  fontSize: 22,
-                ),
+              fontFamily: 'Outfit',
+              color: Colors.white,
+              fontSize: 22,
+            ),
           ),
           actions: const [],
           centerTitle: false,
@@ -76,22 +76,33 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   alignment: const AlignmentDirectional(0.00, 0.00),
                   child: FFButtonWidget(
                     onPressed: () async {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const PrebuiltPageWidget()));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const PrebuiltPageWidget(),
+                        ),
+                      );
                     },
                     text: 'Join',
                     options: FFButtonOptions(
                       height: 40,
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                      iconPadding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                        24,
+                        0,
+                        24,
+                        0,
+                      ),
+                      iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                        0,
+                        0,
+                        0,
+                        0,
+                      ),
                       color: FlutterFlowTheme.of(context).primary,
-                      textStyle:
-                          FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Readex Pro',
-                                color: Colors.white,
-                              ),
+                      textStyle: FlutterFlowTheme.of(context).titleSmall
+                          .override(
+                            fontFamily: 'Readex Pro',
+                            color: Colors.white,
+                          ),
                       elevation: 3,
                       borderSide: const BorderSide(
                         color: Colors.transparent,

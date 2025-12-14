@@ -15,20 +15,21 @@ class RoomObserver implements HMSUpdateListener, HMSActionResultListener {
     RoomService()
         .getToken(user: roomOverviewBloc.name, room: roomOverviewBloc.url)
         .then((token) {
-      if (token == null) return;
-      if (token[0] == null) return;
+          if (token == null) return;
+          if (token[0] == null) return;
 
-      HMSConfig config = HMSConfig(
-        authToken: token[0]!,
-        userName: roomOverviewBloc.name,
-      );
+          HMSConfig config = HMSConfig(
+            authToken: token[0]!,
+            userName: roomOverviewBloc.name,
+          );
 
-      roomOverviewBloc.hmsSdk.join(config: config);
-    });
+          roomOverviewBloc.hmsSdk.join(config: config);
+        });
   }
 
-  final _peerNodeStreamController =
-      BehaviorSubject<List<PeerTrackNode>>.seeded(const []);
+  final _peerNodeStreamController = BehaviorSubject<List<PeerTrackNode>>.seeded(
+    const [],
+  );
 
   Stream<List<PeerTrackNode>> getTracks() =>
       _peerNodeStreamController.asBroadcastStream();
@@ -38,11 +39,16 @@ class RoomObserver implements HMSUpdateListener, HMSActionResultListener {
     final todoIndex = tracks.indexWhere((t) => t.peer?.peerId == peer.peerId);
     if (todoIndex >= 0) {
       print("onTrackUpdate ${peer.name} ${hmsVideoTrack.isMute}");
-      tracks[todoIndex] =
-          PeerTrackNode(hmsVideoTrack, hmsVideoTrack.isMute, peer, false);
+      tracks[todoIndex] = PeerTrackNode(
+        hmsVideoTrack,
+        hmsVideoTrack.isMute,
+        peer,
+        false,
+      );
     } else {
-      tracks
-          .add(PeerTrackNode(hmsVideoTrack, hmsVideoTrack.isMute, peer, false));
+      tracks.add(
+        PeerTrackNode(hmsVideoTrack, hmsVideoTrack.isMute, peer, false),
+      );
     }
 
     _peerNodeStreamController.add(tracks);
@@ -58,8 +64,9 @@ class RoomObserver implements HMSUpdateListener, HMSActionResultListener {
   }
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {
     // TODO: implement onChangeTrackStateRequest
   }
 
@@ -95,8 +102,9 @@ class RoomObserver implements HMSUpdateListener, HMSActionResultListener {
   }
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {
     // TODO: implement onRemovedFromRoom
   }
 
@@ -111,19 +119,22 @@ class RoomObserver implements HMSUpdateListener, HMSActionResultListener {
   }
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {
     if (track.kind == HMSTrackKind.kHMSTrackKindVideo) {
       if (trackUpdate == HMSTrackUpdate.trackRemoved) {
-        roomOverviewBloc
-            .add(RoomOverviewOnPeerLeave(track as HMSVideoTrack, peer));
+        roomOverviewBloc.add(
+          RoomOverviewOnPeerLeave(track as HMSVideoTrack, peer),
+        );
       } else if (trackUpdate == HMSTrackUpdate.trackAdded ||
           trackUpdate == HMSTrackUpdate.trackMuted ||
           trackUpdate == HMSTrackUpdate.trackUnMuted) {
-        roomOverviewBloc
-            .add(RoomOverviewOnPeerJoin(track as HMSVideoTrack, peer));
+        roomOverviewBloc.add(
+          RoomOverviewOnPeerJoin(track as HMSVideoTrack, peer),
+        );
       }
     }
   }
@@ -147,24 +158,27 @@ class RoomObserver implements HMSUpdateListener, HMSActionResultListener {
   }
 
   @override
-  void onException(
-      {HMSActionResultListenerMethod? methodType,
-      Map<String, dynamic>? arguments,
-      required HMSException hmsException}) {
+  void onException({
+    HMSActionResultListenerMethod? methodType,
+    Map<String, dynamic>? arguments,
+    required HMSException hmsException,
+  }) {
     // TODO: implement onException
   }
 
   @override
-  void onSuccess(
-      {HMSActionResultListenerMethod? methodType,
-      Map<String, dynamic>? arguments}) {
+  void onSuccess({
+    HMSActionResultListenerMethod? methodType,
+    Map<String, dynamic>? arguments,
+  }) {
     _peerNodeStreamController.add([]);
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // TODO: implement onAudioDeviceChanged
   }
 
@@ -174,9 +188,10 @@ class RoomObserver implements HMSUpdateListener, HMSActionResultListener {
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 }

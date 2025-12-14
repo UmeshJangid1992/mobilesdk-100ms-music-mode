@@ -15,16 +15,16 @@ class PreviewObserver implements HMSPreviewListener {
     RoomService()
         .getToken(user: previewCubit.name, room: previewCubit.url)
         .then((token) {
-      if (token == null) return;
-      if (token[0] == null) return;
+          if (token == null) return;
+          if (token[0] == null) return;
 
-      HMSConfig config = HMSConfig(
-        authToken: token[0]!,
-        userName: previewCubit.name,
-      );
+          HMSConfig config = HMSConfig(
+            authToken: token[0]!,
+            userName: previewCubit.name,
+          );
 
-      previewCubit.hmsSdk.preview(config: config);
-    });
+          previewCubit.hmsSdk.preview(config: config);
+        });
   }
 
   @override
@@ -58,9 +58,10 @@ class PreviewObserver implements HMSPreviewListener {
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // TODO: implement onAudioDeviceChanged
   }
 }

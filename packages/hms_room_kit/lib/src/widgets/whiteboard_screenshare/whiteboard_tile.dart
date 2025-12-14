@@ -27,38 +27,42 @@ class _WhiteboardTileState extends State<WhiteboardTile> {
       children: [
         const WhiteboardWebView(),
         Positioned(
-            top: 5,
-            right: 5,
-            child: GestureDetector(
-              onTap: () {
-                context.read<WhiteboardScreenshareStore>().toggleFullScreen();
-              },
-              child: PointerInterceptor(
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      color: HMSThemeColors.backgroundDim.withAlpha(64),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Center(
-                    child: Selector<WhiteboardScreenshareStore, bool>(
-                        selector: (_, whiteboardScreenshareStore) =>
-                            whiteboardScreenshareStore.isFullScreen,
-                        builder: (_, isFullScreen, __) {
-                          return SvgPicture.asset(
-                            "packages/hms_room_kit/lib/src/assets/icons/${isFullScreen ? "minimize" : "maximize"}.svg",
-                            height: 16,
-                            width: 16,
-                            semanticsLabel: "maximize_label",
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn),
-                          );
-                        }),
+          top: 5,
+          right: 5,
+          child: GestureDetector(
+            onTap: () {
+              context.read<WhiteboardScreenshareStore>().toggleFullScreen();
+            },
+            child: PointerInterceptor(
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: HMSThemeColors.backgroundDim.withAlpha(64),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Selector<WhiteboardScreenshareStore, bool>(
+                    selector: (_, whiteboardScreenshareStore) =>
+                        whiteboardScreenshareStore.isFullScreen,
+                    builder: (_, isFullScreen, __) {
+                      return SvgPicture.asset(
+                        "packages/hms_room_kit/lib/src/assets/icons/${isFullScreen ? "minimize" : "maximize"}.svg",
+                        height: 16,
+                        width: 16,
+                        semanticsLabel: "maximize_label",
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }

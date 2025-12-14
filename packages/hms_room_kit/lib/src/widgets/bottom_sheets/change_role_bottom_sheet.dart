@@ -68,7 +68,7 @@ class ChangeRoleBottomSheetState extends State<ChangeRoleBottomSheet> {
                   letterSpacing: 0.15,
                   textColor: HMSThemeColors.onSecondaryHighEmphasis,
                 ),
-                HMSCrossButton()
+                HMSCrossButton(),
               ],
             ),
             HMSSubtitleText(
@@ -76,50 +76,55 @@ class ChangeRoleBottomSheetState extends State<ChangeRoleBottomSheet> {
               textColor: HMSThemeColors.onSurfaceMediumEmphasis,
               maxLines: 2,
             ),
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             DropdownButtonHideUnderline(
-                child: HMSDropDown(
-                    dropDownItems: <DropdownMenuItem>[
+              child: HMSDropDown(
+                dropDownItems: <DropdownMenuItem>[
                   ...widget.roles
-                      .where((role) => ((role.name != widget.peer.role.name) &&
-                          (role.name != '__internal_recorder')))
+                      .where(
+                        (role) => ((role.name != widget.peer.role.name) &&
+                            (role.name != '__internal_recorder')),
+                      )
                       .sortedBy((element) => element.priority.toString())
-                      .map((role) => DropdownMenuItem(
-                            value: role,
-                            child: HMSTitleText(
-                              text: role.name,
-                              textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.5,
-                            ),
-                          ))
+                      .map(
+                        (role) => DropdownMenuItem(
+                          value: role,
+                          child: HMSTitleText(
+                            text: role.name,
+                            textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      )
                       .toList(),
                 ],
-                    iconStyleData: IconStyleData(
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      iconEnabledColor: HMSThemeColors.onSurfaceHighEmphasis,
-                    ),
-                    selectedValue: roleSelected,
-                    updateSelectedValue: _updateDropDownValue)),
-            const SizedBox(
-              height: 24,
+                iconStyleData: IconStyleData(
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  iconEnabledColor: HMSThemeColors.onSurfaceHighEmphasis,
+                ),
+                selectedValue: roleSelected,
+                updateSelectedValue: _updateDropDownValue,
+              ),
             ),
+            const SizedBox(height: 24),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      roleSelected == null
-                          ? HMSThemeColors.primaryDisabled
-                          : HMSThemeColors.primaryDefault),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                backgroundColor: WidgetStateProperty.all(
+                  roleSelected == null
+                      ? HMSThemeColors.primaryDisabled
+                      : HMSThemeColors.primaryDefault,
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               onPressed: () => {
                 Navigator.pop(context),
                 if (roleSelected != null)
-                  {widget.changeRole(roleSelected!, true)}
+                  {widget.changeRole(roleSelected!, true)},
               },
               child: Row(
                 children: [
@@ -128,8 +133,9 @@ class ChangeRoleBottomSheetState extends State<ChangeRoleBottomSheet> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Center(
                         child: HMSTitleText(
-                            text: "Switch Role",
-                            textColor: HMSThemeColors.onPrimaryHighEmphasis),
+                          text: "Switch Role",
+                          textColor: HMSThemeColors.onPrimaryHighEmphasis,
+                        ),
                       ),
                     ),
                   ),

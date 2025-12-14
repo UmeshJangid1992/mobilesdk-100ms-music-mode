@@ -22,13 +22,13 @@ class OneToOneMode extends StatefulWidget {
   final BuildContext context;
   final int screenShareCount;
   final double bottomMargin;
-  const OneToOneMode(
-      {Key? key,
-      required this.peerTracks,
-      required this.context,
-      required this.screenShareCount,
-      this.bottomMargin = 272})
-      : super(key: key);
+  const OneToOneMode({
+    Key? key,
+    required this.peerTracks,
+    required this.context,
+    required this.screenShareCount,
+    this.bottomMargin = 272,
+  }) : super(key: key);
 
   @override
   State<OneToOneMode> createState() => _OneToOneModeState();
@@ -43,8 +43,9 @@ class _OneToOneModeState extends State<OneToOneMode> {
   void initState() {
     super.initState();
     if (widget.peerTracks.isNotEmpty) {
-      int index =
-          widget.peerTracks.indexWhere((element) => element.peer.isLocal);
+      int index = widget.peerTracks.indexWhere(
+        (element) => element.peer.isLocal,
+      );
       if (index != -1) {
         oneToOnePeer = widget.peerTracks[index];
         oneToOnePeer?.setOffScreenStatus(false);
@@ -62,8 +63,9 @@ class _OneToOneModeState extends State<OneToOneMode> {
   void didUpdateWidget(covariant OneToOneMode oldWidget) {
     ///This is used to find the local peer for inset tile
     if (widget.peerTracks.isNotEmpty) {
-      int index =
-          widget.peerTracks.indexWhere((element) => element.peer.isLocal);
+      int index = widget.peerTracks.indexWhere(
+        (element) => element.peer.isLocal,
+      );
       if (index != -1) {
         oneToOnePeer = widget.peerTracks[index];
         oneToOnePeer?.setOffScreenStatus(false);
@@ -94,7 +96,6 @@ class _OneToOneModeState extends State<OneToOneMode> {
                 //         peerTracks: [oneToOnePeer!],
                 //         index: 0,
                 //       )
-
                 ///This handles when the local peer is also present as well as the other peers are also there.
                 ///i.e. this handles the normal flow
                 : Stack(
@@ -108,31 +109,33 @@ class _OneToOneModeState extends State<OneToOneMode> {
                               HMSRoomLayout.peerType ==
                                   PeerRoleType.conferencing)
                           ? Center(child: EmptyRoomScreen())
-                          : CustomOneToOneGrid(
-                              peerTracks: widget.peerTracks,
-                            ),
+                          : CustomOneToOneGrid(peerTracks: widget.peerTracks),
                       DraggableWidget(
-                          dragAnimationScale: 1,
-                          topMargin: 10,
-                          bottomMargin: Platform.isIOS
-                              ? widget.bottomMargin + 20
-                              : widget.bottomMargin,
-                          horizontalSpace: 8,
-                          child: isMinimized
-                              ? InsetCollapsedView(
-                                  callbackFunction: toggleMinimizedView,
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  child: ChangeNotifierProvider.value(
-                                    key: ValueKey(
-                                        oneToOnePeer?.uid ?? "" "video_view"),
-                                    value: oneToOnePeer,
-                                    child: InsetTile(
-                                      callbackFunction: toggleMinimizedView,
-                                    ),
+                        dragAnimationScale: 1,
+                        topMargin: 10,
+                        bottomMargin: Platform.isIOS
+                            ? widget.bottomMargin + 20
+                            : widget.bottomMargin,
+                        horizontalSpace: 8,
+                        child: isMinimized
+                            ? InsetCollapsedView(
+                                callbackFunction: toggleMinimizedView,
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: ChangeNotifierProvider.value(
+                                  key: ValueKey(
+                                    oneToOnePeer?.uid ??
+                                        ""
+                                            "video_view",
                                   ),
-                                ))
+                                  value: oneToOnePeer,
+                                  child: InsetTile(
+                                    callbackFunction: toggleMinimizedView,
+                                  ),
+                                ),
+                              ),
+                      ),
                     ],
                   ),
       ),

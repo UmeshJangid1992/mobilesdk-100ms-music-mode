@@ -28,7 +28,7 @@
 
 
 # Video libs
--keep class org.webrtc.** { *; }
+-keep class hms.webrtc.** { *; }
 -keep class live.hms.video.** { *; }
 
 -dontwarn org.bouncycastle.jsse.BCSSLParameters

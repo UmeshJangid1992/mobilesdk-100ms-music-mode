@@ -13,27 +13,31 @@ import 'package:hms_room_kit/src/widgets/toasts/hms_toast.dart';
 class HMSTranscriptionToast extends StatelessWidget {
   final String message;
   final MeetingStore meetingStore;
-  const HMSTranscriptionToast(
-      {Key? key, required this.message, required this.meetingStore});
+  const HMSTranscriptionToast({
+    Key? key,
+    required this.message,
+    required this.meetingStore,
+  });
 
   @override
   Widget build(BuildContext context) {
     return HMSToast(
-        leading: SizedBox(
-          height: 18,
-          width: 18,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: HMSThemeColors.onSurfaceHighEmphasis,
-          ),
+      leading: SizedBox(
+        height: 18,
+        width: 18,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: HMSThemeColors.onSurfaceHighEmphasis,
         ),
-        subtitle: HMSSubheadingText(
-          text: message,
-          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.1,
-          textOverflow: TextOverflow.ellipsis,
-          maxLines: 2,
-        ));
+      ),
+      subtitle: HMSSubheadingText(
+        text: message,
+        textColor: HMSThemeColors.onSurfaceHighEmphasis,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.1,
+        textOverflow: TextOverflow.ellipsis,
+        maxLines: 2,
+      ),
+    );
   }
 }

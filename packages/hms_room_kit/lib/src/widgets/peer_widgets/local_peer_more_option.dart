@@ -17,8 +17,11 @@ import 'package:hms_room_kit/src/widgets/bottom_sheets/local_peer_bottom_sheet.d
 class LocalPeerMoreOption extends StatelessWidget {
   final Function()? callbackFunction;
   final bool isInsetTile;
-  const LocalPeerMoreOption(
-      {super.key, this.callbackFunction, this.isInsetTile = true});
+  const LocalPeerMoreOption({
+    super.key,
+    this.callbackFunction,
+    this.isInsetTile = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +41,20 @@ class LocalPeerMoreOption extends StatelessWidget {
                   backgroundColor: HMSThemeColors.surfaceDim,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16)),
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
                   ),
                   context: context,
                   builder: (ctx) => ChangeNotifierProvider.value(
-                      value: meetingStore,
-                      child: LocalPeerBottomSheet(
-                        isInsetTile: isInsetTile,
-                        meetingStore: meetingStore,
-                        peerTrackNode: peerTrackNode,
-                        callbackFunction: callbackFunction,
-                      )),
+                    value: meetingStore,
+                    child: LocalPeerBottomSheet(
+                      isInsetTile: isInsetTile,
+                      meetingStore: meetingStore,
+                      peerTrackNode: peerTrackNode,
+                      callbackFunction: callbackFunction,
+                    ),
+                  ),
                 );
               },
               child: Semantics(

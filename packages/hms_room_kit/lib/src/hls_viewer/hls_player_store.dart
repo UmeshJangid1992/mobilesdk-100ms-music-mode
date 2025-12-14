@@ -63,7 +63,7 @@ class HLSPlayerStore extends ChangeNotifier
   HMSHLSPlayerStats? hlsPlayerStats;
 
   ///[hlsPlayerSize] stores the resolution of HLS Stream
-  Size hlsPlayerSize = Size(1, 1);
+  Size hlsPlayerSize = Size(1.0, 1.0);
 
   ///This variable stores whether the HLS Stats are enabled or not
   bool isHLSStatsEnabled = false;
@@ -254,7 +254,8 @@ class HLSPlayerStore extends ChangeNotifier
 
     ///Here we are finding the layer with the same bitrate as the current layer
     var layerSelected = layerMap.entries.firstWhereIndexedOrNull(
-        (index, element) => (element.value.bitrate == layer?.bitrate));
+      (index, element) => (element.value.bitrate == layer?.bitrate),
+    );
 
     ///If the layer is found we set the selected layer to that layer
     if (layerSelected != null) {
@@ -278,7 +279,9 @@ class HLSPlayerStore extends ChangeNotifier
 
   @override
   void onHLSEventUpdate({required HMSHLSPlayerStats playerStats}) {
-    log("onHLSEventUpdate-> distanceFromLive: ${playerStats.distanceFromLive}ms buffered duration: ${playerStats.bufferedDuration}ms bitrate: ${playerStats.averageBitrate}");
+    log(
+      "onHLSEventUpdate-> distanceFromLive: ${playerStats.distanceFromLive}ms buffered duration: ${playerStats.bufferedDuration}ms bitrate: ${playerStats.averageBitrate}",
+    );
     isLive = playerStats.distanceFromLive < timeBeforeLive;
     timeFromLive = Duration(milliseconds: playerStats.distanceFromLive.toInt());
     hlsPlayerStats = playerStats;

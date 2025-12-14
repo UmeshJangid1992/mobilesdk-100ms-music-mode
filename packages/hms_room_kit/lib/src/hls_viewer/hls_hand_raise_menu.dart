@@ -23,34 +23,34 @@ class HLSHandRaiseMenu extends StatelessWidget {
       children: [
         if (HMSRoomLayout.isHandRaiseEnabled)
           Selector<MeetingStore, bool>(
-              selector: (_, meetingStore) => meetingStore.isRaisedHand,
-              builder: (_, isRaisedHand, __) {
-                return HMSEmbeddedButton(
-                  onTap: () => {
-                    context.read<MeetingStore>().toggleLocalPeerHandRaise(),
-                  },
-                  enabledBorderColor: HMSThemeColors.surfaceBrighter,
-                  offColor: HMSThemeColors.surfaceDefault,
-                  disabledBorderColor: HMSThemeColors.surfaceDefault,
-                  onColor: HMSThemeColors.surfaceBrighter,
-                  isActive: isRaisedHand,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset(
-                      isRaisedHand
-                          ? "packages/hms_room_kit/lib/src/assets/icons/hand_off.svg"
-                          : "packages/hms_room_kit/lib/src/assets/icons/hand_outline.svg",
-                      colorFilter: ColorFilter.mode(
-                          HMSThemeColors.onSurfaceHighEmphasis,
-                          BlendMode.srcIn),
-                      semanticsLabel: "hand_raise_button",
+            selector: (_, meetingStore) => meetingStore.isRaisedHand,
+            builder: (_, isRaisedHand, __) {
+              return HMSEmbeddedButton(
+                onTap: () => {
+                  context.read<MeetingStore>().toggleLocalPeerHandRaise(),
+                },
+                enabledBorderColor: HMSThemeColors.surfaceBrighter,
+                offColor: HMSThemeColors.surfaceDefault,
+                disabledBorderColor: HMSThemeColors.surfaceDefault,
+                onColor: HMSThemeColors.surfaceBrighter,
+                isActive: isRaisedHand,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset(
+                    isRaisedHand
+                        ? "packages/hms_room_kit/lib/src/assets/icons/hand_off.svg"
+                        : "packages/hms_room_kit/lib/src/assets/icons/hand_outline.svg",
+                    colorFilter: ColorFilter.mode(
+                      HMSThemeColors.onSurfaceHighEmphasis,
+                      BlendMode.srcIn,
                     ),
+                    semanticsLabel: "hand_raise_button",
                   ),
-                );
-              }),
-        const SizedBox(
-          width: 8,
-        ),
+                ),
+              );
+            },
+          ),
+        const SizedBox(width: 8),
         if (HMSRoomLayout.isParticipantsListEnabled ||
             Constant.prebuiltOptions?.userName == null)
           HMSEmbeddedButton(
@@ -60,14 +60,16 @@ class HLSHandRaiseMenu extends StatelessWidget {
                 backgroundColor: HMSThemeColors.surfaceDim,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16)),
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
                 ),
                 context: context,
                 builder: (ctx) => ChangeNotifierProvider.value(
-                    value: context.read<MeetingStore>(),
-                    child: const HLSAppUtilitiesBottomSheet()),
-              )
+                  value: context.read<MeetingStore>(),
+                  child: const HLSAppUtilitiesBottomSheet(),
+                ),
+              ),
             },
             enabledBorderColor: HMSThemeColors.surfaceDefault,
             onColor: HMSThemeColors.surfaceDefault,
@@ -75,10 +77,13 @@ class HLSHandRaiseMenu extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SvgPicture.asset(
-                  "packages/hms_room_kit/lib/src/assets/icons/menu.svg",
-                  colorFilter: ColorFilter.mode(
-                      HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
-                  semanticsLabel: "more_button"),
+                "packages/hms_room_kit/lib/src/assets/icons/menu.svg",
+                colorFilter: ColorFilter.mode(
+                  HMSThemeColors.onSurfaceHighEmphasis,
+                  BlendMode.srcIn,
+                ),
+                semanticsLabel: "more_button",
+              ),
             ),
           ),
       ],

@@ -18,8 +18,9 @@ class SummaryBox extends StatelessWidget {
     return Container(
       height: 80,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: HMSThemeColors.surfaceDefault),
+        borderRadius: BorderRadius.circular(12),
+        color: HMSThemeColors.surfaceDefault,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -37,7 +38,7 @@ class SummaryBox extends StatelessWidget {
               text: subtitle,
               textColor: HMSThemeColors.onSurfaceHighEmphasis,
               letterSpacing: 0.15,
-            )
+            ),
           ],
         ),
       ),

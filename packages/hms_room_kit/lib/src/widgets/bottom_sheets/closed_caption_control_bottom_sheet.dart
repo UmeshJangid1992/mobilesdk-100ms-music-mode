@@ -14,8 +14,10 @@ import 'package:hms_room_kit/src/widgets/common_widgets/hms_subheading_text.dart
 class ClosedCaptionControlBottomSheet extends StatefulWidget {
   final MeetingStore meetingStore;
 
-  const ClosedCaptionControlBottomSheet(
-      {super.key, required this.meetingStore});
+  const ClosedCaptionControlBottomSheet({
+    super.key,
+    required this.meetingStore,
+  });
 
   @override
   State<ClosedCaptionControlBottomSheet> createState() =>
@@ -63,66 +65,70 @@ class _ClosedCaptionControlBottomSheetState
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const HMSCrossButton(),
-                    ],
-                  )
+                    children: [const HMSCrossButton()],
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               ElevatedButton(
-                  style: ButtonStyle(
-                      shadowColor:
-                          MaterialStateProperty.all(HMSThemeColors.surfaceDim),
-                      backgroundColor: MaterialStateProperty.all(
-                          HMSThemeColors.secondaryDefault),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ))),
-                  onPressed: () {
-                    widget.meetingStore.toggleTranscriptionDisplay();
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 48,
-                    child: Center(
-                      child: HMSTitleText(
-                          text:
-                              "${widget.meetingStore.isTranscriptionDisplayed ? "Hide" : "Show"} for Me",
-                          textColor: HMSThemeColors.onSecondaryHighEmphasis),
+                style: ButtonStyle(
+                  shadowColor: WidgetStateProperty.all(
+                    HMSThemeColors.surfaceDim,
+                  ),
+                  backgroundColor: WidgetStateProperty.all(
+                    HMSThemeColors.secondaryDefault,
+                  ),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  )),
-              const SizedBox(
-                height: 16,
+                  ),
+                ),
+                onPressed: () {
+                  widget.meetingStore.toggleTranscriptionDisplay();
+                  Navigator.pop(context);
+                },
+                child: SizedBox(
+                  height: 48,
+                  child: Center(
+                    child: HMSTitleText(
+                      text:
+                          "${widget.meetingStore.isTranscriptionDisplayed ? "Hide" : "Show"} for Me",
+                      textColor: HMSThemeColors.onSecondaryHighEmphasis,
+                    ),
+                  ),
+                ),
               ),
+              const SizedBox(height: 16),
               ElevatedButton(
-                  style: ButtonStyle(
-                      shadowColor:
-                          MaterialStateProperty.all(HMSThemeColors.surfaceDim),
-                      backgroundColor: MaterialStateProperty.all(
-                          HMSThemeColors.alertErrorDefault),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ))),
-                  onPressed: () {
-                    widget.meetingStore.toggleTranscription();
-                    Navigator.pop(context);
-                  },
-                  child: SizedBox(
-                    height: 48,
-                    child: Center(
-                      child: HMSTitleText(
-                          text: "Disable For Everyone",
-                          textColor: HMSThemeColors.alertErrorBrighter),
+                style: ButtonStyle(
+                  shadowColor: WidgetStateProperty.all(
+                    HMSThemeColors.surfaceDim,
+                  ),
+                  backgroundColor: WidgetStateProperty.all(
+                    HMSThemeColors.alertErrorDefault,
+                  ),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  )),
-              const SizedBox(
-                height: 16,
+                  ),
+                ),
+                onPressed: () {
+                  widget.meetingStore.toggleTranscription();
+                  Navigator.pop(context);
+                },
+                child: SizedBox(
+                  height: 48,
+                  child: Center(
+                    child: HMSTitleText(
+                      text: "Disable For Everyone",
+                      textColor: HMSThemeColors.alertErrorBrighter,
+                    ),
+                  ),
+                ),
               ),
+              const SizedBox(height: 16),
               HMSSubheadingText(
                 text:
                     "This will disable Closed Captions for everyone in this room. You can enable it again.",

@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '100ms HLS Quickstart Guide',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: '100ms HLS Integration Guide'),
     );
   }
@@ -58,37 +56,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void navigateHLSUser() {
     Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (_) => HLSViewerPage(
-                roomCode: "luh-piuh-now",
-                /*
+      context,
+      CupertinoPageRoute(
+        builder: (_) => HLSViewerPage(
+          roomCode: "luh-piuh-now",
+          /*
                 * Paste room code for your Room from 100ms Dashboard here
                 * https://dashboard.100ms.live/
                 */
-                userName: userName)));
+          userName: userName,
+        ),
+      ),
+    );
   }
 
   void navigateBroadcaster() {
     Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (_) => MeetingPage(
-                roomCode: "trp-lzec-yoc",
-                /*
+      context,
+      CupertinoPageRoute(
+        builder: (_) => MeetingPage(
+          roomCode: "trp-lzec-yoc",
+          /*
                 * Paste room code for your Room from 100ms Dashboard here
                 * https://dashboard.100ms.live/
                 */
-                userName: userName)));
+          userName: userName,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(backgroundColor: Colors.blue, title: Text(widget.title)),
       body: Container(
         width: MediaQuery.of(context).size.width,
         color: Colors.black,
@@ -98,15 +99,16 @@ class _MyHomePageState extends State<MyHomePage> {
             //Button to join as broadcaster
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               onPressed: () async => {
                 res = await getPermissions(),
-                if (res) {navigateBroadcaster()}
+                if (res) {navigateBroadcaster()},
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -116,21 +118,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             //Button to join as HLSViewer
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blue),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                  ))),
+                  ),
+                ),
+              ),
               onPressed: () async => {
                 res = await getPermissions(),
-                if (res) {navigateHLSUser()}
+                if (res) {navigateHLSUser()},
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -150,8 +151,11 @@ class _MyHomePageState extends State<MyHomePage> {
 class MeetingPage extends StatefulWidget {
   final String roomCode;
   final String userName;
-  const MeetingPage(
-      {super.key, required this.roomCode, required this.userName});
+  const MeetingPage({
+    super.key,
+    required this.roomCode,
+    required this.userName,
+  });
 
   @override
   State<MeetingPage> createState() => _MeetingPageState();
@@ -169,16 +173,18 @@ class _MeetingPageState extends State<MeetingPage>
     initHMSSDK();
   }
 
-//To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
+  //To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
   void initHMSSDK() async {
     _hmsSDK = HMSSDK();
     await _hmsSDK.build();
     _hmsSDK.addUpdateListener(listener: this);
-    var authToken =
-        await _hmsSDK.getAuthTokenByRoomCode(roomCode: widget.roomCode);
+    var authToken = await _hmsSDK.getAuthTokenByRoomCode(
+      roomCode: widget.roomCode,
+    );
     if ((authToken is String?) && authToken != null) {
       _hmsSDK.join(
-          config: HMSConfig(authToken: authToken, userName: widget.userName));
+        config: HMSConfig(authToken: authToken, userName: widget.userName),
+      );
     } else {
       log("Error in getting auth token");
     }
@@ -243,10 +249,11 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {
     if (track.kind == HMSTrackKind.kHMSTrackKindVideo) {
       if (trackUpdate == HMSTrackUpdate.trackRemoved) {
         if (peer.isLocal) {
@@ -281,15 +288,17 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // Checkout the docs about handling onAudioDeviceChanged updates here: https://www.100ms.live/docs/flutter/v2/how--to-guides/listen-to-room-updates/update-listeners
   }
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {
     // Checkout the docs for handling the unmute request here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/track/remote-mute-unmute
   }
 
@@ -314,8 +323,9 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {
     // Checkout the docs for handling the peer removal here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/peer/remove-peer
   }
 
@@ -344,9 +354,10 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 
@@ -369,57 +380,69 @@ class _MeetingPageState extends State<MeetingPage>
         return true;
       },
       child: SafeArea(
-          child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Container(
                 color: Colors.black,
                 height: MediaQuery.of(context).size.height,
                 child: GridView(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: (_remotePeerVideoTrack == null)
-                          ? MediaQuery.of(context).size.height
-                          : MediaQuery.of(context).size.height / 2,
-                      crossAxisCount: 1),
+                    mainAxisExtent: (_remotePeerVideoTrack == null)
+                        ? MediaQuery.of(context).size.height
+                        : MediaQuery.of(context).size.height / 2,
+                    crossAxisCount: 1,
+                  ),
                   children: [
                     if (_remotePeerVideoTrack != null && _remotePeer != null)
                       peerTile(
-                          Key(_remotePeerVideoTrack?.trackId ?? "" "mainVideo"),
-                          _remotePeerVideoTrack,
-                          _remotePeer,
-                          context),
+                        Key(
+                          _remotePeerVideoTrack?.trackId ??
+                              ""
+                                  "mainVideo",
+                        ),
+                        _remotePeerVideoTrack,
+                        _remotePeer,
+                        context,
+                      ),
                     peerTile(
-                        Key(_localPeerVideoTrack?.trackId ?? "" "mainVideo"),
-                        _localPeerVideoTrack,
-                        _localPeer,
-                        context)
+                      Key(
+                        _localPeerVideoTrack?.trackId ??
+                            ""
+                                "mainVideo",
+                      ),
+                      _localPeerVideoTrack,
+                      _localPeer,
+                      context,
+                    ),
                   ],
-                )),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                color: Colors.black,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              setState(() {
-                                _isLoading = true;
-                              });
-                              if (_isHLSRunning) {
-                                _hmsSDK.stopHlsStreaming();
-                                return;
-                              }
-                              _hmsSDK.startHlsStreaming();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  color: Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                if (_isHLSRunning) {
+                                  _hmsSDK.stopHlsStreaming();
+                                  return;
+                                }
+                                _hmsSDK.startHlsStreaming();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
@@ -429,41 +452,42 @@ class _MeetingPageState extends State<MeetingPage>
                                       blurRadius: 3.0,
                                       spreadRadius: 5.0,
                                     ),
-                                  ]),
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor:
-                                    _isHLSRunning ? Colors.red : Colors.blue,
-                                child: _isLoading
-                                    ? const CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.white,
-                                      )
-                                    : const Icon(
-                                        Icons.broadcast_on_personal_outlined,
-                                        color: Colors.white),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: _isHLSRunning
+                                      ? Colors.red
+                                      : Colors.blue,
+                                  child: _isLoading
+                                      ? const CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(
+                                          Icons.broadcast_on_personal_outlined,
+                                          color: Colors.white,
+                                        ),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            _isHLSRunning ? "STOP HLS" : "START HLS",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              _leaveRoom();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
+                            const SizedBox(height: 3),
+                            Text(
+                              _isHLSRunning ? "STOP HLS" : "START HLS",
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                _leaveRoom();
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
@@ -471,45 +495,49 @@ class _MeetingPageState extends State<MeetingPage>
                                       blurRadius: 3.0,
                                       spreadRadius: 5.0,
                                     ),
-                                  ]),
-                              child: const CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.red,
-                                child:
-                                    Icon(Icons.call_end, color: Colors.white),
+                                  ],
+                                ),
+                                child: const CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.red,
+                                  child: Icon(
+                                    Icons.call_end,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          const Text(
-                            "Leave Room",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(height: 3),
+                            const Text(
+                              "Leave Room",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 
   Widget peerTile(
-      Key key, HMSVideoTrack? videoTrack, HMSPeer? peer, BuildContext context) {
+    Key key,
+    HMSVideoTrack? videoTrack,
+    HMSPeer? peer,
+    BuildContext context,
+  ) {
     return Container(
       key: key,
       color: Colors.black,
       child: (videoTrack != null && !(videoTrack.isMute))
-// To know more about HMSVideoView checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/set-up-video-conferencing/render-video/overview
-          ? HMSVideoView(
-              track: videoTrack,
-            )
+          // To know more about HMSVideoView checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/set-up-video-conferencing/render-video/overview
+          ? HMSVideoView(track: videoTrack)
           : Center(
               child: Container(
                 decoration: BoxDecoration(
@@ -526,9 +554,10 @@ class _MeetingPageState extends State<MeetingPage>
                 child: Text(
                   peer?.name.substring(0, 1) ?? "D",
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600),
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -539,8 +568,11 @@ class _MeetingPageState extends State<MeetingPage>
 class HLSViewerPage extends StatefulWidget {
   final String roomCode;
   final String userName;
-  const HLSViewerPage(
-      {super.key, required this.roomCode, required this.userName});
+  const HLSViewerPage({
+    super.key,
+    required this.roomCode,
+    required this.userName,
+  });
 
   @override
   State<HLSViewerPage> createState() => _HLSViewerPageState();
@@ -558,16 +590,18 @@ class _HLSViewerPageState extends State<HLSViewerPage>
     initHMSSDK();
   }
 
-//To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
+  //To know more about HMSSDK setup and initialization checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/install-the-sdk/hmssdk
   void initHMSSDK() async {
     _hmsSDK = HMSSDK();
     await _hmsSDK.build();
     _hmsSDK.addUpdateListener(listener: this);
-    var authToken =
-        await _hmsSDK.getAuthTokenByRoomCode(roomCode: widget.roomCode);
+    var authToken = await _hmsSDK.getAuthTokenByRoomCode(
+      roomCode: widget.roomCode,
+    );
     if ((authToken is String?) && authToken != null) {
       _hmsSDK.join(
-          config: HMSConfig(authToken: authToken, userName: widget.userName));
+        config: HMSConfig(authToken: authToken, userName: widget.userName),
+      );
     } else {
       log("Error in getting auth token");
     }
@@ -599,21 +633,24 @@ class _HLSViewerPageState extends State<HLSViewerPage>
   void onPeerUpdate({required HMSPeer peer, required HMSPeerUpdate update}) {}
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {}
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {}
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // Checkout the docs about handling onAudioDeviceChanged updates here: https://www.100ms.live/docs/flutter/v2/how--to-guides/listen-to-room-updates/update-listeners
   }
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {
     // Checkout the docs for handling the unmute request here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/track/remote-mute-unmute
   }
 
@@ -638,8 +675,9 @@ class _HLSViewerPageState extends State<HLSViewerPage>
   }
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {
     // Checkout the docs for handling the peer removal here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/peer/remove-peer
   }
 
@@ -675,9 +713,10 @@ class _HLSViewerPageState extends State<HLSViewerPage>
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 
@@ -700,60 +739,61 @@ class _HLSViewerPageState extends State<HLSViewerPage>
         return true;
       },
       child: SafeArea(
-          child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              color: Colors.black,
-              height: MediaQuery.of(context).size.height,
-              child: (_controller == null)
-                  ? const Center(
-                      child: Text(
-                        "Please wait for the stream to start",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  : FutureBuilder(
-                      future: _initializeVideoPlayerFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return Center(
-                            child: Transform.scale(
-                              scaleX: 1.1,
-                              scaleY: 1.3,
-                              child: AspectRatio(
-                                aspectRatio: _controller!.value.aspectRatio,
-                                child: VideoPlayer(_controller!),
-                              ),
-                            ),
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Container(
                 color: Colors.black,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              _leaveRoom();
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
+                height: MediaQuery.of(context).size.height,
+                child: (_controller == null)
+                    ? const Center(
+                        child: Text(
+                          "Please wait for the stream to start",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    : FutureBuilder(
+                        future: _initializeVideoPlayerFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return Center(
+                              child: Transform.scale(
+                                scaleX: 1.1,
+                                scaleY: 1.3,
+                                child: AspectRatio(
+                                  aspectRatio: _controller!.value.aspectRatio,
+                                  child: VideoPlayer(_controller!),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  color: Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                _leaveRoom();
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
@@ -761,32 +801,34 @@ class _HLSViewerPageState extends State<HLSViewerPage>
                                       blurRadius: 3.0,
                                       spreadRadius: 5.0,
                                     ),
-                                  ]),
-                              child: const CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.red,
-                                child:
-                                    Icon(Icons.call_end, color: Colors.white),
+                                  ],
+                                ),
+                                child: const CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: Colors.red,
+                                  child: Icon(
+                                    Icons.call_end,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          const Text(
-                            "Leave Room",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(height: 3),
+                            const Text(
+                              "Leave Room",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

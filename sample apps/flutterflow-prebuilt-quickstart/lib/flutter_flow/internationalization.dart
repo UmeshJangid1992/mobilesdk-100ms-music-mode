@@ -27,8 +27,8 @@ class FFLocalizations {
   String get languageCode => locale.toString();
   String? get languageShortCode =>
       _languagesWithShortCode.contains(locale.toString())
-          ? '${locale.toString()}_short'
-          : null;
+      ? '${locale.toString()}_short'
+      : null;
   int get languageIndex => languages().contains(languageCode)
       ? languages().indexOf(languageCode)
       : 0;
@@ -36,9 +36,7 @@ class FFLocalizations {
   String getText(String key) =>
       (kTranslationsMap[key] ?? {})[locale.toString()] ?? '';
 
-  String getVariableText({
-    String? enText = '',
-  }) =>
+  String getVariableText({String? enText = ''}) =>
       [enText][languageIndex] ?? '';
 
   static const Set<String> _languagesWithShortCode = {
@@ -103,5 +101,6 @@ Locale createLocale(String language) => language.contains('_')
       )
     : Locale(language);
 
-final kTranslationsMap =
-    <Map<String, Map<String, String>>>[].reduce((a, b) => a..addAll(b));
+final kTranslationsMap = <Map<String, Map<String, String>>>[].reduce(
+  (a, b) => a..addAll(b),
+);

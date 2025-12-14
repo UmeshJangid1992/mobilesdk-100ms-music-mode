@@ -5,15 +5,10 @@ import 'dart:io';
 
 ///Package imports
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 /// Project imports
 import 'package:hms_room_kit/src/common/utility_functions.dart';
 import 'package:hms_room_kit/src/hms_prebuilt_options.dart';
-import 'package:hms_room_kit/src/layout_api/hms_theme_colors.dart';
-import 'package:hms_room_kit/src/widgets/common_widgets/hms_subtitle_text.dart';
-import 'package:hms_room_kit/src/widgets/common_widgets/hms_title_text.dart';
-import 'package:hms_room_kit/src/widgets/hms_buttons/hms_back_button.dart';
 
 /// This renders the preview permissions screen
 class PreviewPermissions extends StatefulWidget {
@@ -68,7 +63,7 @@ class _PreviewPermissionsState extends State<PreviewPermissions> {
               BoxShadow(
                 color: Colors.black.withOpacity(0.1), // Subtle shadow
                 blurRadius: 8,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -78,7 +73,7 @@ class _PreviewPermissionsState extends State<PreviewPermissions> {
               CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.grey.shade300,
-                child: Icon(
+                child: const Icon(
                   Icons.lock,
                   size: 36,
                   color: Colors.black54,
@@ -103,7 +98,7 @@ class _PreviewPermissionsState extends State<PreviewPermissions> {
                 ),
                 textAlign: TextAlign.center,
               ),
-               if (Platform.isIOS) 
+              if (Platform.isIOS)
                 _buildPermissionItem(
                     "Bluetooth", "For seamless device connectivity"),
               const SizedBox(height: 8),
@@ -134,7 +129,7 @@ class _PreviewPermissionsState extends State<PreviewPermissions> {
                     ),
                   ),
                   child: _isLoading
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: Colors.white,
                         )
                       : const Text(

@@ -8,7 +8,11 @@ class PeerTrackNode extends Equatable {
   final bool isOffScreen;
 
   const PeerTrackNode(
-      this.hmsVideoTrack, this.isMute, this.peer, this.isOffScreen);
+    this.hmsVideoTrack,
+    this.isMute,
+    this.peer,
+    this.isOffScreen,
+  );
 
   @override
   List<Object?> get props => [hmsVideoTrack, isMute, peer, isOffScreen];

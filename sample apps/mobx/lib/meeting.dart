@@ -36,68 +36,79 @@ class _MeetingState extends State<Meeting> {
       child: SafeArea(
         child: Scaffold(
           body: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height -
-                  kBottomNavigationBarHeight,
-              child: Observer(
-                name: "MeetingStore",
-                builder: (context) {
-                  if (_meetingStore.isRoomEnded) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                    });
-                  }
-                  if (_meetingStore.peerTracks.isEmpty) {
-                    return const Center(
-                        child: Text('Waiting for others to join!'));
-                  }
-                  ObservableList<PeerTrackNode> peerFilteredList =
-                      _meetingStore.peerTracks;
-
-                  return videoPageView(
-                    filteredList: peerFilteredList,
+            width: MediaQuery.of(context).size.width,
+            height:
+                MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
+            child: Observer(
+              name: "MeetingStore",
+              builder: (context) {
+                if (_meetingStore.isRoomEnded) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  });
+                }
+                if (_meetingStore.peerTracks.isEmpty) {
+                  return const Center(
+                    child: Text('Waiting for others to join!'),
                   );
-                },
-              )),
+                }
+                ObservableList<PeerTrackNode> peerFilteredList =
+                    _meetingStore.peerTracks;
+
+                return videoPageView(filteredList: peerFilteredList);
+              },
+            ),
+          ),
           bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.black,
-              selectedItemColor: Colors.grey,
-              unselectedItemColor: Colors.grey,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Observer(builder: (context) {
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.black,
+            selectedItemColor: Colors.grey,
+            unselectedItemColor: Colors.grey,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Observer(
+                  builder: (context) {
                     return Icon(
-                        _meetingStore.isMicOn ? Icons.mic : Icons.mic_off);
-                  }),
-                  label: 'Mic',
+                      _meetingStore.isMicOn ? Icons.mic : Icons.mic_off,
+                    );
+                  },
                 ),
+                label: 'Mic',
+              ),
+              BottomNavigationBarItem(
+                icon: Observer(
+                  builder: (context) {
+                    return Icon(
+                      _meetingStore.isVideoOn
+                          ? Icons.videocam
+                          : Icons.videocam_off,
+                    );
+                  },
+                ),
+                label: 'Camera',
+              ),
+              //For screenshare in iOS follow the steps here : https://www.100ms.live/docs/flutter/v2/features/Screen-Share
+              if (Platform.isAndroid)
                 BottomNavigationBarItem(
-                  icon: Observer(builder: (context) {
-                    return Icon(_meetingStore.isVideoOn
-                        ? Icons.videocam
-                        : Icons.videocam_off);
-                  }),
-                  label: 'Camera',
+                  icon: Observer(
+                    builder: (context) {
+                      return Icon(
+                        Icons.screen_share,
+                        color: (_meetingStore.isScreenShareOn)
+                            ? Colors.green
+                            : Colors.grey,
+                      );
+                    },
+                  ),
+                  label: "ScreenShare",
                 ),
-                //For screenshare in iOS follow the steps here : https://www.100ms.live/docs/flutter/v2/features/Screen-Share
-                if (Platform.isAndroid)
-                  BottomNavigationBarItem(
-                      icon: Observer(builder: (context) {
-                        return Icon(
-                          Icons.screen_share,
-                          color: (_meetingStore.isScreenShareOn)
-                              ? Colors.green
-                              : Colors.grey,
-                        );
-                      }),
-                      label: "ScreenShare"),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.cancel),
-                  label: 'Leave',
-                ),
-              ],
-              onTap: (index) => _onItemTapped(index)),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.cancel),
+                label: 'Leave',
+              ),
+            ],
+            onTap: (index) => _onItemTapped(index),
+          ),
         ),
       ),
     );
@@ -131,22 +142,26 @@ class _MeetingState extends State<Meeting> {
         Widget temp = singleVideoPageView(6, i, filteredList);
         pageChild.add(temp);
       } else {
-        Widget temp =
-            singleVideoPageView(filteredList.length - i, i, filteredList);
+        Widget temp = singleVideoPageView(
+          filteredList.length - i,
+          i,
+          filteredList,
+        );
         pageChild.add(temp);
       }
     }
-    return PageView(
-      children: pageChild,
-    );
+    return PageView(children: pageChild);
   }
 
   Widget singleVideoPageView(int count, int index, List<PeerTrackNode> tracks) {
     return Align(
-        alignment: Alignment.center,
-        child: Observer(builder: (context) {
+      alignment: Alignment.center,
+      child: Observer(
+        builder: (context) {
           return videoViewGrid(count, index, tracks);
-        }));
+        },
+      ),
+    );
   }
 
   Widget videoViewGrid(int count, int start, List<PeerTrackNode> tracks) {
@@ -156,24 +171,30 @@ class _MeetingState extends State<Meeting> {
       itemCount: count,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (itemBuilder, index) {
-        return Observer(builder: (context) {
-          return Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            elevation: 5,
-            child: videoTile(
+        return Observer(
+          builder: (context) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              elevation: 5,
+              child: videoTile(
                 tracks[start + index],
                 (trackUpdate[tracks[start + index].uid] ==
-                    HMSTrackUpdate.trackMuted)),
-          );
-        });
+                    HMSTrackUpdate.trackMuted),
+              ),
+            );
+          },
+        );
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height -
-                  kBottomNavigationBarHeight -
-                  25)),
+        crossAxisCount: 2,
+        childAspectRatio:
+            MediaQuery.of(context).size.width /
+            (MediaQuery.of(context).size.height -
+                kBottomNavigationBarHeight -
+                25),
+      ),
     );
   }
 
@@ -185,20 +206,23 @@ class _MeetingState extends State<Meeting> {
               children: [
                 //To know more about HMSVideoView checkout the docs here: https://www.100ms.live/docs/flutter/v2/how--to-guides/set-up-video-conferencing/render-video/overview
                 HMSVideoView(
-                    key: Key(track.uid),
-                    track: track.track as HMSVideoTrack,
-                    matchParent: false,
-                    scaleType: track.track?.source == "REGULAR"
-                        ? ScaleType.SCALE_ASPECT_FILL
-                        : ScaleType.SCALE_ASPECT_FIT),
+                  key: Key(track.uid),
+                  track: track.track as HMSVideoTrack,
+                  matchParent: false,
+                  scaleType: track.track?.source == "REGULAR"
+                      ? ScaleType.SCALE_ASPECT_FILL
+                      : ScaleType.SCALE_ASPECT_FIT,
+                ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text(
                     track.name,
                     style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           )
@@ -209,13 +233,13 @@ class _MeetingState extends State<Meeting> {
                 Align(
                   alignment: Alignment.center,
                   child: CircleAvatar(
-                      backgroundColor: Colors.green,
-                      radius: 36,
-                      child: Text(
-                        track.name[0],
-                        style:
-                            const TextStyle(fontSize: 36, color: Colors.white),
-                      )),
+                    backgroundColor: Colors.green,
+                    radius: 36,
+                    child: Text(
+                      track.name[0],
+                      style: const TextStyle(fontSize: 36, color: Colors.white),
+                    ),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -224,11 +248,14 @@ class _MeetingState extends State<Meeting> {
                     child: Text(
                       track.name,
                       style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ],
-            ));
+            ),
+          );
   }
 }

@@ -52,13 +52,15 @@ class _WhiteboardWebViewState extends State<WhiteboardWebView> {
   @override
   Widget build(BuildContext context) {
     return Selector<MeetingStore, String?>(
-        selector: (_, meetingStore) => meetingStore.whiteboardModel?.url,
-        builder: (_, url, __) {
-          ///If the url is not null we render the webview
-          return url != null
-              ? WebViewWidget(
-                  controller: _controller..loadRequest(Uri.parse(url)))
-              : const SizedBox();
-        });
+      selector: (_, meetingStore) => meetingStore.whiteboardModel?.url,
+      builder: (_, url, __) {
+        ///If the url is not null we render the webview
+        return url != null
+            ? WebViewWidget(
+                controller: _controller..loadRequest(Uri.parse(url)),
+              )
+            : const SizedBox();
+      },
+    );
   }
 }

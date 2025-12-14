@@ -18,15 +18,17 @@ class ScreenshareTileName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Selector<PeerTrackNode, Tuple2<String, bool>>(
-        selector: (_, peerTrackNode) =>
-            Tuple2(peerTrackNode.peer.name, peerTrackNode.peer.isLocal),
-        builder: (_, data, __) {
-          return Container(
-              constraints: BoxConstraints(maxWidth: maxWidth - 80),
-              child: HMSSubheadingText(
-                text: "${data.item1.trim()}'s Screen",
-                textColor: HMSThemeColors.onSurfaceHighEmphasis,
-              ));
-        });
+      selector: (_, peerTrackNode) =>
+          Tuple2(peerTrackNode.peer.name, peerTrackNode.peer.isLocal),
+      builder: (_, data, __) {
+        return Container(
+          constraints: BoxConstraints(maxWidth: maxWidth - 80),
+          child: HMSSubheadingText(
+            text: "${data.item1.trim()}'s Screen",
+            textColor: HMSThemeColors.onSurfaceHighEmphasis,
+          ),
+        );
+      },
+    );
   }
 }

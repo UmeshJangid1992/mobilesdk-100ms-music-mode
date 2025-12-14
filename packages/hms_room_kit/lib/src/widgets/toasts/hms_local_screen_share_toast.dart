@@ -21,11 +21,12 @@ class HMSLocalScreenShareToast extends StatelessWidget {
   final Color? toastColor;
   final double? toastPosition;
 
-  const HMSLocalScreenShareToast(
-      {super.key,
-      required this.meetingStore,
-      this.toastColor,
-      this.toastPosition});
+  const HMSLocalScreenShareToast({
+    super.key,
+    required this.meetingStore,
+    this.toastColor,
+    this.toastPosition,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,9 @@ class HMSLocalScreenShareToast extends StatelessWidget {
         height: 24,
         width: 24,
         colorFilter: ColorFilter.mode(
-            HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+          HMSThemeColors.onSurfaceHighEmphasis,
+          BlendMode.srcIn,
+        ),
       ),
       subtitle: HMSSubheadingText(
         text: "You are sharing your screen",

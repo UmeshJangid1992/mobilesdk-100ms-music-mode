@@ -32,8 +32,9 @@ class PreviewBottomButtonSection extends StatelessWidget {
                   ///Peer role has the permission to publish audio
                   ///and the Peer is not null
                   if (previewStore.peer != null &&
-                      previewStore.peer!.role.publishSettings!.allowed
-                          .contains("audio"))
+                      previewStore.peer!.role.publishSettings!.allowed.contains(
+                        "audio",
+                      ))
                     HMSEmbeddedButton(
                       onTap: () async => previewStore.toggleMicMuteState(),
                       isActive: previewStore.isAudioOn,
@@ -42,22 +43,22 @@ class PreviewBottomButtonSection extends StatelessWidget {
                             ? "packages/hms_room_kit/lib/src/assets/icons/mic_state_on.svg"
                             : "packages/hms_room_kit/lib/src/assets/icons/mic_state_off.svg",
                         colorFilter: ColorFilter.mode(
-                            HMSThemeColors.onSurfaceHighEmphasis,
-                            BlendMode.srcIn),
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
+                        ),
                         fit: BoxFit.scaleDown,
                         semanticsLabel: "audio_mute_button",
                       ),
                     ),
-                  const SizedBox(
-                    width: 16,
-                  ),
+                  const SizedBox(width: 16),
 
                   ///This renders the [Video Button] only if the
                   ///Peer role has the permission to publish video
                   ///and the Peer is not null
                   if (previewStore.peer != null &&
-                      previewStore.peer!.role.publishSettings!.allowed
-                          .contains("video"))
+                      previewStore.peer!.role.publishSettings!.allowed.contains(
+                        "video",
+                      ))
                     HMSEmbeddedButton(
                       onTap: () async => (previewStore.localTracks.isEmpty)
                           ? null
@@ -68,32 +69,33 @@ class PreviewBottomButtonSection extends StatelessWidget {
                             ? "packages/hms_room_kit/lib/src/assets/icons/cam_state_on.svg"
                             : "packages/hms_room_kit/lib/src/assets/icons/cam_state_off.svg",
                         colorFilter: ColorFilter.mode(
-                            HMSThemeColors.onSurfaceHighEmphasis,
-                            BlendMode.srcIn),
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
+                        ),
                         fit: BoxFit.scaleDown,
                         semanticsLabel: "video_mute_button",
                       ),
                     ),
-                  const SizedBox(
-                    width: 16,
-                  ),
+                  const SizedBox(width: 16),
 
                   ///This renders the [Switch Camera Button] only if the
                   ///Peer role has the permission to publish video
                   ///and the Peer is not null
                   if (previewStore.peer != null &&
-                      previewStore.peer!.role.publishSettings!.allowed
-                          .contains("video"))
+                      previewStore.peer!.role.publishSettings!.allowed.contains(
+                        "video",
+                      ))
                     HMSEmbeddedButton(
                       onTap: () async => previewStore.switchCamera(),
                       isActive: true,
                       child: SvgPicture.asset(
                         "packages/hms_room_kit/lib/src/assets/icons/camera.svg",
                         colorFilter: ColorFilter.mode(
-                            previewStore.isVideoOn
-                                ? HMSThemeColors.onSurfaceHighEmphasis
-                                : HMSThemeColors.onSurfaceLowEmphasis,
-                            BlendMode.srcIn),
+                          previewStore.isVideoOn
+                              ? HMSThemeColors.onSurfaceHighEmphasis
+                              : HMSThemeColors.onSurfaceLowEmphasis,
+                          BlendMode.srcIn,
+                        ),
                         fit: BoxFit.scaleDown,
                         semanticsLabel: "switch_camera_button",
                       ),
@@ -115,47 +117,54 @@ class PreviewBottomButtonSection extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: HMSEmbeddedButton(
-                          onTap: () {
-                            previewStore.toggleNoiseCancellation();
-                          },
-                          isActive: !previewStore.isNoiseCancellationEnabled,
-                          child: SvgPicture.asset(
-                            'packages/hms_room_kit/lib/src/assets/icons/music_wave.svg',
-                            colorFilter: ColorFilter.mode(
-                                HMSThemeColors.onSurfaceHighEmphasis,
-                                BlendMode.srcIn),
-                            fit: BoxFit.scaleDown,
-                            semanticsLabel: "noise_cancellation_button",
-                          )),
+                        onTap: () {
+                          previewStore.toggleNoiseCancellation();
+                        },
+                        isActive: !previewStore.isNoiseCancellationEnabled,
+                        child: SvgPicture.asset(
+                          'packages/hms_room_kit/lib/src/assets/icons/music_wave.svg',
+                          colorFilter: ColorFilter.mode(
+                            HMSThemeColors.onSurfaceHighEmphasis,
+                            BlendMode.srcIn,
+                          ),
+                          fit: BoxFit.scaleDown,
+                          semanticsLabel: "noise_cancellation_button",
+                        ),
+                      ),
                     ),
 
                   ///This renders the [Audio Device Selection Button] only if the
                   ///Peer role has the permission to publish audio
                   ///and the Peer is not null
                   if (previewStore.peer != null &&
-                      previewStore.peer!.role.publishSettings!.allowed
-                          .contains("audio"))
+                      previewStore.peer!.role.publishSettings!.allowed.contains(
+                        "audio",
+                      ))
                     HMSEmbeddedButton(
-                        onTap: () {
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (ctx) => ChangeNotifierProvider.value(
-                                  value: previewStore,
-                                  child: const PreviewDeviceSettings()));
-                        },
-                        isActive: true,
-                        child: SvgPicture.asset(
-                          'packages/hms_room_kit/lib/src/assets/icons/${previewStore.isRoomMute ? "speaker_state_off" : Utilities.getAudioDeviceIconName(previewStore.currentAudioOutputDevice)}.svg',
-                          colorFilter: ColorFilter.mode(
-                              HMSThemeColors.onSurfaceHighEmphasis,
-                              BlendMode.srcIn),
-                          fit: BoxFit.scaleDown,
-                          semanticsLabel: "settings_button",
-                        )),
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (ctx) => ChangeNotifierProvider.value(
+                            value: previewStore,
+                            child: const PreviewDeviceSettings(),
+                          ),
+                        );
+                      },
+                      isActive: true,
+                      child: SvgPicture.asset(
+                        'packages/hms_room_kit/lib/src/assets/icons/${previewStore.isRoomMute ? "speaker_state_off" : Utilities.getAudioDeviceIconName(previewStore.currentAudioOutputDevice)}.svg',
+                        colorFilter: ColorFilter.mode(
+                          HMSThemeColors.onSurfaceHighEmphasis,
+                          BlendMode.srcIn,
+                        ),
+                        fit: BoxFit.scaleDown,
+                        semanticsLabel: "settings_button",
+                      ),
+                    ),
                 ],
-              )
+              ),
             ],
           )
         : const SizedBox();

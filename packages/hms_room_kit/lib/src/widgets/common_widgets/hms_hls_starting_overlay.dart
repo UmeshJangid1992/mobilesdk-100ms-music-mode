@@ -14,13 +14,15 @@ class HMSHLSStartingOverlay extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
             HMSThemeColors.backgroundDim.withOpacity(1),
-            HMSThemeColors.backgroundDim.withOpacity(0)
-          ])),
+            HMSThemeColors.backgroundDim.withOpacity(0),
+          ],
+        ),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -28,16 +30,14 @@ class HMSHLSStartingOverlay extends StatelessWidget {
             strokeWidth: 2,
             color: HMSThemeColors.primaryDefault,
           ),
-          const SizedBox(
-            height: 29,
-          ),
+          const SizedBox(height: 29),
           HMSSubtitleText(
             text: "Starting live stream...",
             textColor: HMSThemeColors.onSurfaceHighEmphasis,
             fontSize: 16,
             lineHeight: 24,
             letterSpacing: 0.50,
-          )
+          ),
         ],
       ),
     );

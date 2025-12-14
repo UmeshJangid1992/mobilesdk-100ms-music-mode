@@ -16,15 +16,16 @@ class PeerTrackNode extends ChangeNotifier {
   bool pinTile;
   bool isOffscreen = true;
 
-  PeerTrackNode(
-      {required this.peer,
-      this.track,
-      this.audioTrack,
-      required this.uid,
-      this.networkQuality = -1,
-      this.stats,
-      this.audioLevel = -1,
-      this.pinTile = false});
+  PeerTrackNode({
+    required this.peer,
+    this.track,
+    this.audioTrack,
+    required this.uid,
+    this.networkQuality = -1,
+    this.stats,
+    this.audioLevel = -1,
+    this.pinTile = false,
+  });
 
   @override
   String toString() {

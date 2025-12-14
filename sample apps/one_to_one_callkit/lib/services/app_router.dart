@@ -19,11 +19,15 @@ class AppRoute {
     switch (settings.name) {
       case homePage:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => const MyHomePage());
+          settings: settings,
+          builder: (_) => const MyHomePage(),
+        );
 
       case loadingPage:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => const LoadingScreen());
+          settings: settings,
+          builder: (_) => const LoadingScreen(),
+        );
 
       case previewPage:
         String? userName, imgURL;
@@ -50,17 +54,19 @@ class AppRoute {
           ///[HMSPrebuilt] is used to create a prebuilt UI for the room
           ///This is the entry point for `hms_room_kit` package
           return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => HMSPrebuilt(
-                  roomCode: roomCode,
-                  onLeave: onLeave,
-                  options: HMSPrebuiltOptions(
-                    userName: userName,
-                    userImgUrl: imgURL,
-                    isVideoCall: isVideoCall ?? true,
-                    userId: const Uuid()
-                        .v4(), // pass your custom unique user identifier here
-                  )));
+            settings: settings,
+            builder: (_) => HMSPrebuilt(
+              roomCode: roomCode,
+              onLeave: onLeave,
+              options: HMSPrebuiltOptions(
+                userName: userName,
+                userImgUrl: imgURL,
+                isVideoCall: isVideoCall ?? true,
+                userId: const Uuid()
+                    .v4(), // pass your custom unique user identifier here
+              ),
+            ),
+          );
         }
       default:
         return null;

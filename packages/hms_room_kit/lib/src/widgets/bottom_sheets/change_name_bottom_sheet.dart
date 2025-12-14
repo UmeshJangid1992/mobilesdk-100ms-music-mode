@@ -85,28 +85,23 @@ class _ChangeNameBottomSheetState extends State<ChangeNameBottomSheet> {
                         Navigator.pop(context);
                       },
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8),
                     HMSTitleText(
                       text: "Change Name",
                       textColor: HMSThemeColors.onSurfaceHighEmphasis,
                       letterSpacing: 0.15,
-                    )
+                    ),
                   ],
                 ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [HMSCrossButton()],
-                )
+                ),
               ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16, bottom: 16),
-              child: Divider(
-                color: HMSThemeColors.borderDefault,
-                height: 5,
-              ),
+              child: Divider(color: HMSThemeColors.borderDefault, height: 5),
             ),
 
             ///We show the privacy info only if the [showPrivacyInfo] is true
@@ -117,10 +112,7 @@ class _ChangeNameBottomSheetState extends State<ChangeNameBottomSheet> {
                 maxLines: 2,
                 textColor: HMSThemeColors.onSurfaceMediumEmphasis,
               ),
-            if (widget.showPrivacyInfo)
-              const SizedBox(
-                height: 16,
-              ),
+            if (widget.showPrivacyInfo) const SizedBox(height: 16),
             SizedBox(
               height: 48,
               child: TextField(
@@ -130,7 +122,8 @@ class _ChangeNameBottomSheetState extends State<ChangeNameBottomSheet> {
                 textInputAction: TextInputAction.done,
                 textCapitalization: TextCapitalization.words,
                 style: HMSTextStyle.setTextStyle(
-                    color: HMSThemeColors.onSurfaceHighEmphasis),
+                  color: HMSThemeColors.onSurfaceHighEmphasis,
+                ),
                 controller: nameController,
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
@@ -140,55 +133,63 @@ class _ChangeNameBottomSheetState extends State<ChangeNameBottomSheet> {
                   _changeName();
                 },
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    fillColor: HMSThemeColors.surfaceDefault,
-                    filled: true,
-                    hintText: nameController.text.isEmpty
-                        ? 'Enter Name...'
-                        : nameController.text,
-                    hintStyle: HMSTextStyle.setTextStyle(
-                        color: HMSThemeColors.onSurfaceLowEmphasis,
-                        height: 1.5,
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                        fontWeight: FontWeight.w400),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 2, color: HMSThemeColors.primaryDefault),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8))),
-                    enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)))),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  fillColor: HMSThemeColors.surfaceDefault,
+                  filled: true,
+                  hintText: nameController.text.isEmpty
+                      ? 'Enter Name...'
+                      : nameController.text,
+                  hintStyle: HMSTextStyle.setTextStyle(
+                    color: HMSThemeColors.onSurfaceLowEmphasis,
+                    height: 1.5,
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: HMSThemeColors.primaryDefault,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: HMSListenableButton(
-                  width: MediaQuery.of(context).size.width - 48,
-                  textController: nameController,
-                  onPressed: () => {_changeName()},
-                  childWidget: Container(
-                    height: 48,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: Center(
-                      child: HMSTitleText(
-                        text: "Change",
-                        textColor: (nameController.text.trim().isEmpty ||
-                                context.read<MeetingStore>().localPeer?.name ==
-                                    nameController.text.trim())
-                            ? HMSThemeColors.onPrimaryLowEmphasis
-                            : HMSThemeColors.onPrimaryHighEmphasis,
-                      ),
+                width: MediaQuery.of(context).size.width - 48,
+                textController: nameController,
+                onPressed: () => {_changeName()},
+                childWidget: Container(
+                  height: 48,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  child: Center(
+                    child: HMSTitleText(
+                      text: "Change",
+                      textColor: (nameController.text.trim().isEmpty ||
+                              context.read<MeetingStore>().localPeer?.name ==
+                                  nameController.text.trim())
+                          ? HMSThemeColors.onPrimaryLowEmphasis
+                          : HMSThemeColors.onPrimaryHighEmphasis,
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

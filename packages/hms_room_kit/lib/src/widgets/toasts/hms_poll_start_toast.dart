@@ -20,9 +20,11 @@ class HMSPollStartToast extends StatelessWidget {
   final HMSPoll poll;
   final MeetingStore meetingStore;
 
-  const HMSPollStartToast(
-      {Key? key, required this.poll, required this.meetingStore})
-      : super(key: key);
+  const HMSPollStartToast({
+    Key? key,
+    required this.poll,
+    required this.meetingStore,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,9 @@ class HMSPollStartToast extends StatelessWidget {
         height: 24,
         width: 24,
         colorFilter: ColorFilter.mode(
-            HMSThemeColors.onSurfaceHighEmphasis, BlendMode.srcIn),
+          HMSThemeColors.onSurfaceHighEmphasis,
+          BlendMode.srcIn,
+        ),
       ),
       subtitle: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,
@@ -51,32 +55,39 @@ class HMSPollStartToast extends StatelessWidget {
         action: () {
           var pollStore = context.read<HMSPollStore>();
           showModalBottomSheet(
-              isScrollControlled: true,
-              backgroundColor: HMSThemeColors.surfaceDim,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
+            isScrollControlled: true,
+            backgroundColor: HMSThemeColors.surfaceDim,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
               ),
-              context: context,
-              builder: (ctx) => ChangeNotifierProvider.value(
-                  value: meetingStore,
-                  child: ChangeNotifierProvider.value(
-                    value: pollStore,
-                    child: PollVoteBottomSheet(
-                      isPoll: pollStore.poll.category == HMSPollCategory.poll,
-                    ),
-                  )));
-          meetingStore.removeToast(HMSToastsType.pollStartedToast,
-              data: poll.pollId);
+            ),
+            context: context,
+            builder: (ctx) => ChangeNotifierProvider.value(
+              value: meetingStore,
+              child: ChangeNotifierProvider.value(
+                value: pollStore,
+                child: PollVoteBottomSheet(
+                  isPoll: pollStore.poll.category == HMSPollCategory.poll,
+                ),
+              ),
+            ),
+          );
+          meetingStore.removeToast(
+            HMSToastsType.pollStartedToast,
+            data: poll.pollId,
+          );
         },
         height: 36,
         buttonColor: HMSThemeColors.secondaryDefault,
         textColor: HMSThemeColors.onSecondaryHighEmphasis,
       ),
       cancelToastButton: GestureDetector(
-        onTap: () => meetingStore.removeToast(HMSToastsType.pollStartedToast,
-            data: poll.pollId),
+        onTap: () => meetingStore.removeToast(
+          HMSToastsType.pollStartedToast,
+          data: poll.pollId,
+        ),
         child: Icon(
           Icons.close,
           color: HMSThemeColors.onSurfaceHighEmphasis,

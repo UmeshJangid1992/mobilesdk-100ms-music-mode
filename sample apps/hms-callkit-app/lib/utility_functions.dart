@@ -94,8 +94,10 @@ void checkAndNavigationCallingPage(String message) async {
       callData[key] = value;
     });
     if (res == true && currentCall != null && currentCall["extra"] != null) {
-      NavigationService.instance.pushNamedIfNotCurrent(AppRoute.callingPage,
-          args: currentCall["extra"]["authToken"]);
+      NavigationService.instance.pushNamedIfNotCurrent(
+        AppRoute.callingPage,
+        args: currentCall["extra"]["authToken"],
+      );
     }
   }
 }
@@ -225,15 +227,17 @@ Future<void> getDevicePushTokenVoIP() async {
 }
 
 //This method sends the notification to the receiver's device
-Future<void> call(
-    {required String receiverFCMToken, required String authToken}) async {
+Future<void> call({
+  required String receiverFCMToken,
+  required String authToken,
+}) async {
   var func = FirebaseFunctions.instance.httpsCallable("notifySubscribers");
   startOutGoingCall();
   await func.call(<String, dynamic>{
     "targetDevices": [receiverFCMToken], //Enter the device fcmToken here
     "messageTitle": "Incoming Call",
     "messageBody": "Someone is calling you...",
-    "callkitParams": json.encode(getCallInfo(authToken).toJson())
+    "callkitParams": json.encode(getCallInfo(authToken).toJson()),
   });
 }
 

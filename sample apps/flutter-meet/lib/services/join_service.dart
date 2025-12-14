@@ -5,17 +5,15 @@ import 'package:hmssdk_flutter/hmssdk_flutter.dart';
 
 class JoinService {
   static Future<bool> join(HMSSDK hmssdk) async {
-    String? roomCode =
-        getCode("https://fluttersampleapp.app.100ms.live/meeting/zhr-seow-tuj");
+    String? roomCode = getCode(
+      "https://fluttersampleapp.app.100ms.live/meeting/zhr-seow-tuj",
+    );
 
     if (roomCode == null) return false;
     dynamic authToken = await hmssdk.getAuthTokenByRoomCode(roomCode: roomCode);
 
     if (authToken is String) {
-      HMSConfig roomConfig = HMSConfig(
-        authToken: authToken,
-        userName: "user",
-      );
+      HMSConfig roomConfig = HMSConfig(authToken: authToken, userName: "user");
 
       hmssdk.join(config: roomConfig);
     } else if (authToken is HMSException) {

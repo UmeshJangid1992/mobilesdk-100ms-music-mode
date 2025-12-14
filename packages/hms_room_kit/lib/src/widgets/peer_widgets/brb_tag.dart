@@ -15,34 +15,36 @@ class BRBTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Selector<PeerTrackNode, String?>(
-        builder: (_, metadata, __) {
-          return metadata?.contains("\"isBRBOn\":true") ?? false
-              ? Positioned(
-                  top: 5.0,
-                  left: 5,
-                  child: Semantics(
-                    label:
-                        "fl_${context.read<PeerTrackNode>().peer.name}_brb_tag",
-                    child: Container(
-                      height: 32,
-                      width: 32,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: HMSThemeColors.secondaryDim),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: SvgPicture.asset(
-                          "packages/hms_room_kit/lib/src/assets/icons/brb.svg",
-                          width: 19.25,
-                          height: 11,
-                          semanticsLabel: "brb_label",
-                        ),
+      builder: (_, metadata, __) {
+        return metadata?.contains("\"isBRBOn\":true") ?? false
+            ? Positioned(
+                top: 5.0,
+                left: 5,
+                child: Semantics(
+                  label:
+                      "fl_${context.read<PeerTrackNode>().peer.name}_brb_tag",
+                  child: Container(
+                    height: 32,
+                    width: 32,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: HMSThemeColors.secondaryDim,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SvgPicture.asset(
+                        "packages/hms_room_kit/lib/src/assets/icons/brb.svg",
+                        width: 19.25,
+                        height: 11,
+                        semanticsLabel: "brb_label",
                       ),
                     ),
                   ),
-                )
-              : Container();
-        },
-        selector: (_, peerTrackNode) => peerTrackNode.peer.metadata);
+                ),
+              )
+            : Container();
+      },
+      selector: (_, peerTrackNode) => peerTrackNode.peer.metadata,
+    );
   }
 }

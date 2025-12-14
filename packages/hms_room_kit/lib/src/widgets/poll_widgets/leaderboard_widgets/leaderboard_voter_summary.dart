@@ -15,16 +15,17 @@ class LeaderboardVoterSummary extends StatelessWidget {
   final bool showPoints;
   final int? questionsAttempted;
 
-  const LeaderboardVoterSummary(
-      {super.key,
-      this.rank,
-      this.points,
-      this.correctAnswers,
-      this.avgTimeInMilliseconds,
-      this.totalQuestions,
-      this.showYourRank = true,
-      this.showPoints = true,
-      this.questionsAttempted});
+  const LeaderboardVoterSummary({
+    super.key,
+    this.rank,
+    this.points,
+    this.correctAnswers,
+    this.avgTimeInMilliseconds,
+    this.totalQuestions,
+    this.showYourRank = true,
+    this.showPoints = true,
+    this.questionsAttempted,
+  });
 
   ///[_setAnsweredProperty] returns the text to rendered based on the questionsAttempted and totalQuestions values
   String _setAnsweredProperty() {
@@ -45,51 +46,51 @@ class LeaderboardVoterSummary extends StatelessWidget {
             Expanded(
               child: showYourRank
                   ? SummaryBox(
-                      title: "YOUR RANK", subtitle: rank == null ? "-" : rank!)
+                      title: "YOUR RANK",
+                      subtitle: rank == null ? "-" : rank!,
+                    )
                   : SummaryBox(
-                      title: "ANSWERED", subtitle: _setAnsweredProperty()),
+                      title: "ANSWERED",
+                      subtitle: _setAnsweredProperty(),
+                    ),
             ),
 
             ///This is only rendered is [showPoints] is true
-            if (showPoints)
-              const SizedBox(
-                width: 10,
-              ),
+            if (showPoints) const SizedBox(width: 10),
             if (showPoints)
               Expanded(
                 child: SummaryBox(
-                    title: "POINTS",
-                    subtitle: points == null ? "-" : points.toString()),
-              )
+                  title: "POINTS",
+                  subtitle: points == null ? "-" : points.toString(),
+                ),
+              ),
           ],
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             if (avgTimeInMilliseconds != null && avgTimeInMilliseconds! > 0)
               Expanded(
                 child: SummaryBox(
-                    title: "TIME TAKEN",
-                    subtitle: avgTimeInMilliseconds == null
-                        ? "-"
-                        : "${avgTimeInMilliseconds! / 1000} secs"),
+                  title: "TIME TAKEN",
+                  subtitle: avgTimeInMilliseconds == null
+                      ? "-"
+                      : "${avgTimeInMilliseconds! / 1000} secs",
+                ),
               ),
 
             ///This is only rendered if time taken to answer the question is relevant
             if (avgTimeInMilliseconds != null && avgTimeInMilliseconds! > 0)
-              const SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
             Expanded(
               child: SummaryBox(
-                  title: "CORRECT ANSWERS",
-                  subtitle: (correctAnswers == null || totalQuestions == null)
-                      ? "-"
-                      : "$correctAnswers/$totalQuestions"),
-            )
+                title: "CORRECT ANSWERS",
+                subtitle: (correctAnswers == null || totalQuestions == null)
+                    ? "-"
+                    : "$correctAnswers/$totalQuestions",
+              ),
+            ),
           ],
         ),
       ],

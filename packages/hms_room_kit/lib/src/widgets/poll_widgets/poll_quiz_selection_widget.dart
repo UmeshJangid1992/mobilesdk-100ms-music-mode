@@ -11,8 +11,10 @@ import 'package:hms_room_kit/src/widgets/poll_widgets/poll_quiz_selection_button
 class PollQuizSelectionWidget extends StatefulWidget {
   final Function updateSelectionCallback;
 
-  const PollQuizSelectionWidget(
-      {super.key, required this.updateSelectionCallback});
+  const PollQuizSelectionWidget({
+    super.key,
+    required this.updateSelectionCallback,
+  });
 
   @override
   State<PollQuizSelectionWidget> createState() =>
@@ -36,11 +38,10 @@ class _PollQuizSelectionWidgetState extends State<PollQuizSelectionWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         HMSSubtitleText(
-            text: "Select the type you want to continue with",
-            textColor: HMSThemeColors.onSurfaceMediumEmphasis),
-        const SizedBox(
-          height: 8,
+          text: "Select the type you want to continue with",
+          textColor: HMSThemeColors.onSurfaceMediumEmphasis,
         ),
+        const SizedBox(height: 8),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -52,9 +53,7 @@ class _PollQuizSelectionWidgetState extends State<PollQuizSelectionWidget> {
                 text: "Poll",
               ),
             ),
-            const SizedBox(
-              width: 16,
-            ),
+            const SizedBox(width: 16),
             GestureDetector(
               onTap: () => _updateSelection(1),
               child: PollQuizSelectionButton(

@@ -37,10 +37,11 @@ class MeetingToasts extends StatelessWidget {
           bottom: (showControls ? 28.0 : 10.0) + 8 * index,
           left: 5,
           child: ToastWidget(
-              toast: toast,
-              index: index,
-              toastsCount: toastsCount,
-              meetingStore: meetingStore),
+            toast: toast,
+            index: index,
+            toastsCount: toastsCount,
+            meetingStore: meetingStore,
+          ),
         );
       },
     );

@@ -10,5 +10,5 @@ enum HMSToastsType {
   errorToast,
   pollStartedToast,
   streamingErrorToast,
-  transcriptionToast
+  transcriptionToast,
 }

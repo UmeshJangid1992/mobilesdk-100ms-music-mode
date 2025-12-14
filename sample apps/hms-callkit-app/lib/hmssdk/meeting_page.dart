@@ -13,11 +13,7 @@ import 'package:hmssdk_flutter/hmssdk_flutter.dart';
 class MeetingPage extends StatefulWidget {
   final String? authToken;
   final String userName;
-  const MeetingPage({
-    super.key,
-    this.authToken,
-    required this.userName,
-  });
+  const MeetingPage({super.key, this.authToken, required this.userName});
 
   @override
   State<MeetingPage> createState() => _MeetingPageState();
@@ -52,8 +48,11 @@ class _MeetingPageState extends State<MeetingPage>
         log("Join called...");
         isJoinSuccessful = true;
         HMSSDKInteractor.hmsSDK?.join(
-            config: HMSConfig(
-                authToken: widget.authToken!, userName: widget.userName));
+          config: HMSConfig(
+            authToken: widget.authToken!,
+            userName: widget.userName,
+          ),
+        );
       } else {
         log("authToken is null");
         NavigationService.instance.pushNamedIfNotCurrent(AppRoute.homePage);
@@ -121,10 +120,11 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {
     if (track.kind == HMSTrackKind.kHMSTrackKindVideo) {
       if (trackUpdate == HMSTrackUpdate.trackRemoved) {
         if (peer.isLocal) {
@@ -159,13 +159,15 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {}
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {}
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {}
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {}
 
   @override
   void onHMSError({required HMSException error}) {}
@@ -180,8 +182,9 @@ class _MeetingPageState extends State<MeetingPage>
   void onReconnecting() {}
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {}
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {}
 
   @override
   void onRoleChangeRequest({required HMSRoleChangeRequest roleChangeRequest}) {}
@@ -200,130 +203,151 @@ class _MeetingPageState extends State<MeetingPage>
         return true;
       },
       child: SafeArea(
-          child: Scaffold(
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              (remotePeerVideoTrack != null && remotePeer != null)
-                  ? peerTile(
-                      Key(remotePeerVideoTrack?.trackId ?? "" "mainVideo"),
-                      remotePeerVideoTrack,
-                      remotePeer,
-                      context,
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width)
-                  : Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      height: MediaQuery.of(context).size.height,
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Waiting for other peer to join",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          SizedBox(height: 10),
-                          CircularProgressIndicator(
-                            strokeWidth: 2,
-                          )
-                        ],
-                      )),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          HMSSDKInteractor.hmsSDK
-                              ?.leave(hmsActionResultListener: this);
-                        },
-                        child: Container(
-                          decoration:
-                              BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                            BoxShadow(
-                              color: Colors.red.withAlpha(60),
-                              blurRadius: 3.0,
-                              spreadRadius: 5.0,
+        child: Scaffold(
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              children: [
+                (remotePeerVideoTrack != null && remotePeer != null)
+                    ? peerTile(
+                        Key(
+                          remotePeerVideoTrack?.trackId ??
+                              ""
+                                  "mainVideo",
+                        ),
+                        remotePeerVideoTrack,
+                        remotePeer,
+                        context,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.black,
+                        height: MediaQuery.of(context).size.height,
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Waiting for other peer to join",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
                             ),
-                          ]),
-                          child: const CircleAvatar(
+                            SizedBox(height: 10),
+                            CircularProgressIndicator(strokeWidth: 2),
+                          ],
+                        ),
+                      ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            HMSSDKInteractor.hmsSDK?.leave(
+                              hmsActionResultListener: this,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.red.withAlpha(60),
+                                  blurRadius: 3.0,
+                                  spreadRadius: 5.0,
+                                ),
+                              ],
+                            ),
+                            child: const CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.red,
+                              child: Icon(Icons.call_end, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => {
+                            HMSSDKInteractor.hmsSDK?.toggleCameraMuteState(),
+                            if (mounted)
+                              {
+                                setState(() {
+                                  isLocalVideoOn = !isLocalVideoOn;
+                                }),
+                              },
+                          },
+                          child: CircleAvatar(
                             radius: 25,
-                            backgroundColor: Colors.red,
-                            child: Icon(Icons.call_end, color: Colors.white),
+                            backgroundColor: Colors.grey.withOpacity(0.3),
+                            child: Icon(
+                              isLocalVideoOn
+                                  ? Icons.videocam
+                                  : Icons.videocam_off_rounded,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () => {
-                          HMSSDKInteractor.hmsSDK?.toggleCameraMuteState(),
-                          if (mounted)
-                            {
-                              setState(() {
-                                isLocalVideoOn = !isLocalVideoOn;
-                              })
-                            }
-                        },
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.grey.withOpacity(0.3),
-                          child: Icon(
-                            isLocalVideoOn
-                                ? Icons.videocam
-                                : Icons.videocam_off_rounded,
-                            color: Colors.white,
+                        GestureDetector(
+                          onTap: () => {
+                            HMSSDKInteractor.hmsSDK?.toggleMicMuteState(),
+                            if (mounted)
+                              {
+                                setState(() {
+                                  isLocalAudioOn = !isLocalAudioOn;
+                                }),
+                              },
+                          },
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Colors.grey.withOpacity(0.3),
+                            child: Icon(
+                              isLocalAudioOn ? Icons.mic : Icons.mic_off,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () => {
-                          HMSSDKInteractor.hmsSDK?.toggleMicMuteState(),
-                          if (mounted)
-                            {
-                              setState(() {
-                                isLocalAudioOn = !isLocalAudioOn;
-                              })
-                            }
-                        },
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.grey.withOpacity(0.3),
-                          child: Icon(
-                            isLocalAudioOn ? Icons.mic : Icons.mic_off,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              DraggableWidget(
-                topMargin: 10,
-                bottomMargin: 130,
-                horizontalSpace: 10,
-                child: peerTile(
-                    Key(localPeerVideoTrack?.trackId ?? "" "mainVideo"),
+                DraggableWidget(
+                  topMargin: 10,
+                  bottomMargin: 130,
+                  horizontalSpace: 10,
+                  child: peerTile(
+                    Key(
+                      localPeerVideoTrack?.trackId ??
+                          ""
+                              "mainVideo",
+                    ),
                     localPeerVideoTrack,
                     localPeer,
-                    context),
-              )
-            ],
+                    context,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 
   Widget peerTile(
-      Key key, HMSVideoTrack? videoTrack, HMSPeer? peer, BuildContext context,
-      {double height = 150, double width = 100}) {
+    Key key,
+    HMSVideoTrack? videoTrack,
+    HMSPeer? peer,
+    BuildContext context, {
+    double height = 150,
+    double width = 100,
+  }) {
     return Container(
       height: height,
       width: width,
@@ -350,9 +374,10 @@ class _MeetingPageState extends State<MeetingPage>
                 child: Text(
                   peer?.name.substring(0, 1) ?? "D",
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600),
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -360,19 +385,21 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onException(
-      {required HMSActionResultListenerMethod methodType,
-      Map<String, dynamic>? arguments,
-      required HMSException hmsException}) {
+  void onException({
+    required HMSActionResultListenerMethod methodType,
+    Map<String, dynamic>? arguments,
+    required HMSException hmsException,
+  }) {
     if (methodType == HMSActionResultListenerMethod.leave) {
       log("Error occured in leave");
     }
   }
 
   @override
-  void onSuccess(
-      {required HMSActionResultListenerMethod methodType,
-      Map<String, dynamic>? arguments}) {
+  void onSuccess({
+    required HMSActionResultListenerMethod methodType,
+    Map<String, dynamic>? arguments,
+  }) {
     if (methodType == HMSActionResultListenerMethod.leave) {
       isJoinSuccessful = false;
       endAllCalls();
@@ -386,9 +413,10 @@ class _MeetingPageState extends State<MeetingPage>
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 }

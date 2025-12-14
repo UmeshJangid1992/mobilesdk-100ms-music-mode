@@ -18,8 +18,8 @@ class Utilities {
   }
 
   static Color getBackgroundColour(String name) {
-    return Utilities
-        .colors[name.toUpperCase().codeUnitAt(0) % Utilities.colors.length];
+    return Utilities.colors[name.toUpperCase().codeUnitAt(0) %
+        Utilities.colors.length];
   }
 
   static List<Color> colors = [
@@ -27,7 +27,7 @@ class Utilities {
     const Color(0xFF00AE63),
     const Color(0xFF6554C0),
     const Color(0xFFF69133),
-    const Color(0xFF8FF5FB)
+    const Color(0xFF8FF5FB),
   ];
 
   static double getRatio(Size size, BuildContext context) {

@@ -12,9 +12,7 @@ import 'package:hms_room_kit/src/meeting/meeting_store.dart';
 
 ///[MoreOption] is a widget that is used to render the more option button on peer tile
 class MoreOption extends StatefulWidget {
-  const MoreOption({
-    Key? key,
-  }) : super(key: key);
+  const MoreOption({Key? key}) : super(key: key);
 
   @override
   State<MoreOption> createState() => _MoreOptionState();
@@ -46,16 +44,18 @@ class _MoreOptionState extends State<MoreOption> {
                     backgroundColor: HMSThemeColors.surfaceDim,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          topRight: Radius.circular(16)),
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      ),
                     ),
                     context: context,
                     builder: (ctx) => ChangeNotifierProvider.value(
-                        value: meetingStore,
-                        child: RemotePeerBottomSheet(
-                          meetingStore: meetingStore,
-                          peerTrackNode: peerTrackNode,
-                        )),
+                      value: meetingStore,
+                      child: RemotePeerBottomSheet(
+                        meetingStore: meetingStore,
+                        peerTrackNode: peerTrackNode,
+                      ),
+                    ),
                   );
                 }
               },

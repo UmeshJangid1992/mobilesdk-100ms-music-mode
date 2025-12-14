@@ -21,10 +21,11 @@ class PreviewParticipantsText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HMSTitleText(
-        text: "$peerCount ${peerCount > 1 ? "others" : "other"} in session",
-        lineHeight: 20,
-        fontSize: 14,
-        letterSpacing: 0.25,
-        textColor: HMSThemeColors.onSurfaceHighEmphasis);
+      text: "$peerCount ${peerCount > 1 ? "others" : "other"} in session",
+      lineHeight: 20,
+      fontSize: 14,
+      letterSpacing: 0.25,
+      textColor: HMSThemeColors.onSurfaceHighEmphasis,
+    );
   }
 }

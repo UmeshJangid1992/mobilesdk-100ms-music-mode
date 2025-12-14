@@ -23,10 +23,7 @@ class RoomController extends GetxController
 
     if (token == null) return;
 
-    HMSConfig config = HMSConfig(
-      authToken: token,
-      userName: name,
-    );
+    HMSConfig config = HMSConfig(authToken: token, userName: name);
 
     hmsSdk.join(config: config);
 
@@ -41,24 +38,27 @@ class RoomController extends GetxController
       if (peer.isLocal) {
         isLocalAudioOn.value = !(peer.audioTrack?.isMute ?? true);
         isLocalVideoOn.value = !(peer.videoTrack?.isMute ?? true);
-        peerTrackList.add(PeerTrackNode(
-                peer.peerId +
-                    ((peer.videoTrack?.source == "REGULAR")
-                        ? "mainVideo"
-                        : (peer.videoTrack?.trackId ?? "")),
-                peer.videoTrack,
-                peer.videoTrack?.isMute ?? false,
-                peer)
-            .obs);
+        peerTrackList.add(
+          PeerTrackNode(
+            peer.peerId +
+                ((peer.videoTrack?.source == "REGULAR")
+                    ? "mainVideo"
+                    : (peer.videoTrack?.trackId ?? "")),
+            peer.videoTrack,
+            peer.videoTrack?.isMute ?? false,
+            peer,
+          ).obs,
+        );
       }
     });
   }
 
   @override
-  void onTrackUpdate(
-      {required HMSTrack track,
-      required HMSTrackUpdate trackUpdate,
-      required HMSPeer peer}) {
+  void onTrackUpdate({
+    required HMSTrack track,
+    required HMSTrackUpdate trackUpdate,
+    required HMSPeer peer,
+  }) {
     if (peer.isLocal) {
       if (track.kind == HMSTrackKind.kHMSTrackKindAudio) {
         isLocalAudioOn.value = !track.isMute;
@@ -72,31 +72,40 @@ class RoomController extends GetxController
 
     if (track.kind == HMSTrackKind.kHMSTrackKindVideo) {
       if (trackUpdate == HMSTrackUpdate.trackRemoved) {
-        peerTrackList.removeWhere((element) =>
-            peer.peerId +
-                ((track.source == "REGULAR") ? "mainVideo" : track.trackId) ==
-            element.value.uid);
+        peerTrackList.removeWhere(
+          (element) =>
+              peer.peerId +
+                  ((track.source == "REGULAR") ? "mainVideo" : track.trackId) ==
+              element.value.uid,
+        );
       } else {
         bool isRegular = (track.source == "REGULAR");
-        int index = peerTrackList.indexWhere((element) =>
-            element.value.peer.peerId +
-                (isRegular
-                    ? "mainVideo"
-                    : (element.value.hmsVideoTrack?.trackId ?? "empty")) ==
-            peer.peerId + (isRegular ? "mainVideo" : track.trackId));
+        int index = peerTrackList.indexWhere(
+          (element) =>
+              element.value.peer.peerId +
+                  (isRegular
+                      ? "mainVideo"
+                      : (element.value.hmsVideoTrack?.trackId ?? "empty")) ==
+              peer.peerId + (isRegular ? "mainVideo" : track.trackId),
+        );
         if (index != -1) {
-          peerTrackList[index](PeerTrackNode(
+          peerTrackList[index](
+            PeerTrackNode(
               peer.peerId + (isRegular ? "mainVideo" : track.trackId),
               track as HMSVideoTrack,
               track.isMute,
-              peer));
+              peer,
+            ),
+          );
         } else {
-          peerTrackList.add(PeerTrackNode(
-                  peer.peerId + (isRegular ? "mainVideo" : track.trackId),
-                  track as HMSVideoTrack,
-                  track.isMute,
-                  peer)
-              .obs);
+          peerTrackList.add(
+            PeerTrackNode(
+              peer.peerId + (isRegular ? "mainVideo" : track.trackId),
+              track as HMSVideoTrack,
+              track.isMute,
+              peer,
+            ).obs,
+          );
         }
       }
     }
@@ -131,10 +140,11 @@ class RoomController extends GetxController
   }
 
   @override
-  void onException(
-      {HMSActionResultListenerMethod? methodType,
-      Map<String, dynamic>? arguments,
-      required HMSException hmsException}) {
+  void onException({
+    HMSActionResultListenerMethod? methodType,
+    Map<String, dynamic>? arguments,
+    required HMSException hmsException,
+  }) {
     switch (methodType) {
       case HMSActionResultListenerMethod.leave:
         Get.snackbar("Leave Error", hmsException.message ?? "");
@@ -239,9 +249,10 @@ class RoomController extends GetxController
   }
 
   @override
-  void onSuccess(
-      {HMSActionResultListenerMethod? methodType,
-      Map<String, dynamic>? arguments}) {
+  void onSuccess({
+    HMSActionResultListenerMethod? methodType,
+    Map<String, dynamic>? arguments,
+  }) {
     switch (methodType) {
       case HMSActionResultListenerMethod.leave:
         hmsSdk.removeUpdateListener(listener: this);
@@ -346,9 +357,10 @@ class RoomController extends GetxController
   }
 
   @override
-  void onAudioDeviceChanged(
-      {HMSAudioDevice? currentAudioDevice,
-      List<HMSAudioDevice>? availableAudioDevice}) {
+  void onAudioDeviceChanged({
+    HMSAudioDevice? currentAudioDevice,
+    List<HMSAudioDevice>? availableAudioDevice,
+  }) {
     // Checkout the docs about handling onAudioDeviceChanged updates here: https://www.100ms.live/docs/flutter/v2/how--to-guides/listen-to-room-updates/update-listeners
   }
 
@@ -373,8 +385,9 @@ class RoomController extends GetxController
   }
 
   @override
-  void onRemovedFromRoom(
-      {required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer}) {
+  void onRemovedFromRoom({
+    required HMSPeerRemovedFromPeer hmsPeerRemovedFromPeer,
+  }) {
     // Checkout the docs for handling the peer removal here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/peer/remove-peer
   }
 
@@ -389,8 +402,9 @@ class RoomController extends GetxController
   }
 
   @override
-  void onChangeTrackStateRequest(
-      {required HMSTrackChangeRequest hmsTrackChangeRequest}) {
+  void onChangeTrackStateRequest({
+    required HMSTrackChangeRequest hmsTrackChangeRequest,
+  }) {
     // Checkout the docs for handling the unmute request here: https://www.100ms.live/docs/flutter/v2/how--to-guides/interact-with-room/track/remote-mute-unmute
   }
 
@@ -400,9 +414,10 @@ class RoomController extends GetxController
   }
 
   @override
-  void onPeerListUpdate(
-      {required List<HMSPeer> addedPeers,
-      required List<HMSPeer> removedPeers}) {
+  void onPeerListUpdate({
+    required List<HMSPeer> addedPeers,
+    required List<HMSPeer> removedPeers,
+  }) {
     // TODO: implement onPeerListUpdate
   }
 

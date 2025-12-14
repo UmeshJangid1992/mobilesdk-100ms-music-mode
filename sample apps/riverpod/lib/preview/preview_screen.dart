@@ -10,12 +10,12 @@ class PreviewScreen extends ConsumerStatefulWidget {
   final String name;
   final PreviewStore previewStore;
 
-  const PreviewScreen(
-      {Key? key,
-      required this.name,
-      required this.roomLink,
-      required this.previewStore})
-      : super(key: key);
+  const PreviewScreen({
+    Key? key,
+    required this.name,
+    required this.roomLink,
+    required this.previewStore,
+  }) : super(key: key);
 
   @override
   _PreviewScreenState createState() => _PreviewScreenState();
@@ -34,8 +34,10 @@ class _PreviewScreenState extends ConsumerState<PreviewScreen> {
   }
 
   Future<void> initPreview() async {
-    await widget.previewStore
-        .startPreview(user: widget.name, roomId: widget.roomLink);
+    await widget.previewStore.startPreview(
+      user: widget.name,
+      roomId: widget.roomLink,
+    );
   }
 
   @override
@@ -57,9 +59,8 @@ class _PreviewScreenState extends ConsumerState<PreviewScreen> {
             (_previewStore.localTracks.isEmpty)
                 ? const Align(
                     alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1,
-                    ))
+                    child: CircularProgressIndicator(strokeWidth: 1),
+                  )
                 : SizedBox(
                     height: itemHeight,
                     width: itemWidth,
@@ -73,19 +74,22 @@ class _PreviewScreenState extends ConsumerState<PreviewScreen> {
                             height: itemHeight,
                             width: itemWidth,
                             child: Center(
-                                child: CircleAvatar(
-                                    backgroundColor:
-                                        Utilities.getBackgroundColour(
-                                            _previewStore.peer!.name),
-                                    radius: 36,
-                                    child: Text(
-                                      Utilities.getAvatarTitle(
-                                          _previewStore.peer!.name),
-                                      style: const TextStyle(
-                                        fontSize: 36,
-                                        color: Colors.white,
-                                      ),
-                                    ))),
+                              child: CircleAvatar(
+                                backgroundColor: Utilities.getBackgroundColour(
+                                  _previewStore.peer!.name,
+                                ),
+                                radius: 36,
+                                child: Text(
+                                  Utilities.getAvatarTitle(
+                                    _previewStore.peer!.name,
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 36,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                   ),
             Padding(
@@ -106,8 +110,9 @@ class _PreviewScreenState extends ConsumerState<PreviewScreen> {
                                   },
                             child: CircleAvatar(
                               radius: 25,
-                              backgroundColor:
-                                  Colors.transparent.withOpacity(0.2),
+                              backgroundColor: Colors.transparent.withOpacity(
+                                0.2,
+                              ),
                               child: (_previewStore.isVideoOn)
                                   ? const Icon(
                                       Icons.videocam,
@@ -123,27 +128,30 @@ class _PreviewScreenState extends ConsumerState<PreviewScreen> {
                     _previewStore.peer != null
                         ? ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue),
+                              backgroundColor: Colors.blue,
+                            ),
                             onPressed: () {
                               _previewStore.removePreviewListener();
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                builder: (_) => MeetingPage(
-                                  roomLink: widget.roomLink,
-                                  name: widget.name,
-                                  isAudioOn: _previewStore.isAudioOn,
-                                  hmsSDKInteractor:
-                                      _previewStore.hmsSDKInteractor,
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (_) => MeetingPage(
+                                    roomLink: widget.roomLink,
+                                    name: widget.name,
+                                    isAudioOn: _previewStore.isAudioOn,
+                                    hmsSDKInteractor:
+                                        _previewStore.hmsSDKInteractor,
+                                  ),
                                 ),
-                              ));
+                              );
                             },
                             child: const Text(
                               'Join Now',
                               style: TextStyle(
-                                  height: 1,
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                height: 1,
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           )
                         : const SizedBox(),
@@ -155,24 +163,23 @@ class _PreviewScreenState extends ConsumerState<PreviewScreen> {
                               _previewStore.toggleMicMuteState();
                             },
                             child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor:
-                                    Colors.transparent.withOpacity(0.2),
-                                child: (_previewStore.isAudioOn)
-                                    ? const Icon(
-                                        Icons.mic,
-                                        color: Colors.blue,
-                                      )
-                                    : const Icon(
-                                        Icons.mic_off,
-                                        color: Colors.blue,
-                                      )),
+                              radius: 25,
+                              backgroundColor: Colors.transparent.withOpacity(
+                                0.2,
+                              ),
+                              child: (_previewStore.isAudioOn)
+                                  ? const Icon(Icons.mic, color: Colors.blue)
+                                  : const Icon(
+                                      Icons.mic_off,
+                                      color: Colors.blue,
+                                    ),
+                            ),
                           )
                         : Container(),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

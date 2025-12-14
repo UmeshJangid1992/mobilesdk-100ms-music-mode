@@ -9,7 +9,7 @@ class VideoWidget extends StatelessWidget {
   final RoomController roomController;
 
   const VideoWidget(this.index, this.roomController, {Key? key})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,11 @@ class VideoWidget extends StatelessWidget {
                       child: Text(
                         user.value.peer.name,
                         style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               )
@@ -53,13 +55,16 @@ class VideoWidget extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: CircleAvatar(
-                          backgroundColor: Colors.green,
-                          radius: 36,
-                          child: Text(
-                            user.value.peer.name[0],
-                            style: const TextStyle(
-                                fontSize: 36, color: Colors.white),
-                          )),
+                        backgroundColor: Colors.green,
+                        radius: 36,
+                        child: Text(
+                          user.value.peer.name[0],
+                          style: const TextStyle(
+                            fontSize: 36,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
@@ -68,12 +73,15 @@ class VideoWidget extends StatelessWidget {
                         child: Text(
                           user.value.peer.name,
                           style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    )
+                    ),
                   ],
-                ));
+                ),
+              );
       }),
     );
   }

@@ -15,13 +15,14 @@ class SavedQuestionWidget extends StatelessWidget {
   final HMSPollQuestionBuilder pollQuestionBuilder;
   final Function editCallback;
   final bool isPoll;
-  const SavedQuestionWidget(
-      {super.key,
-      required this.questionNumber,
-      required this.totalQuestions,
-      required this.pollQuestionBuilder,
-      required this.editCallback,
-      required this.isPoll});
+  const SavedQuestionWidget({
+    super.key,
+    required this.questionNumber,
+    required this.totalQuestions,
+    required this.pollQuestionBuilder,
+    required this.editCallback,
+    required this.isPoll,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,63 +40,68 @@ class SavedQuestionWidget extends StatelessWidget {
             Row(
               children: [
                 HMSTitleText(
-                    text: "QUESTION ${questionNumber + 1} OF $totalQuestions: ",
-                    textColor: HMSThemeColors.onSurfaceLowEmphasis,
-                    fontSize: 10,
-                    letterSpacing: 1.5,
-                    lineHeight: 16),
+                  text: "QUESTION ${questionNumber + 1} OF $totalQuestions: ",
+                  textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                  fontSize: 10,
+                  letterSpacing: 1.5,
+                  lineHeight: 16,
+                ),
                 HMSTitleText(
-                    fontSize: 10,
-                    letterSpacing: 1.5,
-                    lineHeight: 16,
-                    text: Utilities.getQuestionType(pollQuestionBuilder.type),
-                    textColor: HMSThemeColors.onSurfaceLowEmphasis)
+                  fontSize: 10,
+                  letterSpacing: 1.5,
+                  lineHeight: 16,
+                  text: Utilities.getQuestionType(pollQuestionBuilder.type),
+                  textColor: HMSThemeColors.onSurfaceLowEmphasis,
+                ),
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Theme(
               data: ThemeData().copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
-                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                  expandedAlignment: Alignment.centerLeft,
-                  initiallyExpanded: true,
-                  iconColor: HMSThemeColors.onSurfaceHighEmphasis,
-                  collapsedIconColor: HMSThemeColors.onSurfaceHighEmphasis,
-                  tilePadding: EdgeInsets.zero,
-                  childrenPadding: EdgeInsets.zero,
-                  title: HMSTitleText(
-                    text: pollQuestionBuilder.text ?? "",
-                    textColor: HMSThemeColors.onSurfaceHighEmphasis,
-                    fontWeight: FontWeight.w400,
-                    maxLines: 3,
-                  ),
-                  children: isPoll
-                      ? pollQuestionBuilder.pollOptions
-                          .map((e) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: HMSSubheadingText(
-                                  text: e,
-                                  textColor:
-                                      HMSThemeColors.onSurfaceMediumEmphasis,
-                                  maxLines: 3,
-                                ),
-                              ))
-                          .toList()
-                      : pollQuestionBuilder.quizOptions
-                          .map((e) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: HMSSubheadingText(
-                                  text: e.text,
-                                  textColor:
-                                      HMSThemeColors.onSurfaceMediumEmphasis,
-                                  maxLines: 3,
-                                ),
-                              ))
-                          .toList()),
+                expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                expandedAlignment: Alignment.centerLeft,
+                initiallyExpanded: true,
+                iconColor: HMSThemeColors.onSurfaceHighEmphasis,
+                collapsedIconColor: HMSThemeColors.onSurfaceHighEmphasis,
+                tilePadding: EdgeInsets.zero,
+                childrenPadding: EdgeInsets.zero,
+                title: HMSTitleText(
+                  text: pollQuestionBuilder.text ?? "",
+                  textColor: HMSThemeColors.onSurfaceHighEmphasis,
+                  fontWeight: FontWeight.w400,
+                  maxLines: 3,
+                ),
+                children: isPoll
+                    ? pollQuestionBuilder.pollOptions
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8.0,
+                            ),
+                            child: HMSSubheadingText(
+                              text: e,
+                              textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+                              maxLines: 3,
+                            ),
+                          ),
+                        )
+                        .toList()
+                    : pollQuestionBuilder.quizOptions
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8.0,
+                            ),
+                            child: HMSSubheadingText(
+                              text: e.text,
+                              textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+                              maxLines: 3,
+                            ),
+                          ),
+                        )
+                        .toList(),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -112,27 +118,29 @@ class SavedQuestionWidget extends StatelessWidget {
                 //     fit: BoxFit.scaleDown,
                 //   ),
                 // ),
-                const SizedBox(
-                  width: 16,
-                ),
+                const SizedBox(width: 16),
                 ElevatedButton(
-                    style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(0),
-                        backgroundColor: MaterialStateProperty.all(
-                            HMSThemeColors.secondaryDefault),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ))),
-                    onPressed: () {
-                      editCallback(pollQuestionBuilder);
-                    },
-                    child: HMSTitleText(
-                        text: "Edit",
-                        textColor: HMSThemeColors.onSecondaryHighEmphasis))
+                  style: ButtonStyle(
+                    elevation: WidgetStateProperty.all(0),
+                    backgroundColor: WidgetStateProperty.all(
+                      HMSThemeColors.secondaryDefault,
+                    ),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    editCallback(pollQuestionBuilder);
+                  },
+                  child: HMSTitleText(
+                    text: "Edit",
+                    textColor: HMSThemeColors.onSecondaryHighEmphasis,
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

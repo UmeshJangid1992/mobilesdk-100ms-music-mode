@@ -17,15 +17,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Meet',
       theme: ThemeData(
-          primaryColor: Colors.grey[900],
-          outlinedButtonTheme: OutlinedButtonThemeData(
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0))),
-                  backgroundColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.blueAccent),
-                  foregroundColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.white)))),
+        primaryColor: Colors.grey[900],
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+            ),
+            backgroundColor: MaterialStateColor.resolveWith(
+              (states) => Colors.blueAccent,
+            ),
+            foregroundColor: MaterialStateColor.resolveWith(
+              (states) => Colors.white,
+            ),
+          ),
+        ),
+      ),
       home: const HomeScreen(),
     );
   }

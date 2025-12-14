@@ -16,32 +16,30 @@ class HMSEmptyChatWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          "packages/hms_room_kit/lib/src/assets/icons/empty_chat.svg",
-          fit: BoxFit.scaleDown,
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        HMSTitleText(
-          text: "Start a conversation",
-          textColor: HMSThemeColors.onSurfaceHighEmphasis,
-          fontSize: 20,
-          letterSpacing: 0.15,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        HMSSubheadingText(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            "packages/hms_room_kit/lib/src/assets/icons/empty_chat.svg",
+            fit: BoxFit.scaleDown,
+          ),
+          const SizedBox(height: 16),
+          HMSTitleText(
+            text: "Start a conversation",
+            textColor: HMSThemeColors.onSurfaceHighEmphasis,
+            fontSize: 20,
+            letterSpacing: 0.15,
+          ),
+          const SizedBox(height: 8),
+          HMSSubheadingText(
             text:
                 "There are no messages here yet. Start a\n conversation by sending a message.",
             maxLines: 2,
             textAlign: TextAlign.center,
-            textColor: HMSThemeColors.onSurfaceMediumEmphasis)
-      ],
-    ));
+            textColor: HMSThemeColors.onSurfaceMediumEmphasis,
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,4 +1,4 @@
-## HMSSDK 
+## HMSSDK
 packages/hmssdk_flutter/example/android/.gradle/6.8.3/gc.properties
 packages/hmssdk_flutter/example/android/.gradle/6.8.3/fileChanges/last-build.bin
 packages/hmssdk_flutter/example/android/.gradle/6.8.3/fileHashes/fileHashes.lock
@@ -58,3 +58,7 @@ sample apps/flutter-meet/android/.idea/
 packages/.DS_Store
 Runner.ipa
 sample apps/flutterflow-prebuilt-quickstart/.dart_tool/
+flutter-hms-868c1b85cd65.json
+settings.local.json
+packages/hms_room_kit/ios/Flutter/ephemeral/flutter_lldbinit
+flutter_lldb_helper.py

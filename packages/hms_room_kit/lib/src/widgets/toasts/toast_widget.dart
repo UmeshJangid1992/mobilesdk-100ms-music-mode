@@ -88,14 +88,16 @@ class ToastWidget extends StatelessWidget {
       case HMSToastsType.errorToast:
         if (toast.toastData is HMSException) {
           return HMSErrorToast(
-              error: toast.toastData, meetingStore: meetingStore);
+            error: toast.toastData,
+            meetingStore: meetingStore,
+          );
         }
         return SizedBox();
       case HMSToastsType.streamingErrorToast:
         return HMSStreamingErrorToast(
-            streamingError: toast.toastData, meetingStore: meetingStore);
-      default:
-        return SizedBox();
+          streamingError: toast.toastData,
+          meetingStore: meetingStore,
+        );
     }
   }
 }

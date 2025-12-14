@@ -24,19 +24,20 @@ class _VideoWidgetState extends State<VideoWidget> {
           if (state.leaveMeeting && !mounted) {
             return;
           }
-          context
-              .read<RoomOverviewBloc>()
-              .add(RoomOverviewSetOffScreen(false, widget.index));
+          context.read<RoomOverviewBloc>().add(
+            RoomOverviewSetOffScreen(false, widget.index),
+          );
         },
         onFocusLost: () {
           if (state.leaveMeeting && !mounted) {
             return;
           }
-          context
-              .read<RoomOverviewBloc>()
-              .add(RoomOverviewSetOffScreen(true, widget.index));
+          context.read<RoomOverviewBloc>().add(
+            RoomOverviewSetOffScreen(true, widget.index),
+          );
         },
-        child: (state.peerTrackNodes[widget.index].peer!.isLocal
+        child:
+            (state.peerTrackNodes[widget.index].peer!.isLocal
                     ? !state.isVideoMute
                     : !state.peerTrackNodes[widget.index].isMute!) &&
                 !(state.peerTrackNodes[widget.index].isOffScreen)
@@ -48,11 +49,10 @@ class _VideoWidgetState extends State<VideoWidget> {
                       height: 200.0,
                       width: 400.0,
                       child: VideoView(
-                          state.peerTrackNodes[widget.index].hmsVideoTrack!),
+                        state.peerTrackNodes[widget.index].hmsVideoTrack!,
+                      ),
                     ),
-                    Text(
-                      state.peerTrackNodes[widget.index].peer!.name,
-                    )
+                    Text(state.peerTrackNodes[widget.index].peer!.name),
                   ],
                 ),
               )
@@ -64,21 +64,21 @@ class _VideoWidgetState extends State<VideoWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                        backgroundColor: Colors.green,
-                        radius: 36,
-                        child: Text(
-                          state.peerTrackNodes[widget.index].peer!.name[0],
-                          style: const TextStyle(
-                              fontSize: 36, color: Colors.white),
-                        )),
-                    const SizedBox(
-                      height: 20.0,
+                      backgroundColor: Colors.green,
+                      radius: 36,
+                      child: Text(
+                        state.peerTrackNodes[widget.index].peer!.name[0],
+                        style: const TextStyle(
+                          fontSize: 36,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                    Text(
-                      state.peerTrackNodes[widget.index].peer!.name,
-                    )
+                    const SizedBox(height: 20.0),
+                    Text(state.peerTrackNodes[widget.index].peer!.name),
                   ],
-                )),
+                ),
+              ),
       ),
     );
   }

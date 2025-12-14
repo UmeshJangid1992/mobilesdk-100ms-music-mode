@@ -18,11 +18,12 @@ class GridLayout extends StatefulWidget {
   final int index;
   final List<PeerTrackNode> peerTracks;
 
-  const GridLayout(
-      {super.key,
-      required this.numberOfTiles,
-      required this.index,
-      required this.peerTracks});
+  const GridLayout({
+    super.key,
+    required this.numberOfTiles,
+    required this.index,
+    required this.peerTracks,
+  });
 
   @override
   State<GridLayout> createState() => _GridLayoutState();
@@ -82,13 +83,19 @@ class _GridLayoutState extends State<GridLayout> {
 
       case 4:
         return FourTileLayout(
-            peerTracks: widget.peerTracks, startIndex: tileStartingIndex);
+          peerTracks: widget.peerTracks,
+          startIndex: tileStartingIndex,
+        );
 
       case 5:
         return FiveTileLayout(
-            peerTracks: widget.peerTracks, startIndex: tileStartingIndex);
+          peerTracks: widget.peerTracks,
+          startIndex: tileStartingIndex,
+        );
     }
     return SixTileLayout(
-        peerTracks: widget.peerTracks, startIndex: tileStartingIndex);
+      peerTracks: widget.peerTracks,
+      startIndex: tileStartingIndex,
+    );
   }
 }
